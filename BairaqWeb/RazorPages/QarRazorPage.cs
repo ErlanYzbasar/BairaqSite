@@ -15,10 +15,10 @@ public abstract class QarRazorPage<TModel> : RazorPage<TModel>
 
         return '/' + CurrentLanguage +
                (ActionName.Equals("category", StringComparison.OrdinalIgnoreCase)
-                   ? $"/category/{CategoryList.FirstOrDefault(x => x.Id == categoryId)?.LatynUrl ?? ""}?"
+                   ? $"/category/{CategoryList.FirstOrDefault(x => x.Id == categoryId)?.LatynUrl ?? ""}.html?"
                    : ActionName.Equals("tag", StringComparison.OrdinalIgnoreCase)
-                       ? $"/tag/{ViewData["tagUrl"]}?"
-                       :ActionName.Equals("author", StringComparison.OrdinalIgnoreCase) ?$"/author/{(ViewData["author"] as Admin)?.LatynUrl}?":"/article/list?" + keywordParam);
+                       ? $"/tag/{ViewData["tagUrl"]}.html?"
+                       : "/article/list?" + keywordParam);
     }
 
     protected string T(string localKey)
