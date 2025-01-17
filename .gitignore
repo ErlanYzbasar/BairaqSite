@@ -1,0 +1,17 @@
+/BairaqWeb/bin
+/BairaqWeb/logs
+/BairaqWeb/obj
+/COMMON/bin
+/COMMON/obj
+/DBHelper/bin
+/DBHelper/obj
+/MODEL/bin
+/MODEL/obj
+.vs
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+._.DS_Store
