@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text;
 using BairaqWeb.Attributes;
 using BairaqWeb.Caches;
 using COMMON;
@@ -7,7 +6,6 @@ using COMMON.Extensions;
 using Dapper;
 using DBHelper;
 using MODEL;
-using MODEL.FormatModels;
 using MODEL.ViewModels;
 using Serilog;
 using static System.Int32;

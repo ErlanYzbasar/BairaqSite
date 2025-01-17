@@ -61,14 +61,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d56bb330-bacf-4b7b-b939-d348a5686f38" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/RazorPages/QarRazorPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/RazorPages/QarRazorPage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-darkLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-darkLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-lightLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-lightLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-mobileDarkLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-mobileDarkLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-mobileLightLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/uploads/images/logo-mobileLightLogo.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +128,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1737108725504</updated>
-      <workItem from="1737108726859" duration="6091000" />
+      <workItem from="1737108726859" duration="6601000" />
     </task>
     <servers />
   </component>

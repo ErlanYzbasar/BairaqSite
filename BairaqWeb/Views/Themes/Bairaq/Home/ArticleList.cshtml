@@ -1,22 +1,13 @@
 @{
     Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
     var topArticleList = QarList<Article>("topArticleList");
-    var author = QarModel<Admin>("author");
     var articleList = QarList<Article>("articleList");
-    var categoryList = QarList<Articlecategory>("categoryList");
     var pageIndex = Convert.ToInt32(ViewData["page"] ?? 0);
     var total = Convert.ToInt32(ViewData["total"] ?? 0);
     var totalPage = Convert.ToInt32(ViewData["totalPage"] ?? 0);
     var categoryId = Convert.ToInt32(ViewData["categoryId"] ?? 0);
-    var tag = Convert.ToInt32(ViewData["tagId"] ?? 0);
-    var articleCount = Convert.ToInt32(ViewData["articleCount"] ?? 0);
-    var adminRole = (ViewData["adminRole"] ?? string.Empty) as string;
     var keyword = (ViewData["keyword"] ?? string.Empty) as string;
-    var tagTitle = (ViewData["tagTitle"] ?? string.Empty) as string;
     var categoryTitle = (ViewData["categoryTitle"] ?? string.Empty) as string;
-    var pageSize = Convert.ToInt32(ViewData["pageSize"] ?? 0);
-    var searchContent = string.IsNullOrEmpty(keyword) ? string.IsNullOrEmpty(tagTitle) ? categoryTitle : tagTitle : keyword;
-    var searchType = string.IsNullOrEmpty(keyword) ? string.IsNullOrEmpty(tagTitle) ? "ls_Articlecategory" : "ls_Tags" : "ls_Keyword";
 }
 
 <main class="main">

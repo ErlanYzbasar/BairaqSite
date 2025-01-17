@@ -1,6 +1,5 @@
 @{
     var host = (ViewData["host"] ?? string.Empty) as string;
-    var siteUrl = (ViewData["siteUrl"] ?? string.Empty) as string;
     var ogTitle = (ViewData["og_title"] ?? SiteSetting?.Title) as string;
     var ogKeywords = (ViewData["og_keywords"] ?? SiteSetting?.Keywords) as string;
     var ogDescription = (ViewData["og_description"] ?? SiteSetting?.Description) as string;

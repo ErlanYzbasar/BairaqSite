@@ -2,18 +2,10 @@
     Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
     var article = QarModel<Article>("article");
     var latestArticleList = QarList<Article>("latestArticleList");
-    var nextArticle = QarModel<Article>("nextArticle");
     var tagList = QarList<Tag>("tagList");
     var recArticleList = QarList<Article>("recArticleList");
-    var commentList = QarList<Comment>("commentList");
     var menuTitle = (ViewData["menuTitle"] ?? string.Empty) as string;
-    var menuLink = (ViewData["menuLink"] ?? string.Empty) as string;
-    var questionIdStr = (ViewData["questionIdStr"] ?? string.Empty) as string;
-    var author = UserList.FirstOrDefault(x => x.Id == article?.AddAdminId);
-    var shareTitle = article?.Title;
     var shareUrl = SiteUrl + $"/{CurrentLanguage}/article/{article?.LatynUrl}";
-    var canEditArticle = Convert.ToBoolean(ViewData["canEditArticle"] ?? false);
-    var question = QarModel<QuestionModel>("question");
 }
 
 <main class="main">
