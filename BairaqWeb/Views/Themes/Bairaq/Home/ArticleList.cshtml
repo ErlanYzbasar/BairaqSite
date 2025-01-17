@@ -27,8 +27,8 @@
                 @foreach (var article in articleList)
                 {
                     <li>
-                        <a href="/@CurrentLanguage/article/@article.LatynUrl" class="d-flex">
-                            <img src="@article.ThumbnailUrl" alt="">
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="d-flex">
+                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                             <div class="text">
                                 <h4 class="title">@article.Title</h4>
                                 <p class="description">@article.ShortDescription</p>

@@ -796,6 +796,7 @@ public class QarCache
                 ShortDescription = x.ShortDescription,
                 CategoryId = x.CategoryId,
                 ThumbnailUrl = string.IsNullOrEmpty(x.ThumbnailUrl) ? "/images/no_image.png" : x.ThumbnailUrl,
+                FullDescription = x.FullDescription,
                 LatynUrl = x.LatynUrl,
                 AddTime = x.AddTime,
                 ViewCount = x.ViewCount
@@ -804,7 +805,6 @@ public class QarCache
                 article.ShortDescription = article.ShortDescription.Length > 150
                     ? article.ShortDescription[..150] + "..."
                     : article.ShortDescription;
-
             memoryCache.Set(cacheName, list, TimeSpan.FromMinutes(1));
         }
 

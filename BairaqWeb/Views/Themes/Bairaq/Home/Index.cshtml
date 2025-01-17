@@ -19,7 +19,7 @@
     var block6Title = (ViewData["block6Title"] ?? string.Empty) as string;
     var block6Url = (ViewData["block6Url"] ?? string.Empty) as string;
     var block6ArticleList = QarList<Article>("block6ArticleList");
-    var block99ArticleList = QarList<Article>("block99ArticleList");
+    var youtubeArticleList = QarList<Article>("youtubeArticleList");
 }
 
 
@@ -27,7 +27,7 @@
     
     @* pinnedArticle & focusArticle *@
     <div class="container main-block d-flex">
-        <a href="/@CurrentLanguage/article/@pinnedArticle?.LatynUrl">
+        <a href="/@CurrentLanguage/article/@(pinnedArticle?.LatynUrl).html">
             <img class="thumbnail" src="@pinnedArticle?.ThumbnailUrl" alt="">
             <div class="content d-flex flex-column justify-content-end">
                 <h5 class="title">@pinnedArticle?.Title</h5>
@@ -38,8 +38,8 @@
             @foreach (var article in focusArticleList)
             {
                 <li>
-                    <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                        <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                         <div class="content d-flex flex-column justify-content-end">
                             <h5 class="title">@article.Title</h5>
                             <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
@@ -59,8 +59,8 @@
             @foreach (var article in topArticleList)
             {
                 <li>
-                    <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                        <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                         <h5 class="title">@article.Title</h5>
                         <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                     </a>
@@ -78,13 +78,18 @@
             </div>
             <div class="video-list d-flex">
                 <div class="left">
-                    <img class="thumbnail" src="@block99ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
+                    @{
+                        var src = HtmlAgilityPackHelper.GetYoutubeUrl(youtubeArticleList.FirstOrDefault().FullDescription);
+                        <iframe class="youtube-iframe" src="@src" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+                        </iframe> 
+                    }
                 </div>
                 <ul class="right d-flex flex-column">
-                    @foreach (var youtube in block99ArticleList.Skip(1))
+                    @foreach (var youtube in youtubeArticleList.Skip(1))
                     {
+                        var dataSrc = HtmlAgilityPackHelper.GetYoutubeUrl(youtube.FullDescription);
                         <li>
-                            <img class="thumbnail" src="@youtube.ThumbnailUrl" alt="">
+                            <img class="thumbnail youtube-thumbnail" data-src="@dataSrc" src="@youtube.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                         </li>
                     }
                 </ul>
@@ -99,7 +104,7 @@
             <a href="@block1Url" class="more">@T("ls_Readmore")</a>
         </div>
         <div class="article-list d-flex">
-            <a class="left" href="/@CurrentLanguage/article/@block1ArticleList.FirstOrDefault().LatynUrl">
+            <a class="left" href="/@CurrentLanguage/article/@(block1ArticleList.FirstOrDefault().LatynUrl).html">
                 <img class="thumbnail" src="@block1ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
                 <h4 class="title">@block1ArticleList.FirstOrDefault().Title</h4>
                 <p class="description">@block1ArticleList.FirstOrDefault().ShortDescription</p>
@@ -120,8 +125,8 @@
                 @foreach (var article in block1ArticleList.Skip(1))
                 {
                     <li>
-                        <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                            <img src="@article.ThumbnailUrl" alt="" class="thumbnail">
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
                             <h4 class="title">@article.Title</h4>
                             <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                         </a>
@@ -151,8 +156,8 @@
                 <div class="swiper-wrapper">
                     @foreach (var article in block2ArticleList)
                     {
-                        <a href="/@CurrentLanguage/article/@article.LatynUrl" class="swiper-slide">
-                            <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
+                            <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                             <div class="content d-flex flex-column justify-content-end">
                                 <h5 class="title">@article.Title</h5>
                                 <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
@@ -174,8 +179,8 @@
             @foreach (var article in block3ArticleList)
             {
                 <li>
-                    <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                        <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                         <h5 class="title">@article.Title</h5>
                         <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                     </a>
@@ -191,7 +196,7 @@
             <a href="@block4Url" class="more">@T("ls_Readmore")</a>
         </div>
         <div class="article-list d-flex">
-            <a class="left" href="/@CurrentLanguage/article/@block4ArticleList.FirstOrDefault().LatynUrl">
+            <a class="left" href="/@CurrentLanguage/article/@(block4ArticleList.FirstOrDefault().LatynUrl).html">
                 <img class="thumbnail" src="@block4ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
                 <h4 class="title">@block4ArticleList.FirstOrDefault().Title</h4>
                 <p class="description">@block4ArticleList.FirstOrDefault().ShortDescription</p>
@@ -212,8 +217,8 @@
                 @foreach (var article in block4ArticleList.Skip(1))
                 {
                     <li>
-                        <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                            <img src="@article.ThumbnailUrl" alt="" class="thumbnail">
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
                             <h4 class="title">@article.Title</h4>
                             <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                         </a>
@@ -243,8 +248,8 @@
                 <div class="swiper-wrapper">
                     @foreach (var article in block5ArticleList)
                     {
-                        <a href="/@CurrentLanguage/article/@article.LatynUrl" class="swiper-slide">
-                            <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
+                            <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                             <div class="content d-flex flex-column justify-content-end">
                                 <h5 class="title">@article.Title</h5>
                                 <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
@@ -266,8 +271,8 @@
             @foreach (var article in block6ArticleList)
             {
             <li>
-                <a href="/@CurrentLanguage/article/@article.LatynUrl">
-                    <img class="thumbnail" src="@article.ThumbnailUrl" alt="">
+                <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                    <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
                     <h5 class="title">@article.Title</h5>
                     <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                 </a>

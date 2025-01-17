@@ -871,4 +871,16 @@ public static class HtmlAgilityPackHelper
     }
 
     #endregion
+    
+    #region Get Youtube Url +GetYoutubeUrl(string url)
+
+    public static string GetYoutubeUrl(string html)
+    {
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        var iframeNode = doc.DocumentNode.SelectSingleNode("//iframe");
+        return iframeNode != null ? iframeNode.GetAttributeValue("src", string.Empty) : string.Empty;
+    }
+
+    #endregion
 }
