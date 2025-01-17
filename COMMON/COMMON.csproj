@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Configurations>Release;Debug</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>anycpu</PlatformTarget>
+    <WarningsNotAsErrors/>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1"/>
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="SkiaSharp" Version="2.88.7"/>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.59"/>
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5"/>
+    <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0"/>
+    <PackageReference Include="IPinfo" Version="3.0.1"/>
+    <PackageReference Include="IpInfo.Api.Client" Version="1.0.4"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../MODEL/MODEL.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Libs\Aspose.Total.NET.lic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,702 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="pc-container">
+<div class="pc-content">
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="javascript: void(0)">@T("ls_Websitemanagement")</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="javascript: void(0)">@ViewData["title"]</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+<div class="col-12">
+<table class="table table-bordered table-settings">
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Computerlogo"):</strong>
+    </td>
+    <td>
+        <table class="table mb-0">
+            <tbody>
+            <tr>
+                <th scope="col">@T("ls_Black")</th>
+                <th scope="col">@T("ls_White")</th>
+            </tr>
+            <tr>
+                <td class="col-6" style="background-color: #EEEEEE;">
+                    <a href="javascript: void(0)">
+                        <img class="siteSetting-logo" data-oldvalue="@SiteSetting?.DarkLogo"
+                             src='@(string.IsNullOrEmpty(SiteSetting?.DarkLogo) ? $"/{CurrentLanguage}/QarBase/NoImage?w=250&h=150&s=dark" : SiteSetting.DarkLogo)'>
+                        <input type="file" class="d-none" name="logoImage" data-type="darkLogo"
+                               accept="image/png,image/x-png,image/gif,image/jpeg,image/svg+xml"/>
+                    </a>
+                </td>
+                <td class="col-6" style="background-color: #28323FFF;">
+                    <a href="javascript: void(0)">
+                        <img class="siteSetting-logo" data-oldvalue="@SiteSetting?.LightLogo"
+                             src='@(string.IsNullOrEmpty(SiteSetting?.LightLogo) ? $"/{CurrentLanguage}/QarBase/NoImage?w=250&h=150&s=light" : SiteSetting.LightLogo)'>
+                        <input type="file" class="d-none" name="logoImage" data-type="lightLogo"
+                               accept="image/png,image/x-png,image/gif,image/jpeg,image/svg+xml"/>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Mobilelogo"):</strong>
+    </td>
+    <td>
+        <table class="table mb-0">
+            <tbody>
+            <tr>
+                <th scope="col">@T("ls_Black")</th>
+                <th scope="col">@T("ls_White")</th>
+            </tr>
+            <tr>
+                <td class="col-6" style="background-color: #EEEEEE;">
+                    <a href="javascript: void(0)">
+                        <img class="siteSetting-logo"
+                             data-oldvalue='@SiteSetting?.MobileDarkLogo'
+                             src='@(!string.IsNullOrEmpty(SiteSetting?.MobileDarkLogo) ? SiteSetting.MobileDarkLogo : $"/{CurrentLanguage}/QarBase/NoImage?w=250&h=150&s=dark")'>
+                        <input type="file" class="d-none" name="logoImage"
+                               data-type="mobileDarkLogo"
+                               accept="image/png,image/x-png,image/gif,image/jpeg,image/svg+xml"/>
+                    </a>
+                </td>
+                <td class="col-6" style="background-color: #28323FFF;">
+                    <a href="javascript: void(0)">
+                        <img class="siteSetting-logo"
+                             data-oldvalue='@SiteSetting?.MobileLightLogo'
+                             src='@(!string.IsNullOrEmpty(SiteSetting?.MobileLightLogo) ? SiteSetting.MobileLightLogo : $"/{CurrentLanguage}/QarBase/NoImage?w=250&h=150&s=light")'>
+                        <input type="file" class="d-none" name="logoImage"
+                               data-type="mobileLightLogo"
+                               accept="image/png,image/x-png,image/gif,image/jpeg,image/svg+xml"/>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Icon") (*.png):</strong>
+    </td>
+    <td>
+        <a href="javascript: void(0)">
+            <img class="siteSetting-icon" data-oldvalue='@SiteSetting?.Favicon'
+                 src='@(!string.IsNullOrEmpty(SiteSetting?.Favicon) ? SiteSetting.Favicon : "/images/favicon.ico")'>
+            <input type="file" class="d-none" name="iconFile" accept="image/png,image/x-png"/>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Mourningday"):</strong>
+    </td>
+    <td>
+        <div class="form-check d-flex align-items-center gap-2 p-0">
+            <input type="text" class="form-control" id="mourning-day" name="mourning-day"
+                   placeholder="@T("ls_Pleaseselect")" style="width: 310px">
+            <button type="button"
+                    class="btn btn-success mourning-day-submit btn-sm waves-effect waves-light">
+                <i
+                    class="fa-light fa-check">
+                </i>
+            </button>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Sitename"):</strong>
+    </td>
+    <td>
+        <a class="siteSetting-title" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Title
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Sitedescription"):</strong>
+    </td>
+    <td>
+        <a class="siteSetting-description" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Description
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Sitekeywords"):</strong>
+    </td>
+    <td>
+        <a class="siteSetting-keywords" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Keywords
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>@T("ls_Sitecopyright"):</strong>
+    </td>
+    <td>
+        <a class="siteSetting-copyright" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Copyright
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Analytics Html:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-analyticsHtml" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.AnalyticsHtml
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Analytics Scripts:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-analyticsScript" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.AnalyticsScript
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Facebook:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-facebook" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Facebook
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>X (Twitter):</strong>
+    </td>
+    <td>
+        <a class="siteSetting-twitter" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Twitter
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Instagram:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-instagram" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Instagram
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Telegram:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-telegram" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Telegram
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>VK:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-vk" data-pk="@SiteSetting?.Id" data-rows="1">@SiteSetting?.Vk</a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Youtube:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-youtube" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Youtube
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Whatsapp:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-whatsapp" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Whatsapp
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>TikTok:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-tiktok" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Tiktok
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Phone:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-phone" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Phone
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Email:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-email" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Email
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Secondary Email:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-sEmail" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.SEmail
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>Address:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-address" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.Address
+        </a>
+    </td>
+</tr>
+<tr>
+    <td class="text-right">
+        <strong>MapEmbed:</strong>
+    </td>
+    <td>
+        <a class="siteSetting-mapEmbed" data-pk="@SiteSetting?.Id"
+           data-rows="1">
+            @SiteSetting?.MapEmbed
+        </a>
+    </td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+@section styles
+{
+    <link type="text/css" href="~/console/css/plugins/bootstrap-editable.css" rel="stylesheet">
+    <link type="text/css" href="~/console/css/plugins/flatpickr.min.css" rel="stylesheet">
+}
+
+@section scripts
+{
+    <script src="~/console/js/plugins/bootstrap-editable.js"></script>
+    <script>
+        $(function () {
+            const startTime = "@UnixTimeHelper.UnixTimeToDateTime(SiteSetting.MStartTime).ToString("yyyy-MM-dd HH:mm")";
+            const endTime = "@UnixTimeHelper.UnixTimeToDateTime(SiteSetting.MEndTime).ToString("yyyy-MM-dd HH:mm")";
+
+            flatpickr('#mourning-day', {
+                mode: 'range',
+                minDate: 'today',
+                dateFormat: 'Y-m-d H:i',
+                defaultDate: [`${startTime}`, `${endTime}`]
+            });
+
+            $(".mourning-day-submit").on("click", function () {
+                $.ajax({
+                    url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                    type: "POST",
+                    data: {
+                        "name": "mStartAndEndTime",
+                        "value": $("#mourning-day").val().replace("to", "~"),
+                        "pk": @SiteSetting?.Id
+                                                                                                                                                },
+                    success: data => {
+                        $qar.showMessage(data.status, data.message);
+                    }
+                })
+                $('.siteSetting-copyright').editable({
+                    type: 'text',
+                    name: 'mourning-day',
+                    url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                    title: '@T("ls_Sitecopyright")',
+                    mode: 'inline',
+                    inputclass: 'form-control-sm',
+                    success: function (data) {
+                        $qar.showMessage(data.status, data.message);
+                    }
+                });
+            })
+
+            $.fn.editableform.buttons =
+                '<button type="submit" class="btn btn-success editable-submit btn-sm waves-effect waves-light"><i class="fa-light fa-check"></i></button>' +
+                '<button type="button" class="btn btn-danger editable-cancel btn-sm waves-effect waves-light"><i class="fa-light fa-xmark"></i></button>';
+
+            $('img.siteSetting-logo').on("click", function () {
+                var $td = $(this).closest('td');
+                var $fileInput = $td.find('input[type="file"][name="logoImage"]');
+                $fileInput.trigger("click");
+            });
+
+            $('input[type="file"][name="logoImage"]').on("change", function () {
+                var $td = $(this).closest('td'),
+                    $logoImg = $td.find('img.siteSetting-logo');
+                if (window.File && window.FileReader && window.FileList && window.Blob) {
+                    var file = $(this)[0].files[0],
+                        type = $(this).attr("data-type");
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function (e) {
+                        $logoImg.attr("src", this.result);
+                        var formData = new FormData();
+                        formData.append("logoImage", file);
+                        formData.append("type", type);
+                        $.ajax({
+                            url: "/@CurrentLanguage/@ControllerName/UploadSiteLogo",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            type: "POST",
+                            dataType: "json",
+                            success: function (data) {
+                                $qar.showMessage(data["status"], data["message"]);
+                                if (data["status"] !== "success") {
+                                    if ($logoImg.attr("data-oldvalue")) {
+                                        $logoImg.attr("src", $logoImg.attr("data-oldvalue"));
+                                    }
+                                }
+                            }
+                        });
+                    };
+                } else {
+                    if ($logoImg.attr("data-oldvalue")) {
+                        $logoImg.attr("src", $logoImg.attr("data-oldvalue"));
+                    }
+                }
+            });
+
+            $('img.siteSetting-icon').on("click", function () {
+                var $td = $(this).closest('td');
+                var $fileInput = $td.find('input[type="file"][name="iconFile"]');
+                $fileInput.trigger("click");
+            });
+
+            $('input[type="file"][name="iconFile"]').on("change", function () {
+                var $td = $(this).closest('td'),
+                    $logoImg = $td.find('img.siteSetting-icon');
+                if (window.File && window.FileReader && window.FileList && window.Blob) {
+                    var file = $(this)[0].files[0],
+                        reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function (e) {
+                        $logoImg.attr("src", this.result);
+                        var formData = new FormData();
+                        formData.append("iconFile", file);
+                        $.ajax({
+                            url: "/@CurrentLanguage/@ControllerName/UploadSiteIcon",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            type: "POST",
+                            dataType: "json",
+                            success: function (data) {
+                                $qar.showMessage(data["status"], data["message"]);
+                                if (data["status"] !== "success") {
+                                    if ($logoImg.attr("data-oldvalue")) {
+                                        $logoImg.attr("src", $logoImg.attr("data-oldvalue"));
+                                    }
+                                }
+                            }
+                        });
+                    };
+                } else {
+                    if ($logoImg.attr("data-oldvalue")) {
+                        $logoImg.attr("src", $logoImg.attr("data-oldvalue"));
+                    }
+                }
+            });
+
+
+            $('.siteSetting-title').editable({
+                type: 'textarea',
+                name: 'title',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitename")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-description').editable({
+                type: 'textarea',
+                name: 'description',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitedescription")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-keywords').editable({
+                type: 'textarea',
+                name: 'keywords',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitekeywords")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-copyright').editable({
+                type: 'textarea',
+                name: 'copyright',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitecopyright")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-analyticsHtml').editable({
+                type: 'textarea',
+                name: 'analyticsHtml',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'HTML',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-analyticsScript').editable({
+                type: 'textarea',
+                name: 'analyticsScript',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Scripts',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-facebook').editable({
+                type: 'text',
+                name: 'facebook',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Facebook',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-twitter').editable({
+                type: 'text',
+                name: 'twitter',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Twitter',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-instagram').editable({
+                type: 'text',
+                name: 'instagram',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Instagram ',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-vk').editable({
+                type: 'text',
+                name: 'vk',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'VK ',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-telegram').editable({
+                type: 'text',
+                name: 'telegram',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Telegram',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-youtube').editable({
+                type: 'text',
+                name: 'youtube',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Youtube',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-whatsapp').editable({
+                type: 'text',
+                name: 'whatsapp',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Whatsapp',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-tiktok').editable({
+                type: 'text',
+                name: 'tiktok',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'TikTOk',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-phone').editable({
+                type: 'text',
+                name: 'phone',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Phone',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-email').editable({
+                type: 'text',
+                name: 'email',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Email',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-sEmail').editable({
+                type: 'text',
+                name: 'sEmail',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'SEmail',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-address').editable({
+                type: 'text',
+                name: 'address',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'Address',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
+            $('.siteSetting-mapEmbed').editable({
+                type: 'text',
+                name: 'mapEmbed',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: 'MapEmbed',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+        });
+    </script>
+}

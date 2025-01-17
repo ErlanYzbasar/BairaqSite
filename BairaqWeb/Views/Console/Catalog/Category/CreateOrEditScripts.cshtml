@@ -1,0 +1,19 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.querySelector('#language')) {
+            const choices = new Choices(document.querySelector('#language'), {
+                placeholder: false,
+                allowHTML: false,
+                itemSelectText: '@T("ls_Pleaseselect")'
+            });
+        }
+        if (document.querySelector('#parentId')) {
+            const parentChoices = new Choices(document.querySelector('#parentId'), {
+                placeholder: false,
+                allowHTML: false,
+                itemSelectText: '@T("ls_Pleaseselect")',
+                shouldSort: false
+            });
+        }
+    });
+</script>

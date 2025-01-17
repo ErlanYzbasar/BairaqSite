@@ -1,0 +1,64 @@
+@{
+    Layout = null;
+}
+<div id="qar-modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@T("ls_Uploadfile")</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="pc-uppy" id="uppy-upload-editor-file">
+            <div class="pc-uppy-dashboard"></div>
+            <div class="pc-uppy-progress"></div>
+        </div>
+    </div>
+    <script data-modal="qar">
+        function initEditorUploadFile() {
+            const Tus = Uppy.Tus;
+            const Dashboard = Uppy.Dashboard;
+            var options = {
+                locale: $qar.getUppyLanguage(),
+                restrictions: {
+                    maxNumberOfFiles: 1,
+                    maxFileSize: null, 
+                    minNumberOfFiles: null,
+                    allowedFileTypes: ['audio/mp3', 'audio/mpeg', 'video/mpeg', 'application/pdf']
+                },
+                proudlyDisplayPoweredByUppy: false,
+                target: "#uppy-upload-editor-file",
+                inline: true,
+                replaceTargetContent: true,
+                showProgressDetails: true,
+                note: 'No filetype restrictions.',
+                height: 350,
+                browserBackButtonClose: true
+            }
+            var uppyDashboard = new Uppy.Uppy({
+                autoProceed: false,
+                restrictions: {
+                    maxFileSize: 100000000, // 1mb
+                    maxNumberOfFiles: 1,
+                    minNumberOfFiles: 1
+                }
+            });
+            uppyDashboard.use(Dashboard, options);
+            uppyDashboard.use(Uppy.XHRUpload, {
+                endpoint: '/@CurrentLanguage/@ControllerName/@ActionName',
+                formData: true,
+                fieldName: 'file'
+            })
+            uppyDashboard.on('complete', (result) => {
+                if (result.successful.length > 0) {
+                    let resData = result.successful[0].response.body;
+                    if (resData['status'] === 'success') {
+                        tinyMCE.activeEditor.execCommand('mceInsertContent', false, resData['data']);
+                        $qar.removeCustomModal();
+                    } else {
+                        $qar.showMessage(resData['status'], resData['message']);
+                    }
+                }
+            });
+        }
+        initEditorUploadFile();
+    </script>
+</div>

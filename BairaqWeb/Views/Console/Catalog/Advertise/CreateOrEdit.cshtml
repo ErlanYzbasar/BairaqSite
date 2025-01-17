@@ -1,0 +1,161 @@
+@{
+    var advertise = ViewData["advertise"] != null ? ViewData["advertise"] as Advertise : null;
+}
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#!">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form class="card qar-form" action="/@CurrentLanguage/@ControllerName/@(ActionName)" method="post"
+                      enctype="multipart/form-data">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>@ViewData["title"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label" for="title">@T("ls_Location")</label>
+                            <div>
+                                    <img style="width: 100%;max-height: 200px;" src="@advertise?.Location"
+                                         alt="">
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" value="@advertise?.Id"/>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Photo")
+                                <span
+                                    class="text-danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="file" name="thumbnailImage" hidden accept="image/*"/>
+                            <input type="hidden" name="thumbnailUrl" value="@advertise?.ThumbnailUrl"/>
+                            <div>
+                                <div class="d-inline-block p-2 ">
+                                    <img class="d-block" id="thumbnailImage" onerror="@($"/{CurrentLanguage}/QarBase/GenerateRatioImage?w=100&h=100")" style="max-height: 100px;max-width: 200px;" src="@(string.IsNullOrEmpty(advertise?.ThumbnailUrl) ? $"/{CurrentLanguage}/QarBase/GenerateRatioImage?w=100&h=100" : advertise?.ThumbnailUrl)" alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Title")
+                                <span
+                                    class="text-danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" value="@advertise?.Title">
+                        </div>
+                        @if (AdlanguageList.Count(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1) > 1)
+                        {
+                            <div class="form-group">
+                                <label class="form-label" for="title">
+                                    @T("ls_Language")<span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" data-trigger name="language" id="language">
+                                    @foreach (var language in AdlanguageList.Where(x => x.IsSubLanguage == 0 &&
+                                                                                        x.FrontendDisplay == 1).ToList())
+                                    {
+                                        if (advertise == null || language.LanguageCulture.Equals(advertise?.Language))
+                                        {
+                                            <option value="@language.LanguageCulture" selected>@language.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@language.LanguageCulture">@language.FullName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="language"
+                                   value="@LanguageList.FirstOrDefault(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1)?.LanguageCulture"/>
+                        }
+
+                        <div class="form-group">
+                            <label class="form-label" for="adUrl">
+                                @T("ls_Link")
+                                <span
+                                    class="text-danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="adUrl" name="adUrl" value="@advertise?.AdUrl">
+                        </div>
+                        <div class="form-group d-none">
+                            <label class="form-label" for="adType">
+                                @T("ls_Parentcategory")
+                                <span
+                                    class="text-danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" id="adType" name="adType"
+                                   value="@advertise?.AdType">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="displayOrder">
+                                @T("ls_Displayorder")
+                                <span
+                                    class="text-danger">
+                                    *
+                                </span>
+                            </label>
+                            <input type="number" min="0" step="1" class="form-control" id="displayOrder"
+                                   name="displayOrder" value="@advertise?.DisplayOrder">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Chto")<span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" data-trigger name="targetType" id="targetType">
+                                @if (advertise != null && advertise.TargetType == "_self")
+                                {
+                                    <option value="_self" selected>@T("ls_Oitst")</option>
+                                    <option value="_blank">@T("ls_Oiant")</option>
+                                }
+                                else if (advertise != null)
+                                {
+                                    <option value="_self">@T("ls_Oitst")</option>
+                                    <option value="_blank" selected>@T("ls_Oiant")</option>
+                                }
+                                else
+                                {
+                                    <option value="_self">@T("ls_Oitst")</option>
+                                    <option value="_blank">@T("ls_Oiant")</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button type="reset" class="btn btn-outline-secondary">
+                            <i class="fa-duotone fa-rotate-right me-1"></i>@T("ls_Reset")
+                        </button>
+                        <button type="submit" class="btn btn-primary me-2" data-loading-text="@T("ls_Loading")">
+                            <i class="fa-duotone fa-floppy-disk me-1"></i> @T("ls_Save")
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

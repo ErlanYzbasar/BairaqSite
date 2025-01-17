@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BairaqWeb", "BairaqWeb\BairaqWeb.csproj", "{91F4671D-4FB9-4EF9-B648-BE017DCBC09A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMMON", "COMMON\COMMON.csproj", "{9404FAE0-8092-4121-9549-97F3BB615DD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MODEL", "MODEL\MODEL.csproj", "{B660AC21-8BFD-4874-A9CF-DF80BAF79CD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBHelper", "DBHelper\DBHelper.csproj", "{C1D307AD-060F-43D8-9E10-A20C75A2FB02}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91F4671D-4FB9-4EF9-B648-BE017DCBC09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F4671D-4FB9-4EF9-B648-BE017DCBC09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F4671D-4FB9-4EF9-B648-BE017DCBC09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F4671D-4FB9-4EF9-B648-BE017DCBC09A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9404FAE0-8092-4121-9549-97F3BB615DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9404FAE0-8092-4121-9549-97F3BB615DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9404FAE0-8092-4121-9549-97F3BB615DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9404FAE0-8092-4121-9549-97F3BB615DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B660AC21-8BFD-4874-A9CF-DF80BAF79CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B660AC21-8BFD-4874-A9CF-DF80BAF79CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B660AC21-8BFD-4874-A9CF-DF80BAF79CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B660AC21-8BFD-4874-A9CF-DF80BAF79CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D307AD-060F-43D8-9E10-A20C75A2FB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D307AD-060F-43D8-9E10-A20C75A2FB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D307AD-060F-43D8-9E10-A20C75A2FB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D307AD-060F-43D8-9E10-A20C75A2FB02}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

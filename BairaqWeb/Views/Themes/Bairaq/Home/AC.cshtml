@@ -1,0 +1,23 @@
+@{
+    Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
+    var ac = QarModel<Additionalcontent>("ac");
+}
+
+<div class="container-fulid">
+    <div class="branch-nav"></div>
+</div>
+<main style="margin-top: 85px;">
+    <div class="container">
+        <div class="row fulltext">
+            <div class="col-12 col-lg-8 me-lg-5 ">
+                <h1 class="fulltext-h1 my-lg-4">
+                    @ac?.Title
+                </h1>
+                <div class="news__content xl-mt-20 xl-mb-20">
+                    @Html.Raw(ac?.FullDescription)
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>

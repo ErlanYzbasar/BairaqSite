@@ -1,0 +1,153 @@
+<script>
+    $(function () {
+        const strTableId = "#qar-table";
+        $(strTableId).dataTable({
+            "dom": `<'row'<'col-6'l><'col-6'f>><'row dt-row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
+            "autoWidth": true,
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": function (data, callback, setting) {
+                $.ajax({
+                    url: "/@CurrentLanguage/@ControllerName/Get@(ActionName)List",
+                    type: "POST",
+                    data: {
+                        "keyword": data.search.value,
+                        "start": data.start,
+                        "length": data.length,
+                        "orderList": data.order
+                    },
+                    success: function (data) {
+                        const qData = data["data"],
+                            result = {},
+                            total = parseInt(qData["total"]);
+
+                        result.data = total > 0 ? qData["dataList"] : [];
+                        result.recordsFiltered = total;
+                        result.recordsTotal = total;
+                        callback(result);
+                    }
+                });
+            },
+            'order': [4, 'desc'],
+            "columns": [
+                {
+                    "data": null,
+                    "orderable": false,
+                    "width": "20px",
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        var checkBox = '<div class="form-check abc-checkbox">\
+                                            <input id="checkbox' + row.id + '" data-id="' + row.id + '" class="form-check-input datatable-checkbox" type="checkbox">\
+                                            <label class="form-check-label" for="checkbox' + row.id + '">\
+                                            </label>\
+                                        </div>';
+                        return checkBox;
+                    }
+                },
+                {
+                    "data": 'title',
+                    "orderable": false
+                },
+                {
+                    "data": 'language',
+                    "orderable": false
+                },
+                {
+                    "data": 'addTime',
+                    "orderable": true
+                }
+
+    @if (CanEdit)
+    {
+        <text>
+                        ,{
+                            "data": null,
+                        "orderable": false,
+                        "width": "200px", // Adjust width as needed
+                        "bSortable": false,
+                        "render": function (data, type, row) {
+                                                                                                                                                                                                                                                                                                            return '<div class="button-items d-flex justify-content-around">\
+                            <a class="btn btn-icon btn-outline-secondary" href="/@CurrentLanguage/@(ControllerName.ToLower())/@(ActionName.ToLower())/edit?id=' + row.id + '"><i class="fa-duotone fa-pen-to-square"></i></a>\
+                            <button class="btn-icon btn btn-light-warning" data-qar-tableid="qar-table" data-list-confirm="/@CurrentLanguage/@ControllerName/Set@(ActionName)Status" data-qar-ok="@T("ls_Yes")" data-qar-cancel="@T("ls_No")" data-qar-title="@T("ls_Areyousure")" id="list-ishide" data-id="'+row.id+'"><i class="fa-duotone '+(row.qStatus==3?'fa-eye-slash':'fa-eye')+'"></i></button>\
+                        </div>';
+                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                    },
+        </text>
+    }
+
+
+            ],
+            "oLanguage": $qar.getDataTableLanguage(),
+            "preDrawCallback": function () {
+
+            },
+            "rowCallback": function (nRow) {
+            },
+            "drawCallback": function (oSettings) {
+                bindConfirmButtons();
+            }
+        });
+    });
+</script>
+<script>
+    function bindConfirmButtons() {
+        var buttons = document.querySelectorAll("button[data-list-confirm]");
+        if (buttons) {
+            buttons.forEach((elem) => {
+                elem.addEventListener("click", function () {
+                    const okText = this.getAttribute("data-qar-ok"),
+                        canceText = this.getAttribute("data-qar-cancel"),
+                        title = this.getAttribute("data-qar-title"),
+                        questionId = this.getAttribute("data-id"),
+                        url = this.getAttribute("data-list-confirm"),
+                        tableId = this.getAttribute("data-qar-tableid"),
+                        dataStatus = this.getAttribute("data-status");
+
+                    // Log the data-status value
+                    console.log('Data Status:', dataStatus);
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: "btn btn-success",
+                            cancelButton: "btn btn-danger",
+                        },
+                        buttonsStyling: false,
+                    });
+                    swalWithBootstrapButtons
+                        .fire({
+                            title: title,
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: okText,
+                            cancelButtonText: canceText,
+                            reverseButtons: true,
+                        })
+                        .then(async (result) => {
+                            if (result.isConfirmed) {
+                                try {
+                                    const formData = new FormData();
+                                    formData.append("manageType", "hide");
+                                    formData.append("idList[]", parseInt(questionId));
+                                    const res = await fetch(url, {
+                                        method: "POST",
+                                        body: formData,
+                                    });
+                                    const resData = await res.json();
+                                    $qar.showMessage(resData["status"], resData["message"]);
+                                    if (resData["status"] === "success") {
+                                        setTimeout(() => {
+                                            window.location.reload();
+                                        }, 1000);
+                                    }
+                                } catch (err) {
+                                    $qar.showMessage("error", err.message);
+                                }
+                            }
+                        });
+                });
+            });
+        }
+    }
+
+</script>

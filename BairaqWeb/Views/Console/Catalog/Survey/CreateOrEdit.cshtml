@@ -1,0 +1,143 @@
+@{
+    var question = QarModel<Question>("question");
+    var answerList = QarList<Answer>("answerList");
+}
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javasctipt:void(0);">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form class="card answer-form" action="/@CurrentLanguage/@ControllerName/@(ActionName)" method="post"
+                      enctype="multipart/form-data" id="vecherqst">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>@ViewData["title"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="id" value="@question?.Id"/>
+                        @if (LanguageList.Count(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1) > 1)
+                        {
+                            <div class="form-group">
+                                <label class="form-label" for="title">
+                                    @T("ls_Language")<span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" data-trigger name="language" id="language">
+                                    @foreach (var language in LanguageList.Where(x => x.IsSubLanguage == 0 &&
+                                                                                      x.FrontendDisplay == 1).ToList())
+                                    {
+                                        if ((question == null && language == LanguageList.FirstOrDefault(x => x.IsDefault == 1))
+                                            || language.LanguageCulture.Equals(question?.Language))
+                                        {
+                                            <option value="@language.LanguageCulture" selected>@language.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@language.LanguageCulture">@language.FullName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="language"
+                                   value="@LanguageList.FirstOrDefault(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1)?.LanguageCulture"/>
+                        }
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Question")<span class="text-danger">*</span>
+                            </label>
+                            <input type="hidden" name="id" value="@question?.Id">
+                            <input type="text" class="form-control" id="title" name="title" value="@question?.Title">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Type")<span class="text-danger">*</span>
+                            </label>
+                            <div class="d-flex">
+                                <fieldset class="form-check mb-3 pe-3">
+                                    <input class="form-check-input" name="type" type="radio" id="typeRadio"
+                                           value="radio" @(question == null || question?.Type == "radio" ? "checked" : "")>
+                                    <label class="form-check-label" for="typeRadio">@T("ls_Singleselection")</label>
+                                </fieldset>
+                                <fieldset class="form-check mb-3">
+                                    <input class="form-check-input" name="type" type="radio" id="typeCheckbox"
+                                           value="checkbox" @(question?.Type == "checkbox" ? "checked" : "")>
+                                    <label class="form-check-label" for="typeCheckbox">@T("ls_Multipleselection")</label>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                @T("ls_Answer")<span class="text-danger">*</span>
+                            </div>
+                            <div>
+                                <a href="" class="btn btn-outline-primary d-inline-flex " id="answeradd">
+                                    <i class="fa-duotone fa-circle-plus me-1"></i> @T("ls_Add")
+                                </a>
+                            </div>
+                        </div>
+                        <div id="answerContainer">
+                            @if (answerList == null || answerList.Count == 0)
+                            {
+                                <div class="input-group mt-3 answer-item">
+                                    <input type="text" class="form-control" name="content" value="">
+                                    <input type="hidden" name="answerId" value="0">
+                                    <span class="input-group-text" style="cursor:pointer;" onclick="removeAnswer(event)">
+                                        <i
+                                            class="fa-solid fa-trash-can anser-delete fa-xl"
+                                            style="color: #e63d3d;">
+                                        </i>
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                foreach (var answer in answerList)
+                                {
+                                    <div class="input-group mt-3 answer-item">
+                                        <input type="text" class="form-control" name="content" value="@answer?.Content">
+                                        <input type="hidden" name="answerId" value="@answer.Id">
+                                        <span class="input-group-text" style="cursor:pointer;" onclick="removeAnswer(event)">
+                                            <i class="fa-solid fa-trash-can  anser-delete fa-xl"
+                                               style="color: #e63d3d;">
+                                            </i>
+                                        </span>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+
+                        <button type="reset" class="btn btn-outline-secondary">
+                            <i class="fa-duotone fa-rotate-right"></i>@T("ls_Reset")
+                        </button>
+                        <button type="submit" class="btn btn-primary me-2 btn-save-publish"
+                                data-loading-text="@T("ls_Loading")">
+                            <i class="fa-duotone fa-floppy-disk"></i> @T("ls_Save")
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+s

@@ -1,0 +1,23 @@
+body {
+  font-family: "kaznet";
+}
+
+[type="tel"],
+[type="search"],
+[type="url"],
+[type="email"],
+[type="number"] {
+  direction: ltr;
+}
+
+.direction-ltr {
+  direction: ltr;
+}
+
+[data-pc-direction="rtl"] .justify-content-end {
+  justify-content: flex-end !important;
+}
+
+[data-pc-direction="rtl"] .justify-content-start {
+  justify-content: flex-start !important;
+}

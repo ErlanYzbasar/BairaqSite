@@ -1,0 +1,229 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+    <ItemGroup>
+        <ProjectReference Include="../COMMON/COMMON.csproj" />
+        <ProjectReference Include="../MODEL/MODEL.csproj" />
+        <ProjectReference Include="../DBHelper/DBHelper.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="SkiaSharp" Version="2.88.8" />
+        <PackageReference Include="Hangfire" Version="1.8.12" />
+        <PackageReference Include="Hangfire.MemoryStorage" Version="1.8.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Hangfire\" />
+        <None Remove="Views\Console\" />
+        <None Remove="Views\Console\Admin\" />
+        <None Remove="Views\Console\Catalog\" />
+        <None Remove="Views\Console\Modal\" />
+        <None Remove="Views\Console\QarBase\" />
+        <None Remove="Views\Console\Site\" />
+        <None Remove="Views\Shared\" />
+        <None Remove="Views\Themes\" />
+        <None Remove="Views\Themes\QarSolutions\Home\" />
+        <None Remove="Views\Console\Admin\Person\" />
+        <None Remove="Views\Console\Admin\Role\" />
+        <None Remove="Views\Console\Partial\" />
+        <None Remove="Attributes\" />
+        <None Remove="Views\Console\Catalog\Article\" />
+        <None Remove="Views\Console\Catalog\Category\" />
+        <None Include="wwwroot\themes\bairaq\css\kaznet.css" />
+        <None Include="wwwroot\themes\bairaq\css\main.rtl.css" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Hangfire\" />
+        <Folder Include="Views\Themes\Bairaq\Modal\" />
+        <Folder Include="wwwroot\console\images\" />
+        <Folder Include="wwwroot\console\js\plugins\tinymce\" />
+        <Folder Include="wwwroot\console\js\plugins\uppy\" />
+        <Folder Include="wwwroot\console\js\plugins\uppy\langs\" />
+        <Folder Include="Views\Console\Admin\" />
+        <Folder Include="Views\Console\Modal\" />
+        <Folder Include="Views\Console\QarBase\" />
+        <Folder Include="Views\Shared\" />
+        <Folder Include="Views\Themes\" />
+        <Folder Include="wwwroot\themes\" />
+        <Folder Include="Views\Console\Admin\Person\" />
+        <Folder Include="Views\Console\Admin\Role\" />
+        <Folder Include="Views\Console\Partial\" />
+        <Folder Include="Attributes\" />
+        <Folder Include="Views\Console\Catalog\Article\" />
+        <Folder Include="Views\Console\Catalog\Category\" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Remove="wwwroot\admin\js\plugins\tinymce\" />
+        <Content Remove="wwwroot\admin\js\plugins\uppy\" />
+        <Content Remove="wwwroot\admin\js\plugins\uppy\langs\" />
+        <Content Remove="wwwroot\themes\" />
+        <Content Remove="wwwroot\themes\almatyakshamy\" />
+        <Content Remove="wwwroot\images\flag\tr.png" />
+        <Content Remove="wwwroot\images\flag\ru.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\card.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-cal-bg.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-coupon-1.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-coupon-2.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-coupon.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-empty-mail.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-event-bg.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-ai.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-doc.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-img.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-imgview.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-pdf.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-ppt.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-rar.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-txt.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-file-xls.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-gallery-8.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-pay-card-bg.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-post-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-prod-8.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-profile-cover.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\img-story-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\mastercard.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\paypal.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\application\visa.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\component\img-card.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\component\img-slide-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\component\img-slide-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\component\img-slide-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-10.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-11.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-12.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-13.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-14.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-15.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-16.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-8.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\gallery-grid\img-grd-gal-9.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\layout\img-announcement-1.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\layout\img-announcement-2.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\layout\img-announcement-3.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\layout\img-announcement-4.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\layout\img-profile-card.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\notification\clock-48.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\notification\high_priority-48.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\notification\medium_priority-48.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\notification\ok-48.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\notification\survey-48.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-5.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-6.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\slider\img-slide-7.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-dropbox-bg.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-gpay.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-headspace.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-medium.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-ola.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-paypal.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-phonepay.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-prod-1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-prod-2.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-prod-3.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-prod-4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-spotify.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\console\images\widget\img-uber.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Black.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-BlackItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Bold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-BoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-ExtraBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-ExtraBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-ExtraLight.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-ExtraLightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Italic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Light.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-LightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Medium.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-MediumItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Regular.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-SemiBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-SemiBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-Thin.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_18pt-ThinItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Black.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-BlackItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Bold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-BoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-ExtraBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-ExtraBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-ExtraLight.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-ExtraLightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Italic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Light.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-LightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Medium.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-MediumItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Regular.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-SemiBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-SemiBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-Thin.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_24pt-ThinItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Black.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-BlackItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Bold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-BoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-ExtraBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-ExtraBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-ExtraLight.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-ExtraLightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Italic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Light.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-LightItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Medium.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-MediumItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Regular.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-SemiBold.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-SemiBoldItalic.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-Thin.ttf" />
+      <_ContentIncludedByDefault Remove="wwwroot\themes\bairaq\font\Inter\static\Inter_28pt-ThinItalic.ttf" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Console\Catalog\NewsInput\List.cshtml" />
+      <AdditionalFiles Include="Views\Console\Catalog\NewsInput\ListScripts.cshtml" />
+    </ItemGroup>
+</Project>

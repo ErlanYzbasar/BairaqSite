@@ -1,0 +1,150 @@
+@{
+    Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
+    var article = QarModel<Article>("article");
+    var latestArticleList = QarList<Article>("latestArticleList");
+    var nextArticle = QarModel<Article>("nextArticle");
+    var tagList = QarList<Tag>("tagList");
+    var recArticleList = QarList<Article>("recArticleList");
+    var commentList = QarList<Comment>("commentList");
+    var menuTitle = (ViewData["menuTitle"] ?? string.Empty) as string;
+    var menuLink = (ViewData["menuLink"] ?? string.Empty) as string;
+    var questionIdStr = (ViewData["questionIdStr"] ?? string.Empty) as string;
+    var author = UserList.FirstOrDefault(x => x.Id == article?.AddAdminId);
+    var shareTitle = article?.Title;
+    var shareUrl = SiteUrl + $"/{CurrentLanguage}/article/{article?.LatynUrl}";
+    var canEditArticle = Convert.ToBoolean(ViewData["canEditArticle"] ?? false);
+    var question = QarModel<QuestionModel>("question");
+}
+
+<main class="main">
+
+    <div class="container article-page">
+        <div class="content d-flex">
+            <div class="article-view">
+                <h5 class="category-title">Экономика</h5>
+                <h2 class="article-title">@article?.Title</h2>
+                <p class="date-time count">
+                    <span class="date">@UnixTimeHelper.UnixTimeToLocalString(article?.AddTime ?? 0, CurrentLanguage)</span>
+                    <span class="view-count">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 15 10"
+                             fill="none">
+                            <path d="M14.0138 4.90085C13.8878 4.7285 10.8858 0.680664 7.05165 0.680664C3.21752 0.680664 0.215353 4.7285 0.0894964 4.90069C-0.0298321 5.0642 -0.0298321 5.28597 0.0894964 5.44948C0.215353 5.62184 3.21752 9.66967 7.05165 9.66967C10.8858 9.66967 13.8878 5.62181 14.0138 5.44962C14.1333 5.28614 14.1333 5.0642 14.0138 4.90085ZM7.05165 8.73978C4.2274 8.73978 1.78131 6.05315 1.05721 5.17485C1.78037 4.29578 4.22134 1.61056 7.05165 1.61056C9.87576 1.61056 12.3217 4.29672 13.0461 5.17548C12.3229 6.05453 9.88196 8.73978 7.05165 8.73978Z"
+                                  fill="#C0C0C0"/>
+                            <path d="M7.04975 2.83398C5.63469 2.83398 4.4834 3.98527 4.4834 5.40033C4.4834 6.81539 5.63469 7.96668 7.04975 7.96668C8.4648 7.96668 9.61609 6.81539 9.61609 5.40033C9.61609 3.98527 8.4648 2.83398 7.04975 2.83398ZM7.04975 7.11121C6.10632 7.11121 5.33886 6.34373 5.33886 5.40033C5.33886 4.45693 6.10635 3.68945 7.04975 3.68945C7.99314 3.68945 8.76063 4.45693 8.76063 5.40033C8.76063 6.34373 7.99317 7.11121 7.04975 7.11121Z"
+                                  fill="#C0C0C0"/>
+                        </svg>
+                        @article?.ViewCount
+                    </span>
+                </p>
+                <div class="thumbnail">
+                    <img src="@article?.ThumbnailUrl" alt="">
+                    <p class="img-copyright">@article?.ThumbnailCopyright</p>
+                </div>
+
+                <div class="content">
+                    @Html.Raw(article?.FullDescription)
+                </div>
+
+                <ul class="tag-list d-flex">
+                    @foreach (var tag in tagList)
+                    {
+                        <li>
+                            <a href="">#@tag.Title</a>
+                        </li>
+                    }
+                </ul>
+
+                <div class="share d-flex align-items-center">
+                    <span>@T("ls_Share1")</span>
+                    <a href="@shareUrl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M17.3261 10.5062C17.5296 10.3318 17.6313 10.2446 17.6686 10.1409C17.7013 10.0498 17.7013 9.9502 17.6686 9.85914C17.6313 9.75539 17.5296 9.6682 17.3261 9.49383L10.2672 3.44331C9.917 3.14315 9.74191 2.99306 9.59367 2.98939C9.46483 2.98619 9.34177 3.04279 9.26035 3.14269C9.16667 3.25764 9.16667 3.48825 9.16667 3.94948V7.52886C7.38777 7.84007 5.75966 8.74146 4.54976 10.0949C3.23069 11.5704 2.50103 13.48 2.5 15.4591V15.9691C3.37445 14.9157 4.46626 14.0638 5.70063 13.4716C6.78891 12.9495 7.96535 12.6403 9.16667 12.5588V16.0505C9.16667 16.5117 9.16667 16.7424 9.26035 16.8573C9.34177 16.9572 9.46483 17.0138 9.59367 17.0106C9.74191 17.0069 9.917 16.8569 10.2672 16.5567L17.3261 10.5062Z"
+                                  stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="contact d-flex">
+                    <p>
+                        Біздің Telegram арнамызға жазылып, соңғы ақпаратты оқыңыз. Егер хабарлама жолдағыңыз келсе,
+                        WhatsApp-қа жазыңыз.
+                    </p>
+                    <ul class="d-flex">
+                        @if (!string.IsNullOrEmpty(SiteSetting.Telegram))
+                        {
+                            <li>
+                                <a href="https://t.me/@SiteSetting.Telegram" target="_blank">
+                                    <img src="/themes/@CurrentTheme.ToLower()/icon/telegram.svg" alt="">
+                                </a>
+                            </li>
+                        }
+
+                        @if (!string.IsNullOrEmpty(SiteSetting.Whatsapp))
+                        {
+                            <li>
+                                <a href="https://api.whatsapp.com/send?phone=@SiteSetting.Whatsapp.Replace("+", "").Replace(" ", "")" target="_blank">
+                                    <img src="/themes/@CurrentTheme.ToLower()/icon/whatsapp2.svg" alt="">
+                                </a>
+                            </li>
+                        }
+
+                        @if (!string.IsNullOrEmpty(SiteSetting.Facebook))
+                        {
+                            <li>
+                                <a href="@SiteSetting.Facebook" target="_blank">
+                                    <img src="/themes/@CurrentTheme.ToLower()/icon/facebook.svg" alt="">
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+
+                <div class="sub-block block article-sub-block">
+                    <div class="head d-flex justify-content-between">
+                        <h4 class="title">Тағы да оқыңыз</h4>
+                    </div>
+                    <ul class="article-list d-grid">
+                        @foreach (var recArticle in recArticleList)
+                        {
+                            <li>
+                                <a href="/@CurrentLanguage/article/@recArticle.LatynUrl">
+                                    <img class="thumbnail" src="@recArticle.ThumbnailUrl" alt="">
+                                    <h5 class="title">@recArticle.Title</h5>
+                                    <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(recArticle.AddTime, CurrentLanguage)</p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+            <div class="most-read">
+                <h5 class="most-title">@T("ls_Latestnews")</h5>
+                <ul class="most-article-list">
+                    @foreach (var lastArticle in latestArticleList)
+                    {
+                        <li>
+                            <a href="/@CurrentLanguage/article/@lastArticle.LatynUrl">
+                                <h6 class="title">@lastArticle.Title</h6>
+                                <p class="date-time count">
+                                    <span class="date">@UnixTimeHelper.UnixTimeToLocalString(lastArticle.AddTime, CurrentLanguage)</span>
+                                    <span class="view-count">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 15 10"
+                                             fill="none">
+                                            <path d="M14.0138 4.90085C13.8878 4.7285 10.8858 0.680664 7.05165 0.680664C3.21752 0.680664 0.215353 4.7285 0.0894964 4.90069C-0.0298321 5.0642 -0.0298321 5.28597 0.0894964 5.44948C0.215353 5.62184 3.21752 9.66967 7.05165 9.66967C10.8858 9.66967 13.8878 5.62181 14.0138 5.44962C14.1333 5.28614 14.1333 5.0642 14.0138 4.90085ZM7.05165 8.73978C4.2274 8.73978 1.78131 6.05315 1.05721 5.17485C1.78037 4.29578 4.22134 1.61056 7.05165 1.61056C9.87576 1.61056 12.3217 4.29672 13.0461 5.17548C12.3229 6.05453 9.88196 8.73978 7.05165 8.73978Z"
+                                                  fill="#C0C0C0"/>
+                                            <path d="M7.04975 2.83398C5.63469 2.83398 4.4834 3.98527 4.4834 5.40033C4.4834 6.81539 5.63469 7.96668 7.04975 7.96668C8.4648 7.96668 9.61609 6.81539 9.61609 5.40033C9.61609 3.98527 8.4648 2.83398 7.04975 2.83398ZM7.04975 7.11121C6.10632 7.11121 5.33886 6.34373 5.33886 5.40033C5.33886 4.45693 6.10635 3.68945 7.04975 3.68945C7.99314 3.68945 8.76063 4.45693 8.76063 5.40033C8.76063 6.34373 7.99317 7.11121 7.04975 7.11121Z"
+                                                  fill="#C0C0C0"/>
+                                        </svg>
+                                        @lastArticle.ViewCount
+                                    </span>
+                                </p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>

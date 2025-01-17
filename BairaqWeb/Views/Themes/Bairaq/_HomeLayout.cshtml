@@ -1,0 +1,77 @@
+@{
+    var host = (ViewData["host"] ?? string.Empty) as string;
+    var siteUrl = (ViewData["siteUrl"] ?? string.Empty) as string;
+    var ogTitle = (ViewData["og_title"] ?? SiteSetting?.Title) as string;
+    var ogKeywords = (ViewData["og_keywords"] ?? SiteSetting?.Keywords) as string;
+    var ogDescription = (ViewData["og_description"] ?? SiteSetting?.Description) as string;
+    var ogImage = (ViewData["og_image"] ?? SiteSetting?.DarkLogo) as string;
+    ogImage = host + ogImage;
+    var ogUrl = host + (ViewData["og_url"] ?? string.Empty);
+    var ogType = (ViewData["og_type"] ?? "website") as string;
+}
+<!DOCTYPE html>
+
+<html lang="@ViewData["uniqueSeoCode"]" data-theme="@SkinName"
+      dir="@(CurrentLanguage.Equals("tote", StringComparison.OrdinalIgnoreCase) ? "rtl" : "ltr")">
+<head>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="@SiteSetting?.Favicon" type="image/png">
+    <link rel="icon" href="@SiteSetting?.Favicon" type="image/png">
+    <title>@ogTitle</title>
+    <meta name="keywords" content="@ogKeywords">
+    <meta name="description" content="@ogDescription">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="@ogTitle">
+    <meta name="twitter:description" content="@ogDescription">
+    <meta name="twitter:image" content="@ogImage">
+    <meta name="twitter:image:src" content="@ogImage">
+    <meta name="twitter:domain" content="@host">
+    <meta name="twitter:site" content="@@@SiteSetting?.Title">
+    <meta property="og:title" content="@ogTitle">
+    <meta property="og:description" content="@ogDescription">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image" content="@ogImage">
+    <meta property="og:type" content="@ogType">
+    <meta property="og:url" content="@(string.IsNullOrWhiteSpace(ogUrl) ? SiteUrl : ogUrl)">
+    <meta property="og:site_name" content="@SiteSetting?.Title">
+    @if (CurrentLanguage.Equals("tote", StringComparison.OrdinalIgnoreCase))
+    {
+        <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/bootstrap.rtl.min.css">
+    }
+
+    <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/index.css" asp-append-version="true">
+    @if (CurrentLanguage.Equals("tote", StringComparison.OrdinalIgnoreCase))
+    {
+        <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/kaznet.css">
+    <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/inter.css">
+    <link rel="stylesheet" href="~/themes/@(CurrentTheme.ToLower())/css/index.rtl.css" asp-append-version="true">
+    }
+    
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+@{
+    var header = $"~/Views/Themes/{CurrentTheme}/Partial/Header.cshtml";
+    var footer = $"~/Views/Themes/{CurrentTheme}/Partial/Footer.cshtml";
+}
+<partial name="@header"/>
+@RenderBody()
+<partial name="@footer"/>
+
+<script src="~/themes/@CurrentTheme.ToLower()/js/popper.min.js"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/jquery-3.7.1.min.js"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/jquery.simplePagination.js"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/bootstrap.min.js"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/swiper-bundle.min.js"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/common.js" asp-append-version="true"></script>
+<script src="~/themes/@CurrentTheme.ToLower()/js/index.js" asp-append-version="true"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+@Html.Raw(SiteSetting?.AnalyticsScript)
+</body>
+</html>

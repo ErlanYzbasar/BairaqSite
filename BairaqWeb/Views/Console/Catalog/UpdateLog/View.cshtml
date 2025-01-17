@@ -1,0 +1,176 @@
+
+@{
+    var updateLogGroupByAdminList = QarList<UpdateLog>("updateLogList").GroupBy(x => x.AdminId);
+    var updateContentList = QarList<UpdateContent>("updateContentList");
+    var adminList = QarList<Admin>("adminList");
+}
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row update-log-page">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <h5>
+                                    @ViewData["title"]
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var updateLogGroupByAdmin in updateLogGroupByAdminList.OrderBy(x => x.Key))
+            {
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="badge bg-light-danger rounded-pill">
+                                <i class="fa-duotone fa-pen-to-square"></i>
+                                @adminList.Find(x => x.Id == updateLogGroupByAdmin.Key)?.Name
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach (var updateLogByAdmin in updateLogGroupByAdmin.OrderByDescending(x => x.AddTime))
+                                {
+                                    var updateContentListByAdmin = updateContentList
+                                        .FindAll(x => x.LogId == updateLogByAdmin.Id);
+                                    var isDeletedColumn = updateContentListByAdmin.Exists(x => x.ColumnName.Equals(nameof(Article.QStatus)) && int.TryParse(x.Content, out var result) && result == 1);
+
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <h5 class="card-header">
+                                                @UnixTimeHelper.UnixTimeToString(updateLogByAdmin.AddTime)
+
+                                                @if (isDeletedColumn)
+                                                {
+                                                    <span class="badge bg-light-danger rounded-pill ms-3">
+                                                        <i class="fa-duotone fa-trash"></i>
+                                                        @T("ls_Deleted2")
+                                                    </span>
+                                                }
+                                            </h5>
+                                            <div class="card-body">
+                                                @foreach (var updateContent in updateContentListByAdmin
+                                                              .GroupBy(x => x.ColumnName))
+                                                {
+                                                    <div class="col-12">
+                                                        @switch (updateContent.Key)
+                                                        {
+                                                            case var key when key.Similar(nameof(Article.Title)):
+                                                                <p>@T("ls_Title")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.FullDescription)):
+                                                                <p>@T("ls_Fulldescription")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Tag)):
+                                                                <p>@T("ls_Tags")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.CategoryId)):
+                                                                <p>@T("ls_Articlecategory")</p>
+                                                                break;
+
+                                                        
+
+                                                            case var key when key.Similar(nameof(Article.ThumbnailCopyright)):
+                                                                <p>@T("ls_Imagecopyright")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.AutoPublishTime)):
+                                                                <p>@T("ls_Scheduledposts")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.IsPinned)):
+                                                                <p>@T("ls_Pinnedarticle")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.IsFeatured)):
+                                                                <p>@T("ls_Featured")</p>
+                                                                break;
+
+                                                            case var key when key.Similar(nameof(Article.IsFocusNews)):
+                                                                <p>@T("ls_Focusnews")</p>
+                                                                break;
+
+                                                            default:
+                                                                continue;
+                                                        }
+
+                                                        @foreach (var content in updateContent)
+                                                        {
+                                                            <div class="alert alert-@(content.IsInsert ? "success" : "danger")" role="alert">
+                                                                <div class="row">
+                                                                    <div class="col-1 d-flex align-items-center justify-content-center">
+                                                                        @if (content.IsInsert)
+                                                                        {
+                                                                            <i class="fa-duotone fa-circle-plus"></i>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <i class="fa-duotone fa-trash"></i>
+                                                                        }
+                                                                    </div>
+                                                                    <div class="col-11">
+                                                                        @{
+                                                                            var result = string.Empty;
+                                                                            var optionList = new List<string>
+                                                                            {
+                                                                                nameof(Article.IsPinned),
+                                                                                nameof(Article.IsFeatured),
+                                                                                nameof(Article.IsFocusNews)
+                                                                            };
+                                                                        }
+
+                                                                        @if (content.ColumnName.Similar(nameof(Article.AutoPublishTime)))
+                                                                        {
+                                                                            if (int.TryParse(content.Content, out var unixTime))
+                                                                            {
+                                                                                result = UnixTimeHelper.UnixTimeToString(unixTime);
+                                                                            }
+                                                                        }
+                                                                        else if (optionList.Exists(x => x.Similar(content.ColumnName)))
+                                                                        {
+                                                                            result = T(content.IsInsert ? "ls_Added" : "ls_Deleted");
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            result = content.Content;
+                                                                        }
+
+                                                                        <div>@result</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

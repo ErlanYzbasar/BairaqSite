@@ -1,0 +1,172 @@
+<script>
+    $(function () {
+        const strTableId = "#qar-table",
+            childDataId = "@(ActionName)DataTableChildData",
+            loader = `<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`;
+
+        $qar.currentDataTable = new DataTable(strTableId, {
+            "dom": `<'row'<'col-6'l><'col-6'f>><'row dt-row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
+            "autoWidth": true,
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": function (data, callback, setting) {
+                const dateTimeRange = document.querySelector("#date-time-result-value");
+                $.ajax({
+                    url: "/@CurrentLanguage/@ControllerName/Get@(ActionName)List",
+                    type: "POST",
+                    data: {
+                        "keyword": data.search.value,
+                        "start": data.start,
+                        "length": data.length,
+                        "orderList": data.order,
+                        "dateTimeStart": dateTimeRange ? dateTimeRange.getAttribute("data-date-time-result-start") : "",
+                        "dateTimeEnd": dateTimeRange ? dateTimeRange.getAttribute("data-date-time-result-end") : ""
+                    },
+                    success: function (data) {
+                        const qData = data["data"],
+                            result = {},
+                            total = parseInt(qData["total"]);
+
+                        result.data = total > 0 ? qData["dataList"] : [];
+                        result.recordsFiltered = total;
+                        result.recordsTotal = total;
+                        callback(result);
+                    }
+                });
+            },
+            'order': [2, 'desc'],
+            "columns": [
+                {
+                    "data": null,
+                    "orderable": false,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return `<div class="select-row-box d-flex align-items-center">
+                                <img src="${row.thumbnailUrl}" style="min-width: 160px;width:160px;height:90px;" /> &nbsp;&nbsp;
+                                <a class="reverse-hover ellipsis-title d-block" style="max-width: 340px; text-wrap: wrap;" href="${row.latynUrl}">
+                                    ${row.title}
+                                    ${row.qStatus === 3 ? `<span class="badge bg-light-warning rounded-pill"> @T("ls_Draft")</span>` : ""}
+                                </a>
+                            </div>`;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": false,
+                    "bSortable": false,
+                    "render": (data, type, row) => 
+                        `<div>
+                            ${row.addAdmin ? `<h5> <span class="badge bg-light-success rounded-pill"><i class="fa-duotone fa-square-plus"></i> ${row.addAdmin}</span></h5>` : ""}
+                            ${row.updateAdmin ? `<h5> <span class="badge bg-light-danger rounded-pill"><i class="fa-duotone fa-pen-to-square"></i> ${row.updateAdmin}</span></h5>` : ""}
+                        </div>`
+                }, 
+                {
+                    "data": "updateTime",
+                    "orderable": true
+                }
+                @if (CanView)
+                {
+                    <text>
+                        ,{
+                            "data": null,
+                            "orderable": false,
+                            "width": "100px",
+                            "bSortable": false,
+                            "render": (data, type, row) =>
+                                `<div class="button-items"><a href="/@CurrentLanguage/@ControllerName.ToLower()/@ActionName.ToLower()/view?id=${row.id}" class="btn btn-icon btn-outline-secondary expand-button"><i class="fa-duotone fa-eye"></i></a></div>`
+                        }
+                    </text>
+                }],
+            "oLanguage": $qar.getDataTableLanguage(),
+            "preDrawCallback": function () {
+            },
+            "rowCallback": function (nRow) {
+            },
+            "drawCallback": function (oSettings) {
+            }
+        });
+    });
+</script>
+
+
+@* const getFormatData = ({dataList, isLoader}) => { *@
+@*     let result; *@
+@*      *@
+@*     if (isLoader) { *@
+@*         result = loader; *@
+@*     } else { *@
+@*         const tbody = []; *@
+@* *@
+@*         dataList.forEach(data => { *@
+@*             const tr = ['<tr>']; *@
+@* *@
+@*             tr.push(`<td><span class="badge bg-light-danger rounded-pill"><i class="fa-duotone fa-pen-to-square"></i> ${data.admin}</span></td>`); *@
+@*             tr.push(`<td>${data.updateTime}</td>`); *@
+@*             tr.push(`<td><div class="button-items"> *@
+@*                     <a class="btn btn-icon btn-outline-secondary" href="/@CurrentLanguage/@ControllerName.ToLower()/@ActionName.ToLower()/view?id=${data.id}"><i class="fa-duotone fa-eye"></i></a> *@
+@*                 </div></td>`); *@
+@*             tr.push('</tr>'); *@
+@* *@
+@*             tbody.push(tr.join('')); *@
+@*         }); *@
+@* *@
+@*         result = `<table class="child-table"> *@
+@*                     <thead> *@
+@*                         <tr> *@
+@*                             <th>@T("ls_Administrator")</th> *@
+@*                             <th>@T("ls_Updatetime")</th> *@
+@*                             <th>@T("ls_View")</th> *@
+@*                         </tr> *@
+@*                     </thead> *@
+@*                     <tbody>${tbody.join('')}</tbody> *@
+@*                 </table>` *@
+@*     } *@
+@* *@
+@*     return `<div class="d-flex justify-content-center">${result}</div>` *@
+@* }; *@
+@* *@
+@* const getData = (row, child) => { *@
+@*     const id = row.id; *@
+@*     if (!$qar.isValidNumber(id)) return ''; *@
+@*      *@
+@*     if (!$qar[`${childDataId}`]) $qar[`${childDataId}`] = {}; *@
+@*     const childData = $qar[`${childDataId}`]; *@
+@*          *@
+@*     if (childData[id]) { *@
+@*         child(getFormatData({dataList: childData[id]})).show(); *@
+@*         return; *@
+@*     } *@
+@* *@
+@*     child(getFormatData({isLoader: true})).show(); *@
+@* *@
+@*     $.ajax({ *@
+@*         url: "/@CurrentLanguage/@ControllerName/Get@(ActionName)List", *@
+@*         type: "POST", *@
+@*         data: {"id": id,}, *@
+@*         success: (data) => { *@
+@*             const status = data["status"],  *@
+@*                 dataList = data["data"]; *@
+@*                  *@
+@*             if (status === "success") { *@
+@*                 child.hide(); *@
+@*                 childData[id] = dataList; *@
+@*                 child(getFormatData({dataList})).show(); *@
+@*             } *@
+@*         } *@
+@*     }); *@
+@* } *@
+@* $(`${strTableId} tbody`).on('click', '.expand-button', function () { *@
+@* const tr = $(this).closest('tr'); *@
+@* const row = $qar.currentDataTable.row(tr); *@
+@* *@
+@* if (row.child.isShown()) { *@
+@* row.child.hide(); *@
+@* tr.removeClass('shown'); *@
+@* $(this).find('i').addClass('fa-eye').removeClass('fa-eye-slash'); *@
+@* } else { *@
+@* getData(row.data(), row.child); *@
+@* tr.addClass('shown'); *@
+@* $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash'); *@
+@* } *@
+@* }); *@

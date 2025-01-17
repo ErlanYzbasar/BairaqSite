@@ -1,0 +1,58 @@
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-12 col-sm-4 mb-3 mb-sm-0">
+                                <h5>@ViewData["title"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="dt-responsive">
+                            <table id="qar-table" class="table table-striped table-bordered nowrap">
+                                <thead>
+                                <tr>
+                                    <th>@T("ls_Title")</th>
+                                    <th>@T("ls_Administrator")</th>
+                                    <th>@T("ls_Lastupdate")</th>
+                                    @* <th> *@
+                                    @*     <div class="d-flex gap-3 px-1"> *@
+                                    @*         <a href="/@CurrentLanguage/Modal/DateTimePicker?elementId=date-time-result-value" *@
+                                    @*            rel="custom-modal"> *@
+                                    @*             <i class="fa-duotone fa-calendar"></i> *@
+                                    @*             <input type="hidden" id="date-time-result-value"/> *@
+                                    @*         </a> *@
+                                    @*         <span>@T("ls_Updatetime")</span> *@
+                                    @*     </div> *@
+                                    @* </th> *@
+                                    @if (CanView)
+                                    {
+                                        <th>@T("ls_View")</th>
+                                    }
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

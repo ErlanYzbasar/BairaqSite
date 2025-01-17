@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/themes/bairaq/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/themes/bairaq/css/all.css">
+    <link rel="stylesheet" href="/themes/bairaq/css/mdb.css">
+    <link rel="stylesheet" href="/themes/bairaq/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="/themes/bairaq/css/main.css" asp-append-version="true">
+    <style>
+        html,
+        body,
+        header,
+        .intro-3 {
+            height: 100%;
+        }
+
+        .intro-3 {
+            background: no-repeat #ff3f71;
+            background-image: linear-gradient(120deg, #ff3c6d, #ffa76d, #ff73bb, #6caafd, #1fe4d4);
+            background-size: 800% 400%;
+            -webkit-animation-name: introAnimation;
+            animation-name: introAnimation;
+            -webkit-animation-duration: 30s;
+            animation-duration: 30s;
+            -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+            -webkit-animation-delay: 0;
+            animation-delay: 0;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes introAnimation {
+
+            0%,
+            100% {
+                background-position: 0 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            html,
+            body,
+            header,
+            .intro-3 {
+                height: 820px;
+            }
+        }
+
+        @media (min-width: 451px) and (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .intro-3 {
+                height: 900px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .intro-3 {
+                height: 950px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- Intro Section -->
+        <section class="view intro-3">
+            <div class="container h-100 d-flex justify-content-center align-items-center">
+                <div class="row">
+                    <div class="col-md-12 col-lg-4 offset-lg-1 text-center text-lg-left white-text mt-5 mt-md-0">
+                        <h1 class="intro-title font-weight-bold text-white mt-0 mb-4 wow fadeInLeft" data-wow-delay="0.3s">
+                            Страница не найдена</h1>
+                        <a class="btn btn-outline-white text-white btn-rounded font-weight-bold wow fadeInLeft"
+                            data-wow-delay="0.4s" href="/ru">Вернуться на главную страницу</a>
+                    </div>
+
+                    <div class="col-md-12 col-lg-6 mt-4 mt-md-0 wow fadeInRight" data-wow-delay="0.3s">
+                        <img src="/images/page-404-img.png" alt="Sample Image" class="img-fluid">
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </header>
+
+    <script src="/themes/bairaq/js/bootstrap.min.js"></script>
+    <script src="/themes/bairaq/js/jquery.simplePagination.js"></script>
+</body>
+
+</html>

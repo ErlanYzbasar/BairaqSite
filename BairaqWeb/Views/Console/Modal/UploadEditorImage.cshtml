@@ -1,0 +1,77 @@
+@{
+    Layout = null;
+}
+<div id="qar-modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@T("ls_Uploadimage")</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="pc-uppy" id="uppy-upload-editor-image">
+            <div class="pc-uppy-dashboard"></div>
+            <div class="pc-uppy-progress"></div>
+        </div>
+    </div>
+    <script data-modal="qar">
+        function initEditorUploadImage() {
+            const Tus = Uppy.Tus;
+            const Dashboard = Uppy.Dashboard;
+            const Webcam = Uppy.Webcam;
+            var options = {
+                locale: $qar.getUppyLanguage(),
+                restrictions: {
+                    maxNumberOfFiles: 1,
+                    allowedFileTypes: ['image/*']
+                },
+                proudlyDisplayPoweredByUppy: false,
+                target: "#uppy-upload-editor-image",
+                inline: true,
+                replaceTargetContent: true,
+                showProgressDetails: true,
+                note: 'No filetype restrictions.',
+                height: 350,
+                metaFields: [{
+                    id: 'alt',
+                    name:'@T("ls_Title")',
+                    placeholder: '@T("ls_Title")'
+                },
+                {
+                    id: 'copyright',
+                    name:'Copyright',
+                    placeholder: '@T("ls_Imagecopyright")'
+                }
+                ],
+                browserBackButtonClose: true
+            }
+            var uppyDashboard = new Uppy.Uppy({
+                autoProceed: false,
+                restrictions: {
+                    maxFileSize: 10000000, // 1mb
+                    maxNumberOfFiles: 1,
+                    minNumberOfFiles: 1
+                }
+            });
+            uppyDashboard.use(Dashboard, options);
+            uppyDashboard.use(Uppy.XHRUpload, {
+                endpoint: '/@CurrentLanguage/@ControllerName/@ActionName',
+                formData: true,
+                fieldName: 'imgFile'
+            })
+            uppyDashboard.use(Webcam, {
+                target: Dashboard
+            });
+            uppyDashboard.on('complete', (result) => {
+                if (result.successful.length > 0) {
+                    let resData = result.successful[0].response.body;
+                    if (resData['status'] === 'success') {
+                        tinyMCE.activeEditor.execCommand('mceInsertContent', false, '<img src="' + resData['data'].relativePath + '" alt="' + resData['data'].alt + '" data-copyright="' + resData['data'].copyright + '">');
+                        $qar.removeCustomModal();
+                    } else {
+                        $qar.showMessage(resData['status'], resData['message']);
+                    }
+                }
+            });
+        }
+        initEditorUploadImage();
+    </script>
+</div>

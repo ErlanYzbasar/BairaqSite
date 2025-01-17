@@ -1,0 +1,147 @@
+@{
+    var category = QarModel<Articlecategory>("category");
+    var categoryList = QarList<Articlecategory>("allCategoryList");
+}
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javasctipt:void(0);">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form class="card qar-form" action="/@CurrentLanguage/@ControllerName/@(ActionName)" method="post"
+                    enctype="multipart/form-data">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>@ViewData["title"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="id" value="@category?.Id" />
+                        @if (LanguageList.Count(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1) > 1)
+                        {
+                            <div class="form-group">
+                                <label class="form-label" for="title">
+                                    @T("ls_Title")<span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" data-trigger name="language" id="language">
+                                    @foreach (var language in LanguageList.Where(x => x.IsSubLanguage == 0 &&
+                                   x.FrontendDisplay == 1).ToList())
+                                    {
+                                        if ((category == null && language == LanguageList.FirstOrDefault(x => x.IsDefault == 1))
+                                        || language.LanguageCulture.Equals(category?.Language))
+                                        {
+                                            <option value="@language.LanguageCulture" selected>@language.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@language.LanguageCulture">@language.FullName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="language"
+                                value="@LanguageList.FirstOrDefault(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1)?.LanguageCulture" />
+                        }
+
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Parentcategory")<span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" data-trigger name="parentId" id="parentId">
+
+                                @if (category == null)
+                                {
+                                    <option value="" selected>@T("ls_Default")</option>
+                                }
+                                else
+                                {
+                                    <option value="">@T("ls_Default")</option>
+                                }
+
+                                @foreach (var parent in categoryList.Where(x => x.Id != category?.Id))
+                                {
+                                    if (parent.Id == category?.ParentId)
+                                    {
+                                        <option value="@parent.Id" selected>@parent.Title</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@parent.Id">@parent.Title</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Title")<span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" value="@category?.Title">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="latynUrl">@T("ls_Link")</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">/category/</span>
+                                <input type="text" class="form-control" id="latynUrl" name="latynUrl"
+                                    value="@category?.LatynUrl">
+                                <span class="input-group-text">.html</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="shortDescription">@T("ls_Shortdescription")</label>
+                            <textarea class="form-control" name="shortDescription" id="shortDescription"
+                                rows="3">@category?.ShortDescription</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="displayOrder">@T("ls_Displayorder")</label>
+                            <input type="number" min="0" step="1" class="form-control" id="displayOrder"
+                                name="displayOrder" value="@category?.DisplayOrder">
+                        </div>
+                        <div class="form-group">
+                            <fieldset class="additional-options">
+                                <legend>
+                                    @T("ls_Additionaloptions")
+                                </legend>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="1" name="isHidden"
+                                            id="checkbox_isHidden" @(category != null && category.IsHidden == 1 ?
+                                            "checked" : "")>
+                                        <label class="form-check-label" for="checkbox_isHidden">
+                                            @T("ls_Navigationmenus")
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button type="reset" class="btn btn-outline-secondary">
+                            <i class="fa-duotone fa-rotate-right"></i> @T("ls_Reset")
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-loading-text="@T("ls_Loading") ...">
+                            <i class="fa-duotone fa-floppy-disk"></i> @T("ls_Save")
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,120 @@
+@{
+    var categoryList = QarList<Articlecategory>("categoryList");
+    var categoryId = Convert.ToInt32(ViewData["categoryId"] ?? 0);
+}
+
+<header class="header">
+
+    <div class="container top d-flex justify-content-between align-items-end">
+        <a href="/@CurrentLanguage" class="logo">
+            <img src="@SiteSetting.DarkLogo" alt="">
+        </a>
+        <div class="d-flex">
+            <ul class="language d-flex align-items-center">
+                @foreach (var language in LanguageList.Where(x => x.FrontendDisplay == 1))
+                {
+                    <li>
+                        <a href="/@language.LanguageCulture.ToLower()" class="@(language.LanguageCulture.Equals(CurrentLanguage, StringComparison.OrdinalIgnoreCase) ? "active" : "")">@language.ShortName</a>
+                    </li>
+                }
+            </ul>
+
+            <ul class="contact d-flex align-items-center">
+
+                @if (!string.IsNullOrEmpty(SiteSetting.Facebook))
+                {
+                <li>
+                    <a href="@SiteSetting.Facebook" target="_blank">
+                        <img src="/themes/@CurrentTheme.ToLower()/icon/facebook.svg" alt="">
+                    </a>
+                </li>
+                }
+
+                @if (!string.IsNullOrEmpty(SiteSetting.Instagram))
+                {
+                    <li>
+                        <a href="@SiteSetting.Instagram" target="_blank">
+                            <img src="/themes/@CurrentTheme.ToLower()/icon/instagram.svg" alt="">
+                        </a>
+                    </li>
+                }
+
+                @if (!string.IsNullOrEmpty(SiteSetting.Tiktok))
+                {
+                    <li>
+                        <a href="@SiteSetting.Tiktok" target="_blank">
+                            <img src="/themes/@CurrentTheme.ToLower()/icon/tiktok.svg" alt="">
+                        </a>
+                    </li>
+                }
+                
+                @if (!string.IsNullOrEmpty(SiteSetting.Youtube))
+                {
+                    <li>
+                        <a href="@SiteSetting.Youtube" target="_blank">
+                            <img src="/themes/@CurrentTheme.ToLower()/icon/youtube.svg" alt="">
+                        </a>
+                    </li>
+                }
+
+                @if (!string.IsNullOrEmpty(SiteSetting.Telegram))
+                {
+                    <li>
+                        <a href="https://t.me/@SiteSetting.Telegram" target="_blank">
+                            <img src="/themes/@CurrentTheme.ToLower()/icon/telegram.svg" alt="">
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="navbar-bg">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto m-0">
+                            @foreach (var category in categoryList.Take(4))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link@(categoryId == category.Id ? " active" : "")" aria-current="page" href="/@CurrentLanguage/category/@(category.LatynUrl)">@category.Title</a>
+                                </li>
+                            }
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    @T("ls_Other")
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach (var category in categoryList.Skip(4))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item@(categoryId == category.Id ? " active" : "")" href="/@CurrentLanguage/category/@(category.LatynUrl)">@category.Title</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="input-group search">
+                            <input type="text" class="form-control" placeholder="@T("ls_Searchbywebsite")" aria-label="search">
+                            <button class="btn" type="button" id="button-addon2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                     fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M13.2147 11.6289H12.3795L12.0835 11.3435C13.1195 10.1383 13.7433 8.57369 13.7433 6.87164C13.7433 3.07638 10.6669 0 6.87164 0C3.07638 0 0 3.07638 0 6.87164C0 10.6669 3.07638 13.7433 6.87164 13.7433C8.57369 13.7433 10.1383 13.1195 11.3435 12.0835L11.6289 12.3795V13.2147L16.9148 18.49L18.49 16.9148L13.2147 11.6289ZM6.87164 11.6289C4.23927 11.6289 2.11435 9.50401 2.11435 6.87164C2.11435 4.23927 4.23927 2.11435 6.87164 2.11435C9.50401 2.11435 11.6289 4.23927 11.6289 6.87164C11.6289 9.50401 9.50401 11.6289 6.87164 11.6289Z"
+                                          fill="#00A6C8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>

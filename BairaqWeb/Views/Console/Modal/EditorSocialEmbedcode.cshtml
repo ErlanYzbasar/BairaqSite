@@ -1,0 +1,51 @@
+@{
+    Layout = null;
+}
+<form id="qar-modal-content" action="/@CurrentLanguage/@ControllerName/@(ActionName)" method="post">
+    <div class="modal-header">
+        <h5 class="modal-title">@T("ls_Embedcode")</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <textarea class="form-control" name="embedCode" id="embedCode" rows="10"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary me-2" data-loading-text="@T("ls_Loading") ...">
+                            <i class="fa-duotone fa-floppy-disk"></i> @T("ls_Save")
+                        </button>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-light">@T("ls_Close")</button>
+    </div>
+</form>
+
+<script>
+    function initEditorSocialEmbedcode() {
+
+        document.querySelector('form#qar-modal-content').addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const form = this,
+                button = form.querySelector('button[type="submit"]'),
+                data = new FormData(form),
+                url = form.getAttribute("action"),
+                method = form.getAttribute("method");
+            $qar.setBtnStatus(button, "loading");
+            try {
+                const res = await fetch(url, { method: method, body: data });
+                const resData = await res.json();
+                $qar.setBtnStatus(button, "reset");
+                if (resData["status"] === "success") {
+                    $qar.showMessage("success", resData["message"], 1500);
+                    tinyMCE.activeEditor.execCommand('mceInsertContent', false, resData['data']);
+                    $qar.removeCustomModal();
+                } else {
+                    $qar.showMessage(resData["status"], resData["message"]);
+                }
+            } catch (err) {
+                $qar.showMessage("error", err.message);
+            }
+        });
+    }
+
+    initEditorSocialEmbedcode();
+</script>

@@ -1,0 +1,259 @@
+<script>
+    $(function () {
+        const strTableId = "#qar-table";
+        $(strTableId).dataTable({
+            "dom": `<'row'<'col-6'l><'col-6'f>><'row dt-row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
+            "autoWidth": true,
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": function (data, callback, setting) {
+                $.ajax({
+                    url: "/@CurrentLanguage/@ControllerName/Get@(ActionName)List",
+                    type: "POST",
+                    data: {
+                        "keyWord": data.search.value,
+                        "start": data.start,
+                        "length": data.length,
+                        "orderList": data.order
+                    },
+                    success: function (data) {
+                        const qData = data["data"],
+                            result = {},
+                            total = parseInt(qData["total"]);
+
+                        result.data = total > 0 ? qData["dataList"] : [];
+                        result.recordsFiltered = total;
+                        result.recordsTotal = total;
+                        callback(result);
+                    }
+                });
+            },
+            'order': [3, 'desc'],
+            "columns": [
+                {
+                    "data": null,
+                    "orderable": false,
+                    "width": "20px",
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        var checkBox = '<div class="form-check abc-checkbox">\
+                                            <input id="checkbox' + row.id + '" data-id="' + row.id + '" class="form-check-input datatable-checkbox" type="checkbox">\
+                                            <label class="form-check-label" for="checkbox' + row.id + '">\
+                                            </label>\
+                                        </div>';
+                        return checkBox;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": false,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return '<a href="' + row.linkUrl + '" class="d-inline-block p-2 " target="_blank"><img src="' + row.thumbnailUrl + '" style="max-height:50px;max-width:200px" /></a>';
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return row.title;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return row.language;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": false,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return row.viewCount;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return row.displayOrder;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": true,
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return row.addTime;
+                    }
+                },
+                {
+                    "data": null,
+                    "orderable": false,
+                    "width": "100px",
+                    "bSortable": false,
+                    "render": function (data, type, row) {
+                        return '<div class="button-items">\
+                                     <a class="btn btn-icon btn-outline-secondary" href="/@CurrentLanguage/@(ControllerName.ToLower())/@(ActionName.ToLower())/edit?id=' + row.id + '"><i class="fa-duotone fa-pen-to-square"></i></a>\
+                                      \<button class="btn-icon btn btn-light-warning" data-qar-tableid="qar-table" data-list-confirm="/@CurrentLanguage/@ControllerName/Set@(ActionName)Status" data-qar-ok="@T("ls_Yes")" data-qar-cancel="@T("ls_No")" data-qar-title="@T("ls_Areyousure")" id="list-ishide" data-id="'+ row.id + '"><i class="fa-duotone ' + (row.qStatus == 3 ? 'fa-eye-slash' : 'fa-eye') + '"></i></button>\
+                                </div>';
+                    }
+                }
+            ],
+            "oLanguage": $qar.getDataTableLanguage(),
+            "preDrawCallback": function () {
+
+            },
+            "rowCallback": function (nRow) {
+
+            },
+            "drawCallback": function (oSettings) {
+                bindConfirmButtons();
+                customModalIframe();
+            }
+        });
+    });
+</script>
+<script>
+    function bindConfirmButtons() {
+        var buttons = document.querySelectorAll("button[data-list-confirm]");
+        if (buttons) {
+            buttons.forEach((elem) => {
+                elem.addEventListener("click", function () {
+                    const okText = this.getAttribute("data-qar-ok"),
+                        canceText = this.getAttribute("data-qar-cancel"),
+                        title = this.getAttribute("data-qar-title"),
+                        questionId = this.getAttribute("data-id"),
+                        url = this.getAttribute("data-list-confirm"),
+                        tableId = this.getAttribute("data-qar-tableid"),
+                        dataStatus = this.getAttribute("data-status");
+                    console.log('Data Status:', dataStatus);
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: "btn btn-success",
+                            cancelButton: "btn btn-danger",
+                        },
+                        buttonsStyling: false,
+                    });
+                    swalWithBootstrapButtons
+                        .fire({
+                            title: title,
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: okText,
+                            cancelButtonText: canceText,
+                            reverseButtons: true,
+                        })
+                        .then(async (result) => {
+                            if (result.isConfirmed) {
+                                try {
+                                    const formData = new FormData();
+                                    formData.append("manageType", "hide");
+                                    formData.append("idList[]", parseInt(questionId));
+                                    const res = await fetch(url, {
+                                        method: "POST",
+                                        body: formData,
+                                    });
+                                    const resData = await res.json();
+                                    $qar.showMessage(resData["status"], resData["message"]);
+                                    if (resData["status"] === "success") {
+                                        setTimeout(() => {
+                                            window.location.reload();
+                                        }, 1000);
+                                    }
+                                } catch (err) {
+                                    $qar.showMessage("error", err.message);
+                                }
+                            }
+                        });
+                });
+            });
+        }
+    }
+
+    const removeCustomModal = () => {
+        const modal = document.querySelector("#qar-custom-modal");
+        if (modal) {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+            modal.remove();
+        }
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) {
+            backdrop.remove();
+        }
+        document.querySelectorAll("script[data-modal]").forEach((script) => {
+            script.remove();
+        });
+    };
+
+    async function showCustomModalIframe(url, width) {
+        removeCustomModal();
+
+        const res = await fetch(url, { method: "GET" });
+        const resData = await res.text();
+        const qarModalNode = document.createElement("div");
+        qarModalNode.classList.add("modal");
+        qarModalNode.setAttribute("id", "qar-custom-modal");
+        qarModalNode.setAttribute("tabindex", "-1");
+        qarModalNode.innerHTML =
+            `<div class="modal-dialog"><div class="modal-content">` +
+            resData +
+            `</div></div>`;
+        if (width && !isNaN(width)) {
+            qarModalNode.querySelector("div.modal-dialog").style.width = width + "px";
+            qarModalNode.querySelector("div.modal-dialog").style.maxWidth =
+                width + "px";
+        }
+        $qar.qarModal = new bootstrap.Modal(qarModalNode, {
+            backdrop: true,
+            keyboard: true,
+            focus: true,
+        });
+        qarModalNode.addEventListener("shown.bs.modal", function (event) {
+            document
+                .querySelector("#qar-custom-modal")
+                .querySelectorAll("script")
+                .forEach((originalScript) => {
+                    const newScript = document.createElement("script");
+                    Array.from(originalScript.attributes).forEach((attr) => {
+                        newScript.setAttribute(attr.name, attr.value);
+                    });
+                    newScript.textContent = originalScript.textContent;
+                    document.body.appendChild(newScript);
+                    originalScript.parentNode.removeChild(originalScript);
+                });
+        });
+        qarModalNode.addEventListener("hidden.bs.modal", function (event) {
+            $qar.removeCustomModal();
+        });
+
+        $qar.qarModal.show();
+    };
+    function customModalIframe() {
+        const modalLinks = document.querySelectorAll('a[rel="custom-modal1"]');
+        modalLinks.forEach((a) => {
+            if (!a.hasAttribute('data-modal-bound')) {
+                a.addEventListener("click", handleModalClick);
+                a.setAttribute('data-modal-bound', 'true');
+            }
+        });
+        function handleModalClick(event) {
+            event.preventDefault();
+            const url = this.getAttribute("href") ? this.getAttribute("href") : "";
+            const width = this.getAttribute("data-width") ? this.getAttribute("data-width") : "";
+            showCustomModalIframe(url, width);
+        }
+    }
+
+
+</script>

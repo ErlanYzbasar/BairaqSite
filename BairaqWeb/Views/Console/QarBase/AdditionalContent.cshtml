@@ -1,0 +1,53 @@
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0);">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@Title</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-9 ">
+                <partial name="~/Views/Console/QarBase/AdditionalContentForm.cshtml" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let imgBackgroundImage = document.querySelector('img#backgroundImage'),
+                inputBackgroundImage = document.querySelector('input[name="backgroundImage"]');
+
+            if (imgBackgroundImage) {
+                imgBackgroundImage.addEventListener("click", function () {
+                    inputBackgroundImage.click();
+                });
+            }
+
+            if (inputBackgroundImage) {
+                inputBackgroundImage.addEventListener("change", function (event) {
+                    if (event.target.files && event.target.files[0]) {
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(event.target.files[0]);
+                        fileReader.addEventListener("load", function (event) {
+                            imgBackgroundImage.setAttribute('src', this.result);
+                        });
+                    } else {
+                        imgBackgroundImage.setAttribute('src', '/images/no_image.png');
+                    }
+                });
+            }
+        });
+    </script>
+}

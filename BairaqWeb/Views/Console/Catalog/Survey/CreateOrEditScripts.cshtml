@@ -1,0 +1,115 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.querySelector('#language')) {
+            const choices = new Choices(document.querySelector('#language'), {
+                placeholder: false,
+                allowHTML: false,
+                itemSelectText: '@T("ls_Pleaseselect")'
+            });
+        }
+        //let savedAnswers = JSON.parse(localStorage.getItem('answers')) || [];
+        const answerContainer = document.querySelector('#answerContainer');
+
+    @* function renderSavedInputs() {
+            container.innerHTML = '';
+            savedAnswers.forEach((value, index) => {
+            addInputField(index, value);
+            });
+            } *@
+
+
+    @* function saveAnswers() {
+            const answers = [];
+            container.querySelectorAll('input').forEach(input => {
+            answers.push(input.value);
+            });
+            localStorage.setItem('answers', JSON.stringify(answers));
+            } *@
+
+            function addInputField() {
+                const newInputGroup = answerContainer.querySelector('.answer-item').cloneNode(true);
+                newInputGroup.querySelector('input[name="content"]').value = "";
+                newInputGroup.querySelector('input[name="answerId"]').value = 0;
+                newInputGroup.querySelector('.anser-delete').classList.remove('disabled-button');
+                answerContainer.appendChild(newInputGroup);
+                setRemoveAnswerIconStatus();
+            }
+
+        function setRemoveAnswerIconStatus() {
+            if (answerContainer.querySelectorAll('.answer-item').length <= 1) {
+                answerContainer.querySelectorAll('.answer-item i.anser-delete').forEach(elem => {
+                    elem.classList.add('disabled-button');
+                });
+            } else {
+                answerContainer.querySelectorAll('.answer-item i.anser-delete').forEach(elem => {
+                    elem.classList.remove('disabled-button');
+                });
+            }
+        }
+        window.removeAnswer = function (event) {
+            var removeSpan = event.target.closest('span');
+            if (answerContainer.querySelectorAll('.answer-item').length > 1) {
+                removeSpan.closest('.answer-item').remove();
+            }
+            setRemoveAnswerIconStatus();
+        }
+
+        document.getElementById('answeradd').addEventListener('click', function (e) {
+            e.preventDefault();
+            addInputField();
+        });
+
+
+        const form = document.querySelector("form.answer-form");
+
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this),
+                url = form.getAttribute("action"),
+                answerItemArr = [],
+                button = form.querySelector('button[type="submit"]'),
+                answerinput = document.querySelectorAll('#answerContainer .answer-item');
+            answerinput.forEach(elem => {
+                const content = elem.querySelector('input[name="content"]').value;
+                const answerId = elem.querySelector('input[name="answerId"]').value;
+                answerItemArr.push({
+                    id: answerId,
+                    content: content
+                });
+            });
+
+            formData.append("answerItemJson", JSON.stringify(answerItemArr));
+            $qar.setBtnStatus(button, "loading");
+            try {
+                const res = await fetch(url, { method: "POST", body: formData });
+                const resData = await res.json();
+                if (resData["status"] === "success") {
+                    $qar.showMessage("success", resData["message"], 1500);
+                    if (resData["backUrl"]) {
+                        setTimeout(() => {
+                            window.location.href = resData["backUrl"];
+                        }, 1000);
+                    } else {
+                        $qar.showMessage("success", resData["message"]);
+                    }
+                } else {
+                    const input = form.querySelector('[name="' + resData["data"] + '"]');
+                    if (input) {
+                        $qar.showFormInputError(input, resData["message"]);
+                    } else {
+                        $qar.showMessage(resData["status"], resData["message"]);
+                    }
+                }
+            } catch (err) {
+                $qar.showMessage("error", err.message);
+            } finally {
+                $qar.setBtnStatus(button, "reset");
+                if (button) {
+                    $qar.setBtnStatus(button, "reset");
+                }
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,217 @@
+@{
+    var datetimePickerLanguage = (ViewData["datetimePickerLanguage"] ?? string.Empty) as string;
+}
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const form = document.querySelector("form.qar-form"),
+            categoryChoices = form.querySelector('#categoryId'),
+            //surveyChoices = form.querySelector('#surveyId'),
+            surveyCheckBox = form.querySelector('#checkbox_surveyCheckBox'),
+            choices = new Choices(categoryChoices, {
+                placeholder: false,
+                allowHTML: false,
+                itemSelectText: '@T("ls_Pleaseselect")'
+            }),
+
+
+            tagElem = form.querySelector('#tags'),
+            formGroupList = form.querySelectorAll(".card-body > .form-group"),
+            savePublishBtn = form.querySelector(".btn-save-publish");
+                @*choices2 = new Choices(surveyChoices, {
+                    placeholder: false,
+                    allowHTML: false,
+                    itemSelectText: '@T("ls_Pleaseselect")'
+                });*@
+
+        categoryChoices.addEventListener("choice", (ev) => {
+            if (ev.detail.choice.value === "53") { //Biography
+                form.setAttribute("action", "/@CurrentLanguage/@ControllerName/Biography");
+
+                if (savePublishBtn) {
+                    savePublishBtn.classList.add("d-none");
+                }
+
+                if (formGroupList && formGroupList.length > 0) {
+                    formGroupList.forEach(formGroup => {
+                        if (!formGroup.querySelector("#thumbnailUrl") &&
+                            !formGroup.querySelector("#thumbnailCopyright") &&
+                            !formGroup.querySelector("#title") &&
+                            !formGroup.querySelector("#categoryId")) {
+
+                            formGroup.classList.add("d-none");
+                        }
+
+                        if (formGroup.querySelector("#additionalFile")) {
+                            formGroup.classList.remove("d-none");
+                        }
+                    });
+                }
+            } else {
+                form.setAttribute("action", "/@CurrentLanguage/@ControllerName/@(ActionName)");
+
+                if (savePublishBtn) {
+                    savePublishBtn.classList.remove("d-none");
+                }
+
+                if (formGroupList && formGroupList.length > 0) {
+                    formGroupList.forEach(formGroup => {
+                        if (!formGroup.querySelector("#thumbnailUrl") &&
+                            !formGroup.querySelector("#thumbnailCopyright") &&
+                            !formGroup.querySelector("#title") &&
+                            !formGroup.querySelector("#categoryId")) {
+
+                            formGroup.classList.remove("d-none");
+                        }
+
+                        if (formGroup.querySelector("#additionalFile")) {
+                            formGroup.classList.add("d-none");
+                            formGroup.querySelector("#additionalFile").value = "";
+                        }
+
+                        if (formGroup.querySelector("#input-group-autopublish") && !form.querySelector("#checkbox_isAutoPublish").checked) {
+                            formGroup.classList.add("d-none");
+                        }
+                    });
+                }
+            }
+
+        });
+
+        const tagify = new Tagify(tagElem, {
+            maxTags: 5,
+            whitelist: [],
+            templates: {
+                tag: (tagData, tagify) => {
+                    return `<tag title="${(tagData.title || tagData.value)}" contenteditable='false' spellcheck='false' tabIndex="-1" class="${tagify.settings.classNames.tag} tagify__tag--primary" value="${(tagData.title || tagData.value)}" ${tagify.getAttributes(tagData)}>
+                            <x title='' class="${tagify.settings.classNames.tagX}" role='button' aria-label='remove tag'></x>
+                            <div>
+                                <span class="${tagify.settings.classNames.tagText}">${tagData[tagify.settings.tagTextProp] || tagData.value}</span>
+                            </div>
+                        </tag>`;
+                }
+            }
+        });
+
+        async function fetchTags(query) {
+            try {
+                const res = await fetch('/@CurrentLanguage/QarBase/GetTagList?keyWord=' + query, {
+                    method: "GET",
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const resData = await res.json();
+                if (resData.status === "success") {
+                    return resData.data;
+                } else {
+                    return [];
+                }
+            } catch (err) {
+                console.error("Error fetching tags:", err);
+                return [];
+            }
+        }
+
+        tagify.on('input', async function (e) {
+            const query = e.detail.value;
+            if (query.length >= 2) {
+                const tags = await fetchTags(query);
+                tagify.settings.whitelist = tags;
+                tagify.dropdown.show.call(tagify, query);
+            }
+        });
+
+        $.datetimepicker.setLocale('@datetimePickerLanguage');
+
+        $('#autoPublishTimeStr').datetimepicker({
+            format: 'd/m/Y H:i',
+            timepicker: true
+        });
+
+        $('button.btn-save-publish').on('click', function () {
+            const $form = $('form.qar-form'),
+                $inputPublishNow = $form.find('input[name="publishNow"]'),
+                $submitButton = $form.find('button[type="submit"]');
+            $inputPublishNow.val(1);
+            $submitButton.trigger('click');
+        });
+
+
+        const checkboxAutoPublish = form.querySelector("#checkbox_isAutoPublish");
+
+        if (checkboxAutoPublish) {
+            checkboxAutoPublish.addEventListener("change", (ev) => {
+                const formGroupAutoPublish = form.querySelector("#autoPublishTimeStr").closest(".form-group");
+
+                if (ev.target.checked) {
+                    formGroupAutoPublish.classList.remove("d-none");
+                    @* formGroupAutoPublish.scrollIntoView(); *@
+                } else {
+                    if (!formGroupAutoPublish.classList.contains("d-none")) {
+                        formGroupAutoPublish.classList.add("d-none");
+                    }
+                }
+            });
+        }
+
+
+        const image = document.querySelector("#image"),
+            additionalFile = document.querySelector("#additionalFile");
+
+        if (image && additionalFile) {
+            image.addEventListener("click", (e) => {
+                additionalFile.click();
+            });
+
+            additionalFile.addEventListener("change", function (e) {
+                const file = e.target.files[0],
+                    reader = new FileReader();
+
+                reader.addEventListener("load", function () {
+                    image.src = this.result;
+                });
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        if (surveyCheckBox) {
+            surveyCheckBox.addEventListener('change', () => {
+            console.log(surveyCheckBox);
+                var surveyListContainer = document.querySelector("#surveyListContainer");
+                if (surveyListContainer) {
+                    if (surveyCheckBox.checked) {
+                        surveyListContainer.classList.remove("d-none");
+                        surveyListContainer.classList.add("d-block");
+
+                        setTimeout(() => {
+                            surveyListContainer.classList.add('visible');
+                        }, 10);
+                    } else {
+                        surveyListContainer.classList.remove('visible');
+
+                        setTimeout(() => {
+                            surveyListContainer.classList.remove("d-block");
+                            surveyListContainer.classList.add("d-none");
+                        }, 500); 
+                    }
+                }
+            });
+        }
+
+
+
+
+        @* $('form.qar-form input[type="checkbox"][name="isAutoPublish"]').on('change', function (e) {
+            const $checkboxAutoPublish = $(this),
+            $form = $checkboxAutoPublish.closest('form'),
+            $inputAutoPublish = $form.find('input[type="text"][name="autoPublishTimeStr"]'),
+            $formGroupAutoPublish = $inputAutoPublish.closest(".form-group");
+
+            if ($checkboxAutoPublish.is(":checked")) {
+            $formGroupAutoPublish.slideDown();
+            } else {
+            $formGroupAutoPublish.slideUp();
+            }
+            }); *@
+    });
+</script>

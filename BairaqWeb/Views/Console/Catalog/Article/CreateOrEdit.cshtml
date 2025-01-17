@@ -1,0 +1,240 @@
+@{
+    var article = QarModel<Article>("article");
+    var category = QarModel<Articlecategory>("category");
+    var surveyList = QarList<QuestionModel>("surveyList");
+    var tagList = (ViewData["tagList"] ?? new List<string>()) as List<string>;
+    var canSchedule = Convert.ToBoolean(ViewData["canSchedule"] ?? false);
+    var canFocus = Convert.ToBoolean(ViewData["canFocus"] ?? false);
+
+    var isBiography = !string.IsNullOrWhiteSpace(article?.FocusAdditionalFile);
+}
+<section class="pc-container">
+    <div class="pc-content">
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">@T("ls_Catalog")</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">@ViewData["title"]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <form class="card qar-form"
+                      action="@(isBiography ? $"/{CurrentLanguage}/{ControllerName}/Biography" : $"/{CurrentLanguage}/{ControllerName}/{ActionName}")"
+                      method="post" enctype="multipart/form-data">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <h5>@ViewData["title"]</h5>
+                            </div>
+                            @if (article?.Id > 0 && CanCreate)
+                            {
+                                <div class="col-8">
+                                    <div class="d-flex flex-wrap gap-2 justify-content-end">
+                                        <a href="/@CurrentLanguage/@ControllerName.ToLower()/@ActionName.ToLower()/create"
+                                           class="btn btn-outline-primary d-inline-flex">
+                                            <i class="fa-duotone fa-circle-plus me-1"></i> @T("ls_Create")
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="id" value="@article?.Id"/>
+                        <input type="hidden" name="publishNow" value="0"/>
+
+                        @if (article != null)
+                        {
+                            var articleUrl = $"{SiteUrl}/{category?.Language}/article/{article?.LatynUrl}";
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="alert alert-primary" role="alert">
+                                        <a href="@articleUrl" class="alert-link">@articleUrl</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label class="form-label" for="categoryId">
+                                @T("ls_Articlecategory")<span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" data-trigger name="categoryId" id="categoryId">
+                                @if (article != null && CategoryList.Exists(x => x.Id == article.CategoryId))
+                                {
+                                    @foreach (var item in CategoryList)
+                                    {
+                                        if (article.CategoryId == item.Id)
+                                        {
+                                            <option value="@item.Id" selected>@item.Title</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="0">@T("ls_Pstc")</option>
+                                    foreach (var item in CategoryList)
+                                    {
+                                        <option value="@item.Id">@item.Title</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="thumbnailUrl">
+                                @T("ls_Thumbnail")<span class="text-danger">*</span>
+                            </label>
+                            <div>
+                                <input type="hidden" id="thumbnailUrl" name="thumbnailUrl"
+                                       value="@article?.ThumbnailUrl"/>
+                                <a href="/@CurrentLanguage/Modal/UploadArticleThumbnail?ratio=16/9" rel="custom-modal"
+                                   class="d-inline-block">
+                                    <img class="d-block" id="thumbnailImage" style="width: 160px;height:90px"
+                                         src="@(string.IsNullOrEmpty(article?.ThumbnailUrl) ? $"/{CurrentLanguage}/QarBase/GenerateRatioImage?w=160&h=90" : article?.ThumbnailUrl)"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="thumbnailCopyright">
+                                @T("ls_Imagecopyright")<span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="thumbnailCopyright" name="thumbnailCopyright"
+                                   value="@article?.ThumbnailCopyright">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="title">
+                                @T("ls_Title")<span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" value="@article?.Title">
+                        </div>
+
+                        @* Biography *@
+                        <div class="form-group @(isBiography ? "" : "d-none")">
+                            <label class="form-label" for="additionalFile">
+                                @T("ls_Photo")<span class="text-danger">*</span>
+                            </label>
+                            <input class="d-none" type="file" accept="image/*" name="additionalFile"
+                                   id="additionalFile">
+                            <div>
+                                <a href="javascript: void(0)" class="d-inline-block">
+                                    <img class="d-block mh-150" id="image" src="@(string.IsNullOrEmpty(article?.FocusAdditionalFile) ? $"/{CurrentLanguage}/QarBase/GenerateRatioImage?w=160&h=90" : article?.FocusAdditionalFile)"/>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group @(isBiography ? "d-none" : "")">
+                            <label class="form-label" for="shortDescription">@T("ls_Shortdescription")</label>
+                            <textarea class="form-control" name="shortDescription" id="shortDescription"
+                                rows="3">@article?.ShortDescription</textarea>
+                        </div>
+                        <div class="form-group @(isBiography ? "d-none" : "")">
+                            <label class="form-label" for="fullDescription">@T("ls_Fulldescription")</label>
+                            <textarea class="form-control tinymce-editor" name="fullDescription" id="fullDescription"
+                                rows="10">@article?.FullDescription</textarea>
+                        </div>
+                        <div class="form-group @(isBiography ? "d-none" : "")">
+                            <label class="form-label" for="tags">
+                                @T("ls_Tags")<small>(@T("ls_Stwc"))</small><span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="tags" name="tags"
+                                   value="@string.Join(",", tagList)">
+                        </div>
+                        <div class="form-group @(isBiography ? "d-none" : "")">
+                            <fieldset class="additional-options">
+                                <legend>
+                                    @T("ls_Additionaloptions")
+                                </legend>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="1" name="isPinned"
+                                               id="checkbox_isPinned" @(article != null && article.IsPinned == 1 ? "checked" : "")>
+                                        <label class="form-check-label" for="checkbox_isPinned">
+                                            @T("ls_Pinnedarticle")
+                                        </label>
+                                    </div>
+                                    @if (canFocus)
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="isFocusNews" value="1"
+                                                   id="checkbox_isFocusNews" @(article != null && article.IsFocusNews == 1 ? "checked" : "")>
+                                            <label class="form-check-label" for="checkbox_isFocusNews">
+                                                @T("ls_Focusnews")
+                                            </label>
+                                        </div>
+                                    }
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="surveyCheckBox" value="1"
+                                               id="checkbox_surveyCheckBox" @(article != null && article.SurveyId != 0 ? "checked" : "")>
+                                        <label class="form-check-label" for="checkbox_surveyCheckBox">
+                                            @T("ls_Surveys")
+                                        </label>
+                                    </div>
+                                    @* <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="isFeatured" value="1"
+                                    id="checkbox_isFeatured" @(article != null && article.IsFeatured == 1 ? "checked" :
+                                    "")>
+                                    <label class="form-check-label" for="checkbox_isFeatured"> @T("ls_Featuredarticle")
+                                    </label>
+                                    </div> *@
+                                    @{
+                                        var autoPublish = (article != null && article.QStatus == 2 &&
+                                                           article.AutoPublishTime > 0);
+                                    }
+                                    @if (canSchedule)
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="isAutoPublish" value="1"
+                                                   id="checkbox_isAutoPublish" @(autoPublish ? "checked" : "")>
+                                            <label class="form-check-label" for="checkbox_isAutoPublish">
+                                                @T("ls_Scheduledposts")
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="form-group@(!isBiography && article?.AutoPublishTime > 0 ? "" : " d-none")">
+                            <label class="form-label" for="autoPublishTimeStr">
+                                @T("ls_Settime")<span class="text-danger">*</span>
+                            </label>
+                            <div>
+                                <div class="input-group date" id="input-group-autopublish">
+                                    @{
+                                        var autoPublishTime = (article?.AutoPublishTime > 0
+                                            ? UnixTimeHelper.UnixTimeToDateTime(article.AutoPublishTime)
+                                            : DateTime.Now).ToString("dd/MM/yyyy HH:mm");
+                                    }
+
+                                    <input type="text" class="form-control" id="autoPublishTimeStr"
+                                           name="autoPublishTimeStr" value="@autoPublishTime">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-primary" data-loading-text="@T("ls_Loading") ...">
+                            <i class="fa-duotone fa-floppy-disk"></i> @T("ls_Save")
+                        </button>
+                        <button type="button" class="btn btn-info btn-save-publish @(isBiography ? "d-none" : "")"
+                                data-loading-text="@T("ls_Loading") ...">
+                            <i class="fa-duotone fa-shield-check"></i> @T("ls_Publish")
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

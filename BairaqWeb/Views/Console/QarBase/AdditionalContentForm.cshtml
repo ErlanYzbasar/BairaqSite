@@ -1,0 +1,187 @@
+@{
+    var showFieldList = (ViewData["showFieldList"] ?? new List<string>()) as List<string>;
+    var additionalContent = ViewData["additionalcontent"] != null ? ViewData["additionalcontent"] as Additionalcontent :
+    null;
+}
+<form action="/@CurrentLanguage/QarBase/AdditionalContent" method="post" class="card qar-form"
+    enctype="multipart/form-data" id="additional-content">
+    <div class="card-header">
+        <h5>@Title</h5>
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="id" value="@additionalContent?.Id" />
+        <input type="hidden" name="showFields" value="@string.Join(",", showFieldList)" />
+        @if (showFieldList.Contains(nameof(Additionalcontent.BackgroundImageUrl)))
+        {
+            <div class="form-group">
+                <label class="form-label" for="title">
+                    @T("ls_Backgroundimage")<span class="text-danger">*</span>
+                </label>
+                <input type="file" name="backgroundImage" hidden accept="image/*" />
+                <input type="hidden" name="backgroundImageUrl" value="@additionalContent?.BackgroundImageUrl" />
+                <img class="d-block" id="backgroundImage" style="max-width: 200px;"
+                    src="@(string.IsNullOrEmpty(additionalContent?.BackgroundImageUrl) ? $"/{CurrentLanguage}/QarBase/GenerateRatioImage?w=160&h=90" : additionalContent?.BackgroundImageUrl)" />
+            </div>
+        }
+        @if (LanguageList.Count(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1) > 1)
+        {
+            <ul class="nav nav-tabs mb-3" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="nav-language-default-tab" data-bs-toggle="tab"
+                        href="#nav-language-default" role="tab" aria-selected="true">@T("ls_Default")</a>
+                </li>
+                @foreach (var item in LanguageList.Where(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1).ToList())
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-language-@item.LanguageCulture-tab"
+                            href="#nav-language-@item.LanguageCulture" data-bs-toggle="tab" role="tab"
+                            aria-selected="false">@item.FullName</a>
+                    </li>
+                }
+            </ul>
+        }
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane show active" id="nav-language-default" role="tabpanel"
+                aria-labelledby="nav-language-default-tab">
+                @if (showFieldList.Contains(nameof(Additionalcontent.Title)))
+                {
+                    <div class="form-group">
+                        <label class="form-label" for="title">
+                            @T("ls_Title")<span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" @(CanEdit ? "" : "readonly") id="title" name="title"
+                            value="@additionalContent?.Title">
+                    </div>
+                }
+                @if (showFieldList.Contains(nameof(Additionalcontent.ShortDescription)))
+                {
+                    <div class="form-group">
+                        <label class="form-label" for="shortDescription">
+                            @T("ls_Shortdescription")<span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" name="shortDescription" @(CanEdit ? "" : "readonly")
+                            id="shortDescription" rows="3">@additionalContent?.ShortDescription</textarea>
+                    </div>
+                }
+                @if (showFieldList.Contains(nameof(Additionalcontent.FullDescription)))
+                {
+                    <div class="form-group">
+                        <label class="form-label" for="fullDescription">@T("ls_Fulldescription")</label>
+                        <textarea class="form-control tinymce-editor" name="fullDescription" id="fullDescription"
+                            rows="10">@additionalContent?.FullDescription</textarea>
+                    </div>
+                }
+            </div>
+            @foreach (var item in LanguageList.Where(x => x.FrontendDisplay == 1).ToList())
+            {
+                <div class="tab-pane" id="nav-language-@item.LanguageCulture" role="tabpanel"
+                    aria-labelledby="nav-language-@item.LanguageCulture-tab">
+                    @if (showFieldList.Contains(nameof(Additionalcontent.Title)))
+                    {
+                        var title = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("title",
+                        StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture,
+                        StringComparison.OrdinalIgnoreCase))?.ColumnValue;
+                        <div class="form-group">
+                            <label class="form-label" for="title_@item.LanguageCulture">@T("ls_Title")</label>
+                            <input type="text" name="title_@item.LanguageCulture" @(CanEdit ? "" : "readonly")
+                                data-multilanguage="input" class="form-control" id="title_@item.LanguageCulture" value="@title">
+                        </div>
+                    }
+                    @if (showFieldList.Contains(nameof(Additionalcontent.ShortDescription)))
+                    {
+                        var shortDescription = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("shortDescription",
+                        StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture,
+                        StringComparison.OrdinalIgnoreCase))?.ColumnValue;
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="shortDescription_@item.LanguageCulture">@T("ls_Shortdescription")</label>
+                            <textarea class="form-control" data-multilanguage="textarea" @(CanEdit ? "" : "readonly")
+                                name="shortDescription_@item.LanguageCulture" id="shortDescription_@item.LanguageCulture"
+                                rows="2">@shortDescription</textarea>
+                        </div>
+                    }
+                    @if (showFieldList.Contains(nameof(Additionalcontent.FullDescription)))
+                    {
+                        var fullDescription = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("fullDescription",
+                        StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture,
+                        StringComparison.OrdinalIgnoreCase))?.ColumnValue;
+                        <div class="form-group">
+                            <label class="form-label"
+                                for="fullDescription_@item.LanguageCulture">@T("ls_Fulldescription")</label>
+                            <textarea class="form-control tinymce-editor" data-multilanguage="textarea" @(CanEdit ? "" :
+                        "readonly") name="fullDescription_@item.LanguageCulture"
+                                id="fullDescription_@item.LanguageCulture" rows="10">@fullDescription</textarea>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        @if (showFieldList.Contains(nameof(Additionalcontent.AddtionalInfo1)))
+        {
+            <div class="form-group">
+                <label class="form-label" for="addtionalInfo1">
+                    @T("ls_Yearsofexperience")<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="addtionalInfo1" @(CanEdit ? "" : "readonly")
+                    name="addtionalInfo1" value="@additionalContent?.AddtionalInfo1">
+            </div>
+        }
+
+        @if (showFieldList.Contains(nameof(Additionalcontent.AddtionalInfo2)))
+        {
+            <div class="form-group">
+                <label class="form-label" for="addtionalInfo2">
+                    @T("ls_Projectscompleted")<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="addtionalInfo2" @(CanEdit ? "" : "readonly")
+                    name="addtionalInfo2" value="@additionalContent?.AddtionalInfo2">
+            </div>
+        }
+
+        @if (showFieldList.Contains(nameof(Additionalcontent.AddtionalInfo3)))
+        {
+            <div class="form-group">
+                <label class="form-label" for="addtionalInfo3">
+                    @T("ls_Ourexperts")<span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="addtionalInfo3" @(CanEdit ? "" : "readonly")
+                    name="addtionalInfo3" value="@additionalContent?.AddtionalInfo3">
+            </div>
+        }
+    </div>
+    @if (CanEdit)
+    {
+        <div class="card-footer text-end">
+            <button type="reset" class="btn btn-outline-secondary">
+                <i class="fa-duotone fa-rotate-right me-1"></i> @T("ls_Reset")
+            </button>
+            <button type="submit" class="btn btn-primary me-2" data-loading-text="@T("ls_Loading") ...">
+                <i class="fa-duotone fa-floppy-disk me-1"></i> @T("ls_Save")
+            </button>
+        </div>
+    }
+</form>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let imgBackgroundImage = document.querySelector('img#backgroundImage'),
+                inputBackgroundImage = document.querySelector('input[name="backgroundImage"]');
+            imgBackgroundImage.addEventListener("click", function () {
+                inputBackgroundImage.click();
+            });
+            inputBackgroundImage.addEventListener("change", function (event) {
+                if (event.target.files && event.target.files[0]) {
+                    const fileReader = new FileReader();
+                    fileReader.readAsDataURL(event.target.files[0]);
+                    fileReader.addEventListener("load", function (event) {
+                        imgBackgroundImage.setAttribute('src', this.result);
+                    });
+                } else {
+                    imgBackgroundImage.setAttribute('src', '/images/no_image.png');
+                }
+            });
+        });
+    </script>
+}
