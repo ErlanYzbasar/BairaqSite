@@ -61,12 +61,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d56bb330-bacf-4b7b-b939-d348a5686f38" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Caches/QarCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Caches/QarCache.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Footer.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Footer.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COMMON/HtmlAgilityPackHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/COMMON/HtmlAgilityPackHelper.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +129,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1737108725504</updated>
-      <workItem from="1737108726859" duration="3182000" />
+      <workItem from="1737108726859" duration="4258000" />
     </task>
     <servers />
   </component>

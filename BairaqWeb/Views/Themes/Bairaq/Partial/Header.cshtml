@@ -82,19 +82,40 @@
     <div class="navbar-bg">
         <div class="container">
             <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                <div class="container-fluid gap-2 gap-md-0">
+                    <a href="/kz" class="logo mobile-logo d-md-none">
+                        <img src="@SiteSetting.LightLogo" alt="">
+                    </a>
+                    <ul class="language mobile d-flex align-items-center d-md-none">
+                        @foreach (var language in LanguageList.Where(x => x.FrontendDisplay == 1))
+                        {
+                            <li>
+                                <a href="/@language.LanguageCulture.ToLower()" class="@(language.LanguageCulture.Equals(CurrentLanguage, StringComparison.OrdinalIgnoreCase) ? "active" : "")">@language.ShortName</a>
+                            </li>
+                        }
+                    </ul>
+                    
+                    <button class="navbar-toggler p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12H21M3 6H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto m-0">
-                            @foreach (var category in categoryList.Take(5))
+                        <ul class="navbar-nav me-auto m-0 d-md-none mt-4">
+                            @foreach (var category in categoryList)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link@(categoryId == category.Id ? " active" : "")" aria-current="page" href="/@CurrentLanguage/category/@(category.LatynUrl).html">@category.Title</a>
                                 </li>
+                            }
+                        </ul>
+
+                        <ul class="navbar-nav me-auto m-0 d-none d-md-flex">
+                            @foreach (var category in categoryList.Take(5))
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link@(categoryId == category.Id ? " active" : "")" aria-current="page" href="/@CurrentLanguage/category/@(category.LatynUrl).html">@category.Title</a>
+                            </li>
                             }
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -104,9 +125,9 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     @foreach (var category in categoryList.Skip(5))
                                     {
-                                        <li>
-                                            <a class="dropdown-item@(categoryId == category.Id ? " active" : "")" href="/@CurrentLanguage/category/@(category.LatynUrl).html">@category.Title</a>
-                                        </li>
+                                    <li>
+                                        <a class="dropdown-item@(categoryId == category.Id ? " active" : "")" href="/@CurrentLanguage/category/@(category.LatynUrl).html">@category.Title</a>
+                                    </li>
                                     }
                                 </ul>
                             </li>

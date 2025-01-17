@@ -47,7 +47,7 @@
                     </li>
                 }
             </ul>
-            <div class="most-read">
+            <div class="most-read d-none d-md-block">
                 <h5 class="most-title">@T("ls_Mostviewed")</h5>
                 <ul class="most-article-list">
                     @foreach (var article in topArticleList)
@@ -72,6 +72,30 @@
             </div>
         </div>
         <nav id="pagination" class="pagination"></nav>
+
+        <div class="most-read d-md-none">
+            <h5 class="most-title">@T("ls_Mostviewed")</h5>
+            <ul class="most-article-list">
+                @foreach (var article in topArticleList)
+                {
+                <li>
+                    <a href="">
+                        <h6 class="title">@article.Title</h6>
+                        <p class="date-time count">
+                            <span class="date">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</span>
+                            <span class="view-count">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="10" viewBox="0 0 15 10" fill="none">
+                                            <path d="M14.0138 4.90085C13.8878 4.7285 10.8858 0.680664 7.05165 0.680664C3.21752 0.680664 0.215353 4.7285 0.0894964 4.90069C-0.0298321 5.0642 -0.0298321 5.28597 0.0894964 5.44948C0.215353 5.62184 3.21752 9.66967 7.05165 9.66967C10.8858 9.66967 13.8878 5.62181 14.0138 5.44962C14.1333 5.28614 14.1333 5.0642 14.0138 4.90085ZM7.05165 8.73978C4.2274 8.73978 1.78131 6.05315 1.05721 5.17485C1.78037 4.29578 4.22134 1.61056 7.05165 1.61056C9.87576 1.61056 12.3217 4.29672 13.0461 5.17548C12.3229 6.05453 9.88196 8.73978 7.05165 8.73978Z" fill="#C0C0C0"/>
+                                            <path d="M7.04975 2.83398C5.63469 2.83398 4.4834 3.98527 4.4834 5.40033C4.4834 6.81539 5.63469 7.96668 7.04975 7.96668C8.4648 7.96668 9.61609 6.81539 9.61609 5.40033C9.61609 3.98527 8.4648 2.83398 7.04975 2.83398ZM7.04975 7.11121C6.10632 7.11121 5.33886 6.34373 5.33886 5.40033C5.33886 4.45693 6.10635 3.68945 7.04975 3.68945C7.99314 3.68945 8.76063 4.45693 8.76063 5.40033C8.76063 6.34373 7.99317 7.11121 7.04975 7.11121Z" fill="#C0C0C0"/>
+                                        </svg>
+                                @article.ViewCount
+                                    </span>
+                        </p>
+                    </a>
+                </li>
+                }
+            </ul>
+        </div>
     </div>
 </main>
 
