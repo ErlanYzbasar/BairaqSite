@@ -1,6 +1,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-       
+
 
         const navTd = document.querySelector('[data-table="@nameof(Navigation)"]'),
             navChkArr = navTd.querySelectorAll('input[type="checkbox"]');
@@ -86,7 +86,7 @@
                         checkParentByMangeType(id, manageType, checked);
                     } break;
                 }
-             
+
             }
         }));
 
@@ -108,4 +108,4 @@
             elem.dispatchEvent(new Event('change'));
         });
     });
-    </script>
+</script>

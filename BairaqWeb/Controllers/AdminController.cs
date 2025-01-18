@@ -303,7 +303,6 @@ public class AdminController : QarBaseController
     #endregion
 
     #region Role +Role(string query)
-
     public IActionResult Role(string query)
     {
         query = (query ?? string.Empty).Trim().ToLower();
@@ -313,13 +312,11 @@ public class AdminController : QarBaseController
         {
             case "create":
                 {
-                    using (var connection = Utilities.GetOpenConnection())
+                    using (var _connection = Utilities.GetOpenConnection())
                     {
-                        ViewData["permissionGroupList"] = connection.GetList<Permission>("where qStatus = 0")
-                            .GroupBy(x => x.TableName).ToList();
+                        ViewData["permissionGroupList"] = _connection.GetList<Permission>("where qStatus = 0").GroupBy(x => x.TableName).ToList();
                         ViewData["allNavigationList"] = QarCache.GetNavigationList(_memoryCache);
                     }
-
                     return View($"~/Views/Console/{ControllerName}/{ActionName}/CreateOrEdit.cshtml");
                 }
             case "edit":
@@ -327,23 +324,17 @@ public class AdminController : QarBaseController
                     var roleId = GetIntQueryParam("id", 0);
                     if (roleId <= 0)
                         return Redirect($"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/list");
-                    using (var connection = Utilities.GetOpenConnection())
+                    using (var _connection = Utilities.GetOpenConnection())
                     {
-                        var role = connection.GetList<Role>("where qStatus = 0 and id = @roleId ", new { roleId })
-                            .FirstOrDefault();
+                        var role = _connection.GetList<Role>("where qStatus = 0 and id = @roleId ", new { roleId }).FirstOrDefault();
                         if (role == null)
                             return Redirect($"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/list");
                         ViewData["role"] = role;
-                        ViewData["multiLanguageList"] =
-                            GetMultilanguageList(connection, nameof(Role), new List<int> { role.Id });
-                        ViewData["permissionGroupList"] = connection.GetList<Permission>("where qStatus = 0")
-                            .GroupBy(x => x.TableName).ToList();
+                        ViewData["multiLanguageList"] = GetMultilanguageList(_connection, nameof(Role), new List<int> { role.Id });
+                        ViewData["permissionGroupList"] = _connection.GetList<Permission>("where qStatus = 0").GroupBy(x => x.TableName).ToList();
                         ViewData["allNavigationList"] = QarCache.GetNavigationList(_memoryCache);
-                        ViewData["rolePermissionList"] = connection
-                            .GetList<Rolepermission>("where qStatus = 0 and roleId = @roleId", new { roleId = role.Id })
-                            .ToList();
+                        ViewData["rolePermissionList"] = _connection.GetList<Rolepermission>("where qStatus = 0 and roleId = @roleId", new { roleId = role.Id }).ToList();
                     }
-
                     return View($"~/Views/Console/{ControllerName}/{ActionName}/CreateOrEdit.cshtml");
                 }
             case "list":
@@ -356,16 +347,15 @@ public class AdminController : QarBaseController
                 }
         }
     }
-
     #endregion
 
     #region Role +Role(Role item, string multiLanguageJson,string permissionJson)
-
     [HttpPost]
     public IActionResult Role(Role item, string multiLanguageJson, string permissionJson)
     {
+
         if (string.IsNullOrEmpty(item.Name))
-            return MessageHelper.RedirectAjax(T("ls_Tfir"), "error", "", "name");
+            return MessageHelper.RedirectAjax(T("ls_Thisfieldisrequired"), "error", "", "name");
 
 
         List<Multilanguage> multiLanguageList = null;
@@ -376,7 +366,7 @@ public class AdminController : QarBaseController
         catch (Exception ex)
         {
             Log.Error(ex, ActionName);
-            return MessageHelper.RedirectAjax(T("ls_Edjd"), "error", "", "multiLanguageJson");
+            return MessageHelper.RedirectAjax(T("ls_ErrordecodingJSONdata"), "error", "", "multiLanguageJson");
         }
 
         List<Rolepermission> rolePermissionList = null;
@@ -387,17 +377,17 @@ public class AdminController : QarBaseController
         catch (Exception ex)
         {
             Log.Error(ex, ActionName);
-            return MessageHelper.RedirectAjax(T("ls_Edjd"), "error", "", "");
+            return MessageHelper.RedirectAjax(T("ls_ErrordecodingJSONdata"), "error", "", "");
         }
 
         item.Description ??= string.Empty;
-        var currentTime = UnixTimeHelper.GetCurrentUnixTime();
+        var currentTime = UnixTimeHelper.ConvertToUnixTime(DateTime.Now);
         int? res = 0;
-        using (var connection = Utilities.GetOpenConnection())
+        using (var _connection = Utilities.GetOpenConnection())
         {
             if (item.Id == 0)
             {
-                res = connection.Insert(new Role
+                res = _connection.Insert(new Role
                 {
                     Name = item.Name,
                     Description = item.Description,
@@ -407,49 +397,47 @@ public class AdminController : QarBaseController
                 });
                 if (res > 0)
                 {
-                    SaveRolePermissionList(connection, res ?? 0, rolePermissionList);
-                    SaveMultilanguageList(connection, multiLanguageList, nameof(Role), res ?? 0);
+                    SaveRolePermissionList(_connection, res ?? 0, rolePermissionList);
+                    SaveMultilanguageList(_connection, multiLanguageList, nameof(Role), res ?? 0);
                     QarCache.ClearCache(_memoryCache, nameof(QarCache.GetRoleList));
                     QarCache.ClearCache(_memoryCache, nameof(QarCache.GetRolePermissionList));
                     QarCache.ClearCache(_memoryCache, $"{nameof(QarCache.GetNavigationIdListByRoleId)}_{res ?? 0}");
-                    return MessageHelper.RedirectAjax(T("ls_Addedsuccessfully"), "success",
-                        $"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/edit?id={res}", "");
+                    return MessageHelper.RedirectAjax(T("ls_Addedsuccessfully"), "success", $"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/edit?id={res}", "");
                 }
             }
             else
             {
-                var role = connection.GetList<Role>("where qStatus = 0 and id = @id", new { id = item.Id })
-                    .FirstOrDefault();
+                var role = _connection.GetList<Role>("where qStatus = 0 and id = @id", new { id = item.Id }).FirstOrDefault();
                 if (role == null)
-                    return MessageHelper.RedirectAjax(T("ls_Idoiiw"), "error", "", "");
+                    return MessageHelper.RedirectAjax(T("ls_Isdeletedoridiswrong"), "error", "", "");
                 role.Name = item.Name;
                 role.Description = item.Description;
                 role.UpdateTime = currentTime;
-                res = connection.Update(role);
+                res = _connection.Update(role);
                 if (res > 0)
                 {
-                    SaveRolePermissionList(connection, role.Id, rolePermissionList);
-                    SaveMultilanguageList(connection, multiLanguageList, nameof(Role), role.Id);
+                    SaveRolePermissionList(_connection, role.Id, rolePermissionList);
+                    SaveMultilanguageList(_connection, multiLanguageList, nameof(Role), role.Id);
                     QarCache.ClearCache(_memoryCache, nameof(QarCache.GetRoleList));
                     QarCache.ClearCache(_memoryCache, nameof(QarCache.GetRolePermissionList));
                     QarCache.ClearCache(_memoryCache, $"{nameof(QarCache.GetNavigationIdListByRoleId)}_{role.Id}");
-                    var adminRoleIdList = connection.Query<int>(
-                        "select adminId from adminrole where qStatus = 0 and roleId = @roleId",
-                        new { roleId = role.Id });
-                    var adminList =
-                        connection.GetList<Admin>($"where qStatus = 0 and id in ({string.Join(",", adminRoleIdList)})");
+                    var adminRoleIdList = _connection.Query<int>("select adminId from adminrole where qStatus = 0 and roleId = @roleId", new { roleId = role.Id });
+                    var adminList = _connection.GetList<Admin>($"where qStatus = 0 and id in ({string.Join(",", adminRoleIdList)})");
                     if (adminList != null)
+                    {
                         foreach (var admin in adminList)
+                        {
                             QarSingleton.GetInstance().AddReLoginAdmin(admin.Id, admin.UpdateTime);
-                    return MessageHelper.RedirectAjax(T("ls_Updatesuccessfully"), "success",
-                        $"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/edit?id={role.Id}", "");
+                        }
+                    }
+                    return MessageHelper.RedirectAjax(T("ls_Updatesuccessfully"), "success", $"/{CurrentLanguage}/{ControllerName.ToLower()}/{ActionName.ToLower()}/edit?id={role.Id}", "");
                 }
             }
+
         }
-
         return MessageHelper.RedirectAjax(T("ls_Savefailed"), "error", "", "");
-    }
 
+    }
     #endregion
 
     #region Get role list +GetRoleList(APIUnifiedModel model)

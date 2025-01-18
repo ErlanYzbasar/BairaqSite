@@ -61,10 +61,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d56bb330-bacf-4b7b-b939-d348a5686f38" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqSite.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqSite.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Console/Admin/Role/CreateOrEdit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Console/Admin/Role/CreateOrEdit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Console/Admin/Role/CreateOrEditScripts.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Console/Admin/Role/CreateOrEditScripts.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,6 +129,8 @@
       <option name="presentableId" value="Default" />
       <updated>1737108725504</updated>
       <workItem from="1737108726859" duration="6601000" />
+      <workItem from="1737115706065" duration="4482000" />
+      <workItem from="1737200748822" duration="17000" />
     </task>
     <servers />
   </component>
@@ -140,5 +142,19 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml</url>
+          <line>111</line>
+          <properties isMultiMethodBreakpoint="true">
+            <option name="multiMethodBreakpoint" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

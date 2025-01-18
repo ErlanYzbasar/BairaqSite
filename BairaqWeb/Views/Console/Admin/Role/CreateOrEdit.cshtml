@@ -1,9 +1,9 @@
 @{
-    var role = QarModel<Role>("role");
-    var permissionGroupList = (ViewData["permissionGroupList"] ?? new List<IGrouping<string, Permission>>()) as List<IGrouping<string, Permission>>;
-    var allNavigationList = QarList<Navigation>("allNavigationList");
-    var rolePermissionList = QarList<Rolepermission>("rolePermissionList");
-    var isChecked = false;
+var role = QarModel<Role>("role");
+var permissionGroupList = (ViewData["permissionGroupList"] ?? new List<IGrouping<string, Permission>>()) as List<IGrouping<string, Permission>>;
+var allNavigationList = QarList<Navigation>("allNavigationList");
+var rolePermissionList = QarList<Rolepermission>("rolePermissionList");
+bool isChecked;
 }
 <section class="pc-container">
     <div class="pc-content">
@@ -38,12 +38,12 @@
                             </li>
                             @if (LanguageList.Count(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1) > 1)
                             {
-                                foreach (var item in LanguageList.Where(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1).ToList())
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="nav-language-@item.LanguageCulture-tab" href="#nav-language-@item.LanguageCulture" data-bs-toggle="tab" role="tab" aria-selected="false">@item.FullName</a>
-                                    </li>
-                                }
+                            foreach (var item in LanguageList.Where(x => x.IsSubLanguage == 0 && x.FrontendDisplay == 1).ToList())
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link" id="nav-language-@item.LanguageCulture-tab" href="#nav-language-@item.LanguageCulture" data-bs-toggle="tab" role="tab" aria-selected="false">@item.FullName</a>
+                            </li>
+                            }
                             }
                         </ul>
                         <div class="tab-content" id="nav-tabContent">
@@ -59,18 +59,18 @@
                             </div>
                             @foreach (var item in LanguageList.Where(x => x.FrontendDisplay == 1).ToList())
                             {
-                                var name = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("name", StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture, StringComparison.OrdinalIgnoreCase))?.ColumnValue;
-                                var description = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("description", StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture, StringComparison.OrdinalIgnoreCase))?.ColumnValue;
-                                <div class="tab-pane" id="nav-language-@item.LanguageCulture" role="tabpanel" aria-labelledby="nav-language-@item.LanguageCulture-tab">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name_@item.LanguageCulture">@T("ls_Name")</label>
-                                        <input type="text" name="name_@item.LanguageCulture" data-multilanguage="input" class="form-control" id="name_@item.LanguageCulture" value="@name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="description_@item.LanguageCulture">@T("ls_Description")</label>
-                                        <textarea class="form-control" data-multilanguage="textarea" name="description_@item.LanguageCulture" id="description_@item.LanguageCulture" rows="2">@description</textarea>
-                                    </div>
+                            var name = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("name", StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture, StringComparison.OrdinalIgnoreCase))?.ColumnValue;
+                            var description = MultiLanguageList.FirstOrDefault(x => x.ColumnName.Equals("description", StringComparison.OrdinalIgnoreCase) && x.Language.Equals(item.LanguageCulture, StringComparison.OrdinalIgnoreCase))?.ColumnValue;
+                            <div class="tab-pane" id="nav-language-@item.LanguageCulture" role="tabpanel" aria-labelledby="nav-language-@item.LanguageCulture-tab">
+                                <div class="form-group">
+                                    <label class="form-label" for="name_@item.LanguageCulture">@T("ls_Name")</label>
+                                    <input type="text" name="name_@item.LanguageCulture" data-multilanguage="input" class="form-control" id="name_@item.LanguageCulture" value="@name">
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="description_@item.LanguageCulture">@T("ls_Description")</label>
+                                    <textarea class="form-control" data-multilanguage="textarea" name="description_@item.LanguageCulture" id="description_@item.LanguageCulture" rows="2">@description</textarea>
+                                </div>
+                            </div>
                             }
                         </div>
                         <div class="form-group">
@@ -78,104 +78,104 @@
                             <table class="table table-bordered" id="table-permission">
                                 @foreach (var item in permissionGroupList)
                                 {
-                                    <tr class="table-primary">
-                                        <td>
-                                            @switch (item.Key)
-                                            {
-                                                case nameof(Navigation):
-                                                    {
-                                                        <text>
-                                                            @T("ls_Navigationmenus")
-                                                        </text>
-                                                    }
-                                                    break;
-                                                case nameof(Article):
-                                                    {
-                                                        <text>
-                                                            @T("ls_Article")
-                                                        </text>
-                                                    }
-                                                    break;
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        @if (item.Key.Equals(nameof(Navigation), StringComparison.OrdinalIgnoreCase))
+                                <tr class="table-primary">
+                                    <td>
+                                        @switch (item.Key)
                                         {
-                                            <td data-table="@item.Key">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                @T("ls_Name")
-                                                            </th>
-                                                            @foreach (var permission in item)
-                                                            {
-                                                                <th>
-                                                                    @T(permission.LocalKey)
-                                                                </th>
-                                                            }
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var navigation in allNavigationList.Where(x=>x.ParentId==0).OrderBy(x=>x.DisplayOrder).ToList())
-                                                            {
-                                                                var childList = allNavigationList.Where(x => x.ParentId == navigation.Id).OrderBy(x => x.DisplayOrder).ToList();
-                                                            <tr data-parentid="@navigation.ParentId" data-id="@navigation.Id" class="table-active">
-                                                                <td>
-                                                                    @T(navigation.NavTitle)
-                                                                </td>
-                                                                @foreach (var permission in item)
-                                                                {
-                                                                    <td>
-                                                                        <div class="form-check abc-checkbox">
-                                                                            <input id="checkbox_@(navigation.Id)_@permission.ManageType" data-manage="@permission.ManageType" class="form-check-input datatable-checkbox" type="checkbox">
-                                                                            <label class="form-check-label" for="checkbox_@(navigation.Id)_@permission.ManageType">
-                                                                            </label>
-                                                                        </div>
-                                                                    </td>
-                                                                }
-                                                            </tr>
-                                                            @foreach (var childNavigation in childList)
-                                                                {
-                                                                <tr data-parentid="@childNavigation.ParentId" data-id="@navigation.Id">
-                                                                    <td>
-                                                                        &nbsp; <i class="fa-duotone fa-caret-right"></i> @T(childNavigation.NavTitle)
-                                                                    </td>
-                                                                    @foreach (var permission in item)
-                                                                        {
-                                                                            isChecked = rolePermissionList.Exists(x => x.TableName.Equals(item.Key) && x.PermissionId == permission.Id && x.ColumnId == childNavigation.Id);
-                                                                        <td>
-                                                                            <div class="form-check abc-checkbox">
-                                                                                <input id="checkbox_@(childNavigation.Id)_@permission.ManageType" data-manage="@permission.ManageType" data-id="@permission.Id" data-table="@item.Key" data-columnid="@childNavigation.Id" class="form-check-input datatable-checkbox" type="checkbox" @(isChecked?"checked":"")>
-                                                                                <label class="form-check-label" for="checkbox_@(childNavigation.Id)_@permission.ManageType">
-                                                                                </label>
-                                                                            </div>
-                                                                        </td>
-                                                                    }
-                                                                </tr>
-                                                            }
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </td>
+                                        case nameof(Navigation):
+                                        {
+                                        <text>
+                                        @T("ls_Navigationmenus")
+                                        </text>
                                         }
-                                        else if (item.Key.Equals(nameof(Article), StringComparison.OrdinalIgnoreCase))
+                                        break;
+                                        case nameof(Article):
                                         {
-                                    <td data-table="@item.Key">
-                                        @foreach (var permission in item)
-                                            {
-                                             isChecked = rolePermissionList.Exists(x => x.TableName.Equals(item.Key) && x.PermissionId == permission.Id && x.ColumnId == 0);
-                                            <div class="form-check form-check-inline ">
-                                                <input id="checkbox_@(permission.TableName)_@permission.ManageType" data-id="@permission.Id" data-table="@item.Key" data-columnid="0" class="form-check-input datatable-checkbox" type="checkbox" @(isChecked?"checked":"")>
-                                                <label class="form-check-label" for="checkbox_@(permission.TableName)_@permission.ManageType">
-                                                    @T(permission.LocalKey)
-                                                </label>
-                                            </div>
+                                        <text>
+                                        @T("ls_Article")
+                                        </text>
+                                        }
+                                        break;
                                         }
                                     </td>
+                                </tr>
+                                <tr>
+                                    @if (item.Key.Equals(nameof(Navigation), StringComparison.OrdinalIgnoreCase))
+                                    {
+                                    <td data-table="@item.Key">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                    @T("ls_Name")
+                                                </th>
+                                                @foreach (var permission in item)
+                                                {
+                                                <th>
+                                                    @T(permission.LocalKey)
+                                                </th>
+                                                }
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var navigation in allNavigationList.Where(x=>x.ParentId==0).OrderBy(x=>x.DisplayOrder).ToList())
+                                            {
+                                            var childList = allNavigationList.Where(x => x.ParentId == navigation.Id).OrderBy(x => x.DisplayOrder).ToList();
+                                            <tr data-parentid="@navigation.ParentId" data-id="@navigation.Id" class="table-active">
+                                                <td>
+                                                    @T(navigation.NavTitle)
+                                                </td>
+                                                @foreach (var permission in item)
+                                                {
+                                                <td>
+                                                    <div class="form-check abc-checkbox">
+                                                        <input id="checkbox_@(navigation.Id)_@permission.ManageType" data-manage="@permission.ManageType" class="form-check-input datatable-checkbox" type="checkbox">
+                                                        <label class="form-check-label" for="checkbox_@(navigation.Id)_@permission.ManageType">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                }
+                                            </tr>
+                                            @foreach (var childNavigation in childList)
+                                            {
+                                            <tr data-parentid="@childNavigation.ParentId" data-id="@navigation.Id">
+                                                <td>
+                                                    &nbsp; <i class="fa-duotone fa-caret-right"></i> @T(childNavigation.NavTitle)
+                                                </td>
+                                                @foreach (var permission in item)
+                                                {
+                                                isChecked = rolePermissionList.Exists(x => x.TableName.Equals(item.Key) && x.PermissionId == permission.Id && x.ColumnId == childNavigation.Id);
+                                                <td>
+                                                    <div class="form-check abc-checkbox">
+                                                        <input id="checkbox_@(childNavigation.Id)_@permission.ManageType" data-manage="@permission.ManageType" data-id="@permission.Id" data-table="@item.Key" data-columnid="@childNavigation.Id" class="form-check-input datatable-checkbox" type="checkbox" @(isChecked?"checked":"")>
+                                                        <label class="form-check-label" for="checkbox_@(childNavigation.Id)_@permission.ManageType">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                }
+                                            </tr>
+                                            }
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    }
+                                    else if (item.Key.Equals(nameof(Article), StringComparison.OrdinalIgnoreCase))
+                                    {
+                                    <td data-table="@item.Key">
+                                        @foreach (var permission in item)
+                                        {
+                                        isChecked = rolePermissionList.Exists(x => x.TableName.Equals(item.Key) && x.PermissionId == permission.Id && x.ColumnId == 0);
+                                        <div class="form-check form-check-inline ">
+                                            <input id="checkbox_@(permission.TableName)_@permission.ManageType" data-id="@permission.Id" data-table="@item.Key" data-columnid="0" class="form-check-input datatable-checkbox" type="checkbox" @(isChecked?"checked":"")>
+                                            <label class="form-check-label" for="checkbox_@(permission.TableName)_@permission.ManageType">
+                                                @T(permission.LocalKey)
+                                            </label>
+                                        </div>
                                         }
-                                    </tr>
+                                    </td>
+                                    }
+                                </tr>
                                 }
                             </table>
                         </div>
@@ -184,7 +184,7 @@
                         <button type="reset" class="btn btn-outline-secondary">
                             <i class="fa-duotone fa-rotate-right me-1"></i>@T("ls_Reset")
                         </button>
-                        <button type="submit" class="btn btn-primary me-2" data-loading-text="@T("ls_Loading") ...">
+                        <button type="submit" class="btn btn-primary me-2" data-loading-text="@T("ls_Loading")">
                             <i class="fa-duotone fa-floppy-disk me-1"></i> @T("ls_Save")
                         </button>
                     </div>
