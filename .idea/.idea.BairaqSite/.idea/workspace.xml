@@ -60,11 +60,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d56bb330-bacf-4b7b-b939-d348a5686f38" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/HomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/QarBaseController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/QarBaseController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleList.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/BairaqWeb.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/BairaqWeb.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/alkatiptor.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/kaznet.ttf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +139,7 @@
       <workItem from="1737108726859" duration="6601000" />
       <workItem from="1737115706065" duration="4482000" />
       <workItem from="1737200748822" duration="476000" />
-      <workItem from="1737284225123" duration="1767000" />
+      <workItem from="1737284225123" duration="4609000" />
     </task>
     <servers />
   </component>

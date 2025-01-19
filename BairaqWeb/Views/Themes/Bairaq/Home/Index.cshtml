@@ -24,52 +24,54 @@
 
 
 <main class="main">
-    
-    @* pinnedArticle & focusArticle *@
-    <div class="container main-block d-flex">
-        <a href="/@CurrentLanguage/article/@(pinnedArticle?.LatynUrl).html">
-            <img class="thumbnail" src="@pinnedArticle?.ThumbnailUrl" alt="">
-            <div class="content d-flex flex-column justify-content-end">
-                <h5 class="title">@pinnedArticle?.Title</h5>
-                <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(pinnedArticle?.AddTime ?? 0, CurrentLanguage)</p>
-            </div>
-        </a>
-        <ul>
-            @foreach (var article in focusArticleList)
-            {
-                <li>
-                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
-                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
-                        <div class="content d-flex flex-column justify-content-end">
-                            <h5 class="title">@article.Title</h5>
-                            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                        </div>
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
 
-    @* Ең өзекті *@
-    <div class="container sub-block block">
-        <div class="head d-flex justify-content-between">
-            <h4 class="title">Ең өзекті</h4>
+@* pinnedArticle & focusArticle *@
+<div class="container main-block d-flex">
+    <a href="/@CurrentLanguage/article/@(pinnedArticle?.LatynUrl).html">
+        <img class="thumbnail" src="@pinnedArticle?.ThumbnailUrl" alt="">
+        <div class="content d-flex flex-column justify-content-end">
+            <h5 class="title">@pinnedArticle?.Title</h5>
+            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(pinnedArticle?.AddTime ?? 0, CurrentLanguage)</p>
         </div>
-        <ul class="article-list d-grid">
-            @foreach (var article in topArticleList)
-            {
-                <li>
-                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
-                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+    </a>
+    <ul>
+        @foreach (var article in focusArticleList)
+        {
+            <li>
+                <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                    <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                    <div class="content d-flex flex-column justify-content-end">
                         <h5 class="title">@article.Title</h5>
                         <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                    </a>
-                </li>
-            }
-        </ul>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@* Ең өзекті *@
+<div class="container sub-block block">
+    <div class="head d-flex justify-content-between">
+        <h4 class="title">Ең өзекті</h4>
     </div>
-    
-    @* Youtube *@
+    <ul class="article-list d-grid">
+        @foreach (var article in topArticleList)
+        {
+            <li>
+                <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                    <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                    <h5 class="title">@article.Title</h5>
+                    <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@* Youtube *@
+@if (youtubeArticleList.Count > 0)
+{
     <div class="youtube-video">
         <div class="container">
             <div class="head d-flex justify-content-between align-items-center">
@@ -81,7 +83,7 @@
                     @{
                         var src = HtmlAgilityPackHelper.GetYoutubeUrl(youtubeArticleList.FirstOrDefault().FullDescription);
                         <iframe class="youtube-iframe" src="@src" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-                        </iframe> 
+                        </iframe>
                     }
                 </div>
                 <ul class="right d-flex flex-column">
@@ -96,180 +98,90 @@
             </div>
         </div>
     </div>
+}
 
-    @* block1 *@
-    <div class="container sub-block2 block">
-        <div class="head d-flex justify-content-between">
-            <h4 class="title">@block1Title</h4>
-            <a href="@block1Url" class="more">@T("ls_Readmore")</a>
-        </div>
-        <div class="article-list d-flex">
-            <a class="left" href="/@CurrentLanguage/article/@(block1ArticleList.FirstOrDefault().LatynUrl).html">
-                <img class="thumbnail" src="@block1ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
-                <h4 class="title">@block1ArticleList.FirstOrDefault().Title</h4>
-                <p class="description">@block1ArticleList.FirstOrDefault().ShortDescription</p>
-                <p class="time count">
-                    <span class="date-time">@UnixTimeHelper.UnixTimeToLocalString(block1ArticleList.FirstOrDefault().AddTime, CurrentLanguage)</span>
-                    <span class="view-count">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
-                            <path d="M14.0138 4.22019C13.8878 4.04783 10.8858 0 7.05165 0C3.21752 0 0.215353 4.04783 0.0894964 4.22002C-0.0298321 4.38353 -0.0298321 4.60531 0.0894964 4.76882C0.215353 4.94117 3.21752 8.98901 7.05165 8.98901C10.8858 8.98901 13.8878 4.94114 14.0138 4.76896C14.1333 4.60547 14.1333 4.38353 14.0138 4.22019ZM7.05165 8.05911C4.2274 8.05911 1.78131 5.37249 1.05721 4.49419C1.78037 3.61512 4.22134 0.929892 7.05165 0.929892C9.87576 0.929892 12.3217 3.61605 13.0461 4.49482C12.3229 5.37386 9.88196 8.05911 7.05165 8.05911Z"
-                                  fill="#C0C0C0"/>
-                            <path d="M7.04975 2.15332C5.63469 2.15332 4.4834 3.30461 4.4834 4.71967C4.4834 6.13473 5.63469 7.28602 7.04975 7.28602C8.4648 7.28602 9.61609 6.13473 9.61609 4.71967C9.61609 3.30461 8.4648 2.15332 7.04975 2.15332ZM7.04975 6.43055C6.10632 6.43055 5.33886 5.66307 5.33886 4.71967C5.33886 3.77627 6.10635 3.00879 7.04975 3.00879C7.99314 3.00879 8.76063 3.77627 8.76063 4.71967C8.76063 5.66307 7.99317 6.43055 7.04975 6.43055Z"
-                                  fill="#C0C0C0"/>
-                        </svg>
-                        @block1ArticleList.FirstOrDefault().ViewCount
-                    </span>
-                </p>
-            </a>
-            <ul class="right d-grid">
-                @foreach (var article in block1ArticleList.Skip(1))
-                {
-                    <li>
-                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
-                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
-                            <h4 class="title">@article.Title</h4>
-                            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
 
-    @* block2 *@
-    <div class="sub-block3 block2">
-        <div class="container block">
-            <div class="head d-flex justify-content-between">
-                <h4 class="title">@block2Title</h4>
-                <div class="buttons">
-                    <svg class="prev" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
-                    </svg>
-                    <svg class="next" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
-                    </svg>
-                </div>
-            </div>
-            <div class="article-list swiper block2-swiper">
-                <div class="swiper-wrapper">
-                    @foreach (var article in block2ArticleList)
-                    {
-                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
-                            <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
-                            <div class="content d-flex flex-column justify-content-end">
-                                <h5 class="title">@article.Title</h5>
-                                <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                            </div>
-                        </a>
-                    }
-                </div>
-            </div>
-        </div>
+@* block1 *@
+<div class="container sub-block2 block">
+    <div class="head d-flex justify-content-between">
+        <h4 class="title">@block1Title</h4>
+        <a href="@block1Url" class="more">@T("ls_Readmore")</a>
     </div>
-    
-    @* block3 *@
-    <div class="container sub-block block">
-        <div class="head d-flex justify-content-between">
-            <h4 class="title">@block3Title</h4>
-            <a href="@block3Url" class="more">@T("ls_Readmore")</a>
-        </div>
-        <ul class="article-list d-grid">
-            @foreach (var article in block3ArticleList)
+    <div class="article-list d-flex">
+        <a class="left" href="/@CurrentLanguage/article/@(block1ArticleList.FirstOrDefault().LatynUrl).html">
+            <img class="thumbnail" src="@block1ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
+            <h4 class="title">@block1ArticleList.FirstOrDefault().Title</h4>
+            <p class="description">@block1ArticleList.FirstOrDefault().ShortDescription</p>
+            <p class="time count">
+                <span class="date-time">@UnixTimeHelper.UnixTimeToLocalString(block1ArticleList.FirstOrDefault().AddTime, CurrentLanguage)</span>
+                <span class="view-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                        <path d="M14.0138 4.22019C13.8878 4.04783 10.8858 0 7.05165 0C3.21752 0 0.215353 4.04783 0.0894964 4.22002C-0.0298321 4.38353 -0.0298321 4.60531 0.0894964 4.76882C0.215353 4.94117 3.21752 8.98901 7.05165 8.98901C10.8858 8.98901 13.8878 4.94114 14.0138 4.76896C14.1333 4.60547 14.1333 4.38353 14.0138 4.22019ZM7.05165 8.05911C4.2274 8.05911 1.78131 5.37249 1.05721 4.49419C1.78037 3.61512 4.22134 0.929892 7.05165 0.929892C9.87576 0.929892 12.3217 3.61605 13.0461 4.49482C12.3229 5.37386 9.88196 8.05911 7.05165 8.05911Z"
+                              fill="#C0C0C0"/>
+                        <path d="M7.04975 2.15332C5.63469 2.15332 4.4834 3.30461 4.4834 4.71967C4.4834 6.13473 5.63469 7.28602 7.04975 7.28602C8.4648 7.28602 9.61609 6.13473 9.61609 4.71967C9.61609 3.30461 8.4648 2.15332 7.04975 2.15332ZM7.04975 6.43055C6.10632 6.43055 5.33886 5.66307 5.33886 4.71967C5.33886 3.77627 6.10635 3.00879 7.04975 3.00879C7.99314 3.00879 8.76063 3.77627 8.76063 4.71967C8.76063 5.66307 7.99317 6.43055 7.04975 6.43055Z"
+                              fill="#C0C0C0"/>
+                    </svg>
+                    @block1ArticleList.FirstOrDefault().ViewCount
+                </span>
+            </p>
+        </a>
+        <ul class="right d-grid">
+            @foreach (var article in block1ArticleList.Skip(1))
             {
                 <li>
                     <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
-                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
-                        <h5 class="title">@article.Title</h5>
+                        <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
+                        <h4 class="title">@article.Title</h4>
                         <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                     </a>
                 </li>
             }
         </ul>
     </div>
-    
-    @* block4 *@
-    <div class="container sub-block2 block">
+</div>
+
+@* block2 *@
+<div class="sub-block3 block2">
+    <div class="container block">
         <div class="head d-flex justify-content-between">
-            <h4 class="title">@block4Title</h4>
-            <a href="@block4Url" class="more">@T("ls_Readmore")</a>
+            <h4 class="title">@block2Title</h4>
+            <div class="buttons">
+                <svg class="prev" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
+                </svg>
+                <svg class="next" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
+                </svg>
+            </div>
         </div>
-        <div class="article-list d-flex">
-            <a class="left" href="/@CurrentLanguage/article/@(block4ArticleList.FirstOrDefault().LatynUrl).html">
-                <img class="thumbnail" src="@block4ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
-                <h4 class="title">@block4ArticleList.FirstOrDefault().Title</h4>
-                <p class="description">@block4ArticleList.FirstOrDefault().ShortDescription</p>
-                <p class="time count">
-                    <span class="date-time">@UnixTimeHelper.UnixTimeToLocalString(block4ArticleList.FirstOrDefault().AddTime, CurrentLanguage)</span>
-                    <span class="view-count">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
-                            <path d="M14.0138 4.22019C13.8878 4.04783 10.8858 0 7.05165 0C3.21752 0 0.215353 4.04783 0.0894964 4.22002C-0.0298321 4.38353 -0.0298321 4.60531 0.0894964 4.76882C0.215353 4.94117 3.21752 8.98901 7.05165 8.98901C10.8858 8.98901 13.8878 4.94114 14.0138 4.76896C14.1333 4.60547 14.1333 4.38353 14.0138 4.22019ZM7.05165 8.05911C4.2274 8.05911 1.78131 5.37249 1.05721 4.49419C1.78037 3.61512 4.22134 0.929892 7.05165 0.929892C9.87576 0.929892 12.3217 3.61605 13.0461 4.49482C12.3229 5.37386 9.88196 8.05911 7.05165 8.05911Z"
-                                  fill="#C0C0C0"/>
-                            <path d="M7.04975 2.15332C5.63469 2.15332 4.4834 3.30461 4.4834 4.71967C4.4834 6.13473 5.63469 7.28602 7.04975 7.28602C8.4648 7.28602 9.61609 6.13473 9.61609 4.71967C9.61609 3.30461 8.4648 2.15332 7.04975 2.15332ZM7.04975 6.43055C6.10632 6.43055 5.33886 5.66307 5.33886 4.71967C5.33886 3.77627 6.10635 3.00879 7.04975 3.00879C7.99314 3.00879 8.76063 3.77627 8.76063 4.71967C8.76063 5.66307 7.99317 6.43055 7.04975 6.43055Z"
-                                  fill="#C0C0C0"/>
-                        </svg>
-                        @block4ArticleList.FirstOrDefault().ViewCount
-                    </span>
-                </p>
-            </a>
-            <ul class="right d-grid">
-                @foreach (var article in block4ArticleList.Skip(1))
+        <div class="article-list swiper block2-swiper">
+            <div class="swiper-wrapper">
+                @foreach (var article in block2ArticleList)
                 {
-                    <li>
-                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
-                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
-                            <h4 class="title">@article.Title</h4>
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
+                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                        <div class="content d-flex flex-column justify-content-end">
+                            <h5 class="title">@article.Title</h5>
                             <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                        </a>
-                    </li>
+                        </div>
+                    </a>
                 }
-            </ul>
-        </div>
-    </div>
-
-    @* block5 *@
-    <div class="sub-block3 block5 bg-sky-blue">
-        <div class="container block">
-            <div class="head d-flex justify-content-between">
-                <h4 class="title">@block5Title</h4>
-                <div class="buttons">
-                    <svg class="prev" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
-                    </svg>
-                    <svg class="next" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
-                    </svg>
-                </div>
-            </div>
-            <div class="article-list swiper block5-swiper">
-                <div class="swiper-wrapper">
-                    @foreach (var article in block5ArticleList)
-                    {
-                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
-                            <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
-                            <div class="content d-flex flex-column justify-content-end">
-                                <h5 class="title">@article.Title</h5>
-                                <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
-                            </div>
-                        </a>
-                    }
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    @* block6 *@
-    <div class="container sub-block block">
-        <div class="head d-flex justify-content-between">
-            <h4 class="title">@block6Title</h4>
-            <a href="@block6Url" class="more">@T("ls_Readmore")</a>
-        </div>
-        <ul class="article-list d-grid">
-            @foreach (var article in block6ArticleList)
-            {
+@* block3 *@
+<div class="container sub-block block">
+    <div class="head d-flex justify-content-between">
+        <h4 class="title">@block3Title</h4>
+        <a href="@block3Url" class="more">@T("ls_Readmore")</a>
+    </div>
+    <ul class="article-list d-grid">
+        @foreach (var article in block3ArticleList)
+        {
             <li>
                 <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
                     <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
@@ -277,8 +189,100 @@
                     <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
                 </a>
             </li>
+        }
+    </ul>
+</div>
+
+@* block4 *@
+<div class="container sub-block2 block">
+    <div class="head d-flex justify-content-between">
+        <h4 class="title">@block4Title</h4>
+        <a href="@block4Url" class="more">@T("ls_Readmore")</a>
+    </div>
+    <div class="article-list d-flex">
+        <a class="left" href="/@CurrentLanguage/article/@(block4ArticleList.FirstOrDefault().LatynUrl).html">
+            <img class="thumbnail" src="@block4ArticleList.FirstOrDefault().ThumbnailUrl" alt="">
+            <h4 class="title">@block4ArticleList.FirstOrDefault().Title</h4>
+            <p class="description">@block4ArticleList.FirstOrDefault().ShortDescription</p>
+            <p class="time count">
+                <span class="date-time">@UnixTimeHelper.UnixTimeToLocalString(block4ArticleList.FirstOrDefault().AddTime, CurrentLanguage)</span>
+                <span class="view-count">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                        <path d="M14.0138 4.22019C13.8878 4.04783 10.8858 0 7.05165 0C3.21752 0 0.215353 4.04783 0.0894964 4.22002C-0.0298321 4.38353 -0.0298321 4.60531 0.0894964 4.76882C0.215353 4.94117 3.21752 8.98901 7.05165 8.98901C10.8858 8.98901 13.8878 4.94114 14.0138 4.76896C14.1333 4.60547 14.1333 4.38353 14.0138 4.22019ZM7.05165 8.05911C4.2274 8.05911 1.78131 5.37249 1.05721 4.49419C1.78037 3.61512 4.22134 0.929892 7.05165 0.929892C9.87576 0.929892 12.3217 3.61605 13.0461 4.49482C12.3229 5.37386 9.88196 8.05911 7.05165 8.05911Z"
+                              fill="#C0C0C0"/>
+                        <path d="M7.04975 2.15332C5.63469 2.15332 4.4834 3.30461 4.4834 4.71967C4.4834 6.13473 5.63469 7.28602 7.04975 7.28602C8.4648 7.28602 9.61609 6.13473 9.61609 4.71967C9.61609 3.30461 8.4648 2.15332 7.04975 2.15332ZM7.04975 6.43055C6.10632 6.43055 5.33886 5.66307 5.33886 4.71967C5.33886 3.77627 6.10635 3.00879 7.04975 3.00879C7.99314 3.00879 8.76063 3.77627 8.76063 4.71967C8.76063 5.66307 7.99317 6.43055 7.04975 6.43055Z"
+                              fill="#C0C0C0"/>
+                    </svg>
+                    @block4ArticleList.FirstOrDefault().ViewCount
+                </span>
+            </p>
+        </a>
+        <ul class="right d-grid">
+            @foreach (var article in block4ArticleList.Skip(1))
+            {
+                <li>
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                        <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
+                        <h4 class="title">@article.Title</h4>
+                        <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
+                    </a>
+                </li>
             }
         </ul>
     </div>
-    
+</div>
+
+@* block5 *@
+<div class="sub-block3 block5 bg-sky-blue">
+    <div class="container block">
+        <div class="head d-flex justify-content-between">
+            <h4 class="title">@block5Title</h4>
+            <div class="buttons">
+                <svg class="prev" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
+                </svg>
+                <svg class="next" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15.5" transform="matrix(-1 0 0 1 32 0)" stroke="black"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 21.5303C13.7626 21.8232 14.2374 21.8232 14.5303 21.5303L19.5303 16.5303C19.8232 16.2374 19.8232 15.7626 19.5303 15.4697L14.5303 10.4697C14.2374 10.1768 13.7626 10.1768 13.4697 10.4697C13.1768 10.7626 13.1768 11.2374 13.4697 11.5303L17.9393 16L13.4697 20.4697C13.1768 20.7626 13.1768 21.2374 13.4697 21.5303Z" fill="black"/>
+                </svg>
+            </div>
+        </div>
+        <div class="article-list swiper block5-swiper">
+            <div class="swiper-wrapper">
+                @foreach (var article in block5ArticleList)
+                {
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html" class="swiper-slide">
+                        <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                        <div class="content d-flex flex-column justify-content-end">
+                            <h5 class="title">@article.Title</h5>
+                            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* block6 *@
+<div class="container sub-block block">
+    <div class="head d-flex justify-content-between">
+        <h4 class="title">@block6Title</h4>
+        <a href="@block6Url" class="more">@T("ls_Readmore")</a>
+    </div>
+    <ul class="article-list d-grid">
+        @foreach (var article in block6ArticleList)
+        {
+            <li>
+                <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                    <img class="thumbnail" src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                    <h5 class="title">@article.Title</h5>
+                    <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
 </main>

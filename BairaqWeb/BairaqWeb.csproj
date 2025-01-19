@@ -35,8 +35,6 @@
         <None Remove="Attributes\" />
         <None Remove="Views\Console\Catalog\Article\" />
         <None Remove="Views\Console\Catalog\Category\" />
-        <None Include="wwwroot\themes\bairaq\css\kaznet.css" />
-        <None Include="wwwroot\themes\bairaq\css\main.rtl.css" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Hangfire\" />
