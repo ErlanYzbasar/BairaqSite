@@ -464,7 +464,8 @@ public class QarBaseController : Controller
     {
         tableName = (tableName ?? string.Empty).ToLower();
 
-        if (tableName.Equals(nameof(Article), StringComparison.OrdinalIgnoreCase))
+        if (tableName.Equals(nameof(Article), StringComparison.OrdinalIgnoreCase) || 
+            tableName.Equals(nameof(Articlecategory), StringComparison.OrdinalIgnoreCase))
         {
             //if contains article id, remove!
             latynUrl = StringHelper.GetRealLatynUrl(latynUrl);
@@ -538,11 +539,13 @@ public class QarBaseController : Controller
                 }
             }
         }
-
-        return $"{itemId}-{latynUrl}";
+        return latynUrl;
+        //return $"{itemId}-{latynUrl}";
     }
 
     #endregion
+    
+    
     #region Кілт сөз қатарын алу +GetTagList(string keyWord)
 
     [NoRole]

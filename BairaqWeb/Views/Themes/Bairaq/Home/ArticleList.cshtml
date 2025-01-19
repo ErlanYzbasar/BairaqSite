@@ -44,7 +44,7 @@
                     @foreach (var article in topArticleList)
                     {
                         <li>
-                            <a href="">
+                            <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
                                 <h6 class="title">@article.Title</h6>
                                 <p class="date-time count">
                                     <span class="date">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</span>
@@ -70,7 +70,7 @@
                 @foreach (var article in topArticleList)
                 {
                 <li>
-                    <a href="">
+                    <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
                         <h6 class="title">@article.Title</h6>
                         <p class="date-time count">
                             <span class="date">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</span>

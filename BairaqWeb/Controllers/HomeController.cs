@@ -263,14 +263,6 @@ public class HomeController : QarBaseController
                 ViewData["totalPage"] = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
                 ViewData["articleList"] = articleList;
 
-                // if (tagId > 0)
-                // {
-                //     og_title = $"{T("ls_Tags")}:" + _connection
-                //         .Query<string>($"select title from {nameof(Tag).ToLower()} where id = @tagId", new { tagId })
-                //         .FirstOrDefault();
-                //     ViewData["tagId"] = tagId;
-                // }
-
                 if (!string.IsNullOrWhiteSpace(authorUrl))
                 {
                     ogTitle = $"{T("ls_Author")}: {authorUrl}";
