@@ -60,19 +60,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d56bb330-bacf-4b7b-b939-d348a5686f38" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BairaqSite/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/BairaqWeb.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/BairaqWeb.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqSite.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqSite.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Controllers/SiteController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Controllers/SiteController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/RazorPages/QarRazorPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/RazorPages/QarRazorPage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Console/Site/Setting.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Console/Site/Setting.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/ArticleView.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Home/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Header.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/_HomeLayout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Footer.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/Views/Themes/Bairaq/Partial/Footer.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/css/index.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/Inter.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/alkatiptor.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/font/kaznet.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/BairaqWeb/wwwroot/themes/bairaq/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MODEL/Sitesetting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MODEL/Sitesetting.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +140,8 @@
       <workItem from="1737115706065" duration="4482000" />
       <workItem from="1737200748822" duration="476000" />
       <workItem from="1737284225123" duration="4609000" />
+      <workItem from="1737353513167" duration="2542000" />
+      <workItem from="1737356599673" duration="3504000" />
     </task>
     <servers />
   </component>

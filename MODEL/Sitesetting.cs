@@ -6,8 +6,10 @@ public class Sitesetting
     public string AnalyticsHtml { get; set; }
     public string AnalyticsScript { get; set; }
     public string Copyright { get; set; }
+    public string CopyrightRu { get; set; }
     public string DarkLogo { get; set; }
     public string Description { get; set; }
+    public string DescriptionRu { get; set; }
     public string Email { get; set; }
     public string Facebook { get; set; }
     public string Favicon { get; set; }

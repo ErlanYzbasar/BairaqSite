@@ -144,6 +144,17 @@
         </a>
     </td>
 </tr>
+    <tr>
+        <td class="text-right">
+            <strong>@T("ls_Sitedescription")-ru:</strong>
+        </td>
+        <td>
+            <a class="siteSetting-description-ru" data-pk="@SiteSetting?.Id"
+               data-rows="1">
+                @SiteSetting?.DescriptionRu
+            </a>
+        </td>
+    </tr>
 <tr>
     <td class="text-right">
         <strong>@T("ls_Sitekeywords"):</strong>
@@ -166,6 +177,17 @@
         </a>
     </td>
 </tr>
+    <tr>
+        <td class="text-right">
+            <strong>@T("ls_Sitecopyright")-ru:</strong>
+        </td>
+        <td>
+            <a class="siteSetting-copyright-ru" data-pk="@SiteSetting?.Id"
+               data-rows="1">
+                @SiteSetting?.CopyrightRu
+            </a>
+        </td>
+    </tr>
 <tr>
     <td class="text-right">
         <strong>Analytics Html:</strong>
@@ -494,6 +516,18 @@
                 }
             });
 
+            $('.siteSetting-description-ru').editable({
+                type: 'textarea',
+                name: 'descriptionRu',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitedescription")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+
             $('.siteSetting-keywords').editable({
                 type: 'textarea',
                 name: 'keywords',
@@ -509,6 +543,17 @@
             $('.siteSetting-copyright').editable({
                 type: 'textarea',
                 name: 'copyright',
+                url: '/@CurrentLanguage/@ControllerName/@ActionName',
+                title: '@T("ls_Sitecopyright")',
+                mode: 'inline',
+                inputclass: 'form-control-sm',
+                success: function (data) {
+                    $qar.showMessage(data.status, data.message);
+                }
+            });
+            $('.siteSetting-copyright-ru').editable({
+                type: 'textarea',
+                name: 'copyrightRu',
                 url: '/@CurrentLanguage/@ControllerName/@ActionName',
                 title: '@T("ls_Sitecopyright")',
                 mode: 'inline',

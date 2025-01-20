@@ -1,3 +1,4 @@
+@using System.Diagnostics
 @{
     Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
     var pinnedArticle = QarList<Article>("pinnedArticle").FirstOrDefault();
@@ -53,7 +54,7 @@
 @* Ең өзекті *@
 <div class="container sub-block block">
     <div class="head d-flex justify-content-between">
-        <h4 class="title">Ең өзекті</h4>
+        <h4 class="title">@T("ls_Mostrelevant")</h4>
     </div>
     <ul class="article-list d-grid">
         @foreach (var article in topArticleList)
@@ -84,14 +85,20 @@
                         var src = HtmlAgilityPackHelper.GetYoutubeUrl(youtubeArticleList.FirstOrDefault().FullDescription);
                         <iframe class="youtube-iframe" src="@src" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
                         </iframe>
+                        <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(youtubeArticleList.FirstOrDefault().AddTime, CurrentLanguage)</p>
+                        <a class="title" href="">@youtubeArticleList.FirstOrDefault().Title</a>
                     }
                 </div>
                 <ul class="right d-flex flex-column">
                     @foreach (var youtube in youtubeArticleList.Skip(1))
                     {
                         var dataSrc = HtmlAgilityPackHelper.GetYoutubeUrl(youtube.FullDescription);
-                        <li>
-                            <img class="thumbnail youtube-thumbnail" data-src="@dataSrc" src="@youtube.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                        <li class="d-flex flex-column flex-md-row align-items-start">
+                            <img class="thumbnail youtube-thumbnail" data-src="@dataSrc" data-title="@youtube.Title" data-date-time="@UnixTimeHelper.UnixTimeToLocalString(youtube.AddTime, CurrentLanguage)" src="@youtube.ThumbnailUrl.Replace("_big.", "_middle.")" alt="">
+                            <a class="content d-flex flex-column-reverse flex-md-column" href="">
+                                <h5 class="title">@youtube.Title</h5>
+                                <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(youtube.AddTime, CurrentLanguage)</p>
+                            </a>
                         </li>
                     }
                 </ul>

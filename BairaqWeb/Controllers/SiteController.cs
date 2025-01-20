@@ -46,7 +46,7 @@ public class SiteController : QarBaseController
             int? result = 0;
             string[] props =
             {
-                "title", "description", "keywords", "copyright", "analyticsHtml", "analyticsScript", "aboutUs",
+                "title", "description", "descriptionRu", "keywords", "copyright", "copyrightRu", "analyticsHtml", "analyticsScript", "aboutUs",
                 "aboutProject", "address", "phone", "email", "pressSecretary", "mapEmbed", "facebook", "twitter",
                 "instagram", "vk", "telegram", "youtube", "whatsapp", "tiktok", "mStartAndEndTime"
             };
@@ -80,6 +80,11 @@ public class SiteController : QarBaseController
                 {
                     siteSetting.Description = value;
                 }
+                
+                if (name.Equals("descriptionRu", StringComparison.OrdinalIgnoreCase))
+                {
+                    siteSetting.DescriptionRu = value;
+                }
 
                 if (name.Equals("keywords", StringComparison.OrdinalIgnoreCase))
                 {
@@ -89,6 +94,11 @@ public class SiteController : QarBaseController
                 if (name.Equals("copyright", StringComparison.OrdinalIgnoreCase))
                 {
                     siteSetting.Copyright = value;
+                }
+                
+                if (name.Equals("copyrightRu", StringComparison.OrdinalIgnoreCase))
+                {
+                    siteSetting.CopyrightRu = value;
                 }
 
                 if (name.Equals("analyticsHtml", StringComparison.OrdinalIgnoreCase))

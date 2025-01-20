@@ -48,6 +48,8 @@ $(function () {
     
     $(".youtube-thumbnail").on("click", function () {
         $(".youtube-iframe").attr("src", $(this).attr("data-src"));
+        $(".youtube-video .left .title").text($(this).attr("data-title"));
+        $(".youtube-video .left .date-time").text($(this).attr("data-date-time"));
     })
     
     $(".share a").on("click", async function (e) {

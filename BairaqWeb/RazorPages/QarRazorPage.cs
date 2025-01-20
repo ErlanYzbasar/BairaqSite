@@ -68,18 +68,10 @@ public abstract class QarRazorPage<TModel> : RazorPage<TModel>
         return additionalContentList.FirstOrDefault(x =>
             x.AdditionalType.Equals(additionalType, StringComparison.OrdinalIgnoreCase));
     }
-
     protected string CurrentLanguage => (ViewData["language"] ?? string.Empty) as string;
-
     protected string CurrentTheme => QarSingleton.GetInstance().GetSiteTheme();
-
     protected string SiteUrl => QarSingleton.GetInstance().GetSiteUrl();
-    
-    
-    public List<Adlanguage> AdlanguageList =>
-        (ViewData["adlanguageList"] ?? new List<Adlanguage>()) as List<Adlanguage>;
-
-    // protected string SiteUrl => (ViewData["siteUrl"] ?? string.Empty) as string;
+    protected List<Adlanguage> AdlanguageList => (ViewData["adlanguageList"] ?? new List<Adlanguage>()) as List<Adlanguage>;
     protected string Query => (ViewData["query"] ?? string.Empty) as string;
     protected string ControllerName => (ViewData["controllerName"] ?? string.Empty) as string;
     protected string ActionName => (ViewData["actionName"] ?? string.Empty) as string;
@@ -87,21 +79,14 @@ public abstract class QarRazorPage<TModel> : RazorPage<TModel>
     protected string Title => (ViewData["title"] ?? string.Empty) as string;
     public List<Admin> UserList => (ViewData["userList"] ?? new  List<Admin>()) as  List<Admin>;
     public List<Advertise> AdvertiseList => QarList<Advertise>("advertiseList");
-
     protected List<Articlecategory> CategoryList => QarList<Articlecategory>("categoryList");
     protected List<Language> LanguageList => (ViewData["languageList"] ?? new List<Language>()) as List<Language>;
-
     protected List<Multilanguage> MultiLanguageList =>
         (ViewData["multiLanguageList"] ?? new List<Multilanguage>()) as List<Multilanguage>;
-
-    protected Sitesetting SiteSetting =>
-        ViewData["siteSetting"] != null ? (ViewData["siteSetting"] as Sitesetting) : null;
-
+    protected Sitesetting SiteSetting => ViewData["siteSetting"] as Sitesetting;
     protected bool CanView => Convert.ToBoolean(ViewData["canView"] ?? false);
     protected bool CanCreate => Convert.ToBoolean(ViewData["canCreate"] ?? false);
     protected bool CanEdit => Convert.ToBoolean(ViewData["canEdit"] ?? false);
     protected bool CanDelete => Convert.ToBoolean(ViewData["canDelete"] ?? false);
-
- 
  
 }

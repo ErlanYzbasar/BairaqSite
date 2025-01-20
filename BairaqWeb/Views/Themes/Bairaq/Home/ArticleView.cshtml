@@ -56,10 +56,19 @@
                 </div>
 
                 <div class="contact d-flex">
-                    <p>
-                        Біздің Telegram арнамызға жазылып, соңғы ақпаратты оқыңыз. Егер хабарлама жолдағыңыз келсе,
-                        WhatsApp-қа жазыңыз.
-                    </p>
+                    @if (CurrentLanguage.Equals("ru"))
+                    {
+                        <p>
+                            Подпиcывайтесь на наш Telegram и читайте последние новости! Если есть, что сообщить, пишите нам  WhatsApp.
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Біздің Telegram арнамызға жазылып, соңғы ақпаратты оқыңыз. Егер хабарлама жолдағыңыз келсе, WhatsApp-қа жазыңыз.
+                        </p>
+                    }
+                    
                     <ul class="d-flex">
                         @if (!string.IsNullOrEmpty(SiteSetting.Telegram))
                         {

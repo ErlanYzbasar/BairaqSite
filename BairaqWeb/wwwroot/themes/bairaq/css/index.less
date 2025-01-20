@@ -508,21 +508,51 @@ main {
           flex: 1;
 
           iframe {
-            width: 819px;
-            height: 445px;
+            width: 790px;
+            height: 444px;
             object-fit: cover;
+          }
+          
+          .date-time {
+            font-size: 11px;
+            color: #93a1b5;
+          }
+          
+          .title {
+            font-size: 24px;
+            color: #FFF;
           }
         }
 
         .right {
-          width: 251px;
-          justify-content: space-between;
+          width: 280px;
+          gap: 20px;
 
           .thumbnail {
-            width: 251px;
-            height: 142px;
-            object-fit: cover;
+            width: 40%;
+            object-fit: contain;
+            border-radius: 5px;
+            height: auto;
             cursor: pointer;
+          }
+          
+          li {
+            gap: 16px;
+            
+            .content {
+              
+              flex: 1;
+              
+              .title {
+                font-size: 13px;
+                color: #fff;
+              }
+              
+              .date-time {
+                font-size: 11px;
+                color: #93a1b5;
+              }
+            }
           }
         }
       }
@@ -1250,6 +1280,10 @@ footer {
               height: 100%;
               border-radius: 10px;
             }
+          }
+          
+          .title {
+            font-size: 16px !important;
           }
         }
       }
