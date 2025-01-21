@@ -45,7 +45,7 @@ public class HomeController : QarBaseController
                 6 => 8,
                 _ => 5
             };
-            ViewData[$"block{category.DisplayOrder}Url"] = $"/{CurrentLanguage}/category/{category.LatynUrl}";
+            ViewData[$"block{category.DisplayOrder}Url"] = $"/{CurrentLanguage}/category/{category.LatynUrl}.html";
             ViewData[$"block{category.DisplayOrder}Title"] = category.Title;
             ViewData[$"block{category.DisplayOrder}ArticleList"] = QarCache.GetArticleList(_memoryCache, CurrentLanguage, takeCount, category.Id);
         }

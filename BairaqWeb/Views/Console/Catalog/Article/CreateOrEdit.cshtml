@@ -1,7 +1,6 @@
 @{
     var article = QarModel<Article>("article");
     var category = QarModel<Articlecategory>("category");
-    var surveyList = QarList<QuestionModel>("surveyList");
     var tagList = (ViewData["tagList"] ?? new List<string>()) as List<string>;
     var canSchedule = Convert.ToBoolean(ViewData["canSchedule"] ?? false);
     var canFocus = Convert.ToBoolean(ViewData["canFocus"] ?? false);
@@ -159,7 +158,7 @@
                                 <div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" value="1" name="isPinned"
-                                               id="checkbox_isPinned" @(article != null && article.IsPinned == 1 ? "checked" : "")>
+                                               id="checkbox_isPinned" @(article is { IsPinned: 1 } ? "checked" : "")>
                                         <label class="form-check-label" for="checkbox_isPinned">
                                             @T("ls_Pinnedarticle")
                                         </label>
@@ -168,9 +167,9 @@
                                     {
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="checkbox" name="isFocusNews" value="1"
-                                                   id="checkbox_isFocusNews" @(article != null && article.IsFocusNews == 1 ? "checked" : "")>
+                                                   id="checkbox_isFocusNews" @(article is { IsFocusNews: 1 } ? "checked" : "")>
                                             <label class="form-check-label" for="checkbox_isFocusNews">
-                                                @T("ls_Focusnews")
+                                                @T("ls_Mostrelevant")
                                             </label>
                                         </div>
                                     }
@@ -181,16 +180,8 @@
                                             @T("ls_Surveys")
                                         </label>
                                     </div>
-                                    @* <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="isFeatured" value="1"
-                                    id="checkbox_isFeatured" @(article != null && article.IsFeatured == 1 ? "checked" :
-                                    "")>
-                                    <label class="form-check-label" for="checkbox_isFeatured"> @T("ls_Featuredarticle")
-                                    </label>
-                                    </div> *@
                                     @{
-                                        var autoPublish = (article != null && article.QStatus == 2 &&
-                                                           article.AutoPublishTime > 0);
+                                        var autoPublish = article is { QStatus: 2, AutoPublishTime: > 0 };
                                     }
                                     @if (canSchedule)
                                     {
