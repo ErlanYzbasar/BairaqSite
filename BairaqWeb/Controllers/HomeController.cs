@@ -28,9 +28,8 @@ public class HomeController : QarBaseController
 
     public IActionResult Index()
     {
-        ViewData["pinnedArticle"] = QarCache.GetPinnedArticleList(_memoryCache, CurrentLanguage, 1);
-        ViewData["focusArticleList"] = QarCache.GetFocusArticleList(_memoryCache, CurrentLanguage, 3);
-        ViewData["topArticleList"] = QarCache.GetTopArticleList(_memoryCache, CurrentLanguage, 100, 8);
+        ViewData["pinnedArticleList"] = QarCache.GetPinnedArticleList(_memoryCache, CurrentLanguage, 4);
+        ViewData["focusArticleList"] = QarCache.GetFocusArticleList(_memoryCache, CurrentLanguage, 8);
         ViewData["youtubeArticleList"] = QarCache.GetYoutubeArticleList(_memoryCache, CurrentLanguage, 4);
         var categoryList = QarCache.GetCategoryList(_memoryCache, CurrentLanguage);
         ViewData["categoryList"] = categoryList;

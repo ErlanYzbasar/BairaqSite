@@ -1,9 +1,7 @@
-@using System.Diagnostics
 @{
     Layout = $"~/Views/Themes/{CurrentTheme}/_HomeLayout.cshtml";
-    var pinnedArticle = QarList<Article>("pinnedArticle").FirstOrDefault();
+    var pinnedArticleList = QarList<Article>("pinnedArticleList");
     var focusArticleList = QarList<Article>("focusArticleList");
-    var topArticleList = QarList<Article>("topArticleList");
     var block1Title = (ViewData["block1Title"] ?? string.Empty) as string;
     var block1Url = (ViewData["block1Url"] ?? string.Empty) as string;
     var block1ArticleList = QarList<Article>("block1ArticleList");
@@ -28,15 +26,15 @@
 
 @* pinnedArticle & focusArticle *@
 <div class="container main-block d-flex">
-    <a href="/@CurrentLanguage/article/@(pinnedArticle?.LatynUrl).html">
-        <img class="thumbnail" src="@pinnedArticle?.ThumbnailUrl" alt="">
+    <a href="/@CurrentLanguage/article/@(pinnedArticleList.FirstOrDefault()?.LatynUrl).html">
+        <img class="thumbnail" src="@pinnedArticleList.FirstOrDefault()?.ThumbnailUrl" alt="">
         <div class="content d-flex flex-column justify-content-end">
-            <h5 class="title">@pinnedArticle?.Title</h5>
-            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(pinnedArticle?.AddTime ?? 0, CurrentLanguage)</p>
+            <h5 class="title">@pinnedArticleList.FirstOrDefault()?.Title</h5>
+            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(pinnedArticleList.FirstOrDefault()?.AddTime ?? 0, CurrentLanguage)</p>
         </div>
     </a>
     <ul>
-        @foreach (var article in focusArticleList)
+        @foreach (var article in pinnedArticleList.Skip(1))
         {
             <li>
                 <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
@@ -57,7 +55,7 @@
         <h4 class="title">@T("ls_Mostrelevant")</h4>
     </div>
     <ul class="article-list d-grid">
-        @foreach (var article in topArticleList)
+        @foreach (var article in focusArticleList)
         {
             <li>
                 <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
