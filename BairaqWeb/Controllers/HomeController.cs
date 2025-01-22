@@ -30,7 +30,7 @@ public class HomeController : QarBaseController
     {
         ViewData["pinnedArticleList"] = QarCache.GetPinnedArticleList(_memoryCache, CurrentLanguage, 4);
         ViewData["focusArticleList"] = QarCache.GetFocusArticleList(_memoryCache, CurrentLanguage, 8);
-        ViewData["youtubeArticleList"] = QarCache.GetYoutubeArticleList(_memoryCache, CurrentLanguage, 4);
+        ViewData["youtubeArticleList"] = QarCache.GetYoutubeArticleList(_memoryCache, CurrentLanguage, 6);
         var categoryList = QarCache.GetCategoryList(_memoryCache, CurrentLanguage);
         ViewData["categoryList"] = categoryList;
         foreach (var category in categoryList.Where(x => !string.IsNullOrEmpty(x.BlockType)).ToList())
@@ -586,13 +586,15 @@ public class HomeController : QarBaseController
             }
 
             var recArticleList = new List<Article>();
-            var excludeNextLastSql = "and id <> @lastArticleId and id <> @nextArticleId ";
+            
+            var categoryIds = QarCache.GetCategoryList(_memoryCache, language).Select(x => x.Id).ToArray();
+            
+            var excludeNextLastSql = "and id <> @lastArticleId and id <> @nextArticleId and categoryId in @categoryIds";
             object queryObj = new
-                { id = article.Id, lastArticleId = lastArticle?.Id ?? 0, nextArticleId = nextArticle?.Id ?? 0 };
+                { id = article.Id, lastArticleId = lastArticle?.Id ?? 0, nextArticleId = nextArticle?.Id ?? 0, categoryIds };
             if (!string.IsNullOrEmpty(article.RecArticleIds))
             {
-                recArticleList = connection.Query<Article>(
-                    $"select id, latynUrl, title, shortDescription, thumbnailUrl, addTime from article where qStatus = 0 {excludeNextLastSql} and id in ({article.RecArticleIds})",
+                recArticleList = connection.Query<Article>($"select id, latynUrl, title, shortDescription, thumbnailUrl, addTime from article where qStatus = 0 {excludeNextLastSql} and id in ({article.RecArticleIds})",
                     queryObj).ToList();
             }
 
@@ -600,7 +602,7 @@ public class HomeController : QarBaseController
             {
                 var rLastArticle = connection
                     .Query<Article>(
-                        $"select id, latynUrl, title, shortDescription, thumbnailUrl, addTime from article where qStatus = 0 {excludeNextLastSql} and id<>@id order by id desc limit 5",
+                        $"select id, latynUrl, title, shortDescription, thumbnailUrl, addTime from article where qStatus = 0 {excludeNextLastSql} and id<>@id order by id desc limit 6",
                         queryObj).ToList();
                 if (rLastArticle != null)
                 {

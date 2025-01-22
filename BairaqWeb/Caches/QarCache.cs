@@ -700,9 +700,8 @@ public class QarCache
             var querySql =
                 " select id, title, shortDescription,categoryId,thumbnailUrl, latynUrl, addTime, viewCount from article where qStatus = 0 and thumbnailUrl <> '' ";
 
-            var categoryIdArr = connection
-                .Query<int>("select id from articlecategory where qStatus = 0 and language = @language",
-                    new { language }).ToArray();
+            var categoryIdArr = GetCategoryList(memoryCache, language).Select(x => x.Id).ToArray();
+
             if (categoryIdArr.Length > 0) querySql += $" and categoryId in ({string.Join(',', categoryIdArr)}) ";
 
             list = connection
@@ -740,12 +739,13 @@ public class QarCache
         dayCount = dayCount <= 0 ? 1 : dayCount;
         var addTime = UnixTimeHelper.ConvertToUnixTime(DateTime.Now.AddDays(-1 * dayCount));
         var cacheName = $"{MethodBase.GetCurrentMethod()?.Name}_{language}_{takeCount}";
+        var categoryIds = GetCategoryList(memoryCache, language).Select(x => x.Id).ToArray();
         if (!memoryCache.TryGetValue(cacheName, out List<Article> list))
         {
             using var connection = Utilities.GetOpenConnection();
             list = connection.GetList<Article>(
-                $"where qStatus = 0 and addTime >= {addTime} and categoryId in (select id from articlecategory where qStatus = 0 and language = @language) order by viewCount desc limit @takeCount",
-                new { language, takeCount }).Select(x => new Article
+                $"where qStatus = 0 and addTime >= {addTime} and categoryId in @categoryIds order by viewCount desc limit @takeCount",
+                new { categoryIds, takeCount }).Select(x => new Article
             {
                 Id = x.Id,
                 Title = x.Title,
