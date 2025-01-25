@@ -33,7 +33,7 @@ public class HomeController : QarBaseController
         ViewData["youtubeArticleList"] = QarCache.GetYoutubeArticleList(_memoryCache, CurrentLanguage, 6);
         var categoryList = QarCache.GetCategoryList(_memoryCache, CurrentLanguage);
         ViewData["categoryList"] = categoryList;
-        foreach (var category in categoryList.Where(x => !string.IsNullOrEmpty(x.BlockType)).ToList())
+        foreach (var category in categoryList)
         {
             var takeCount = category.DisplayOrder switch
             {
@@ -43,6 +43,7 @@ public class HomeController : QarBaseController
                 4 => 5,
                 5 => 8,
                 6 => 8,
+                7 => 5,
                 _ => 5
             };
             ViewData[$"block{category.DisplayOrder}Url"] = $"/{CurrentLanguage}/category/{category.LatynUrl}.html";

@@ -705,12 +705,12 @@ public class QarCache
             if (categoryIdArr.Length > 0) querySql += $" and categoryId in ({string.Join(',', categoryIdArr)}) ";
 
             list = connection
-                .Query<Article>(querySql + " and isPinned = 1 order by addTime desc limit @takeCount ",
+                .Query<Article>(querySql + " and isPinned = 1 order by updateTime desc limit @takeCount ",
                     new { takeCount }).ToList();
 
             foreach (var article in list)
                 article.ShortDescription = article.ShortDescription.Length > 150
-                    ? article.ShortDescription.Substring(0, 150) + "..."
+                    ? article.ShortDescription[..150] + "..."
                     : article.ShortDescription;
 
             memoryCache.Set(cacheName, list, TimeSpan.FromMinutes(1));

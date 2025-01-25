@@ -18,6 +18,9 @@
     var block6Title = (ViewData["block6Title"] ?? string.Empty) as string;
     var block6Url = (ViewData["block6Url"] ?? string.Empty) as string;
     var block6ArticleList = QarList<Article>("block6ArticleList");
+    var block7Title = (ViewData["block7Title"] ?? string.Empty) as string;
+    var block7Url = (ViewData["block7Url"] ?? string.Empty) as string;
+    var block7ArticleList = QarList<Article>("block7ArticleList");
     var youtubeArticleList = QarList<Article>("youtubeArticleList");
 }
 
@@ -290,4 +293,45 @@
     </ul>
 </div>
 
+@* block7 *@
+@if (block7ArticleList.Count > 0)
+{
+    <div class="container sub-block2 block">
+        <div class="head d-flex justify-content-between">
+            <h4 class="title">@block7Title</h4>
+            <a href="@block7Url" class="more">@T("ls_Readmore")</a>
+        </div>
+        <div class="article-list d-flex">
+            <a class="left" href="/@CurrentLanguage/article/@(block7ArticleList.FirstOrDefault()?.LatynUrl).html">
+                <img class="thumbnail" src="@block7ArticleList.FirstOrDefault()?.ThumbnailUrl" alt="">
+                <h4 class="title">@block7ArticleList.FirstOrDefault()?.Title</h4>
+                <p class="description">@block7ArticleList.FirstOrDefault()?.ShortDescription</p>
+                <p class="time count">
+                    <span class="date-time">@UnixTimeHelper.UnixTimeToLocalString(block7ArticleList.FirstOrDefault()?.AddTime ?? 0, CurrentLanguage)</span>
+                    <span class="view-count">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="9" viewBox="0 0 15 9" fill="none">
+                            <path d="M14.0138 4.22019C13.8878 4.04783 10.8858 0 7.05165 0C3.21752 0 0.215353 4.04783 0.0894964 4.22002C-0.0298321 4.38353 -0.0298321 4.60531 0.0894964 4.76882C0.215353 4.94117 3.21752 8.98901 7.05165 8.98901C10.8858 8.98901 13.8878 4.94114 14.0138 4.76896C14.1333 4.60547 14.1333 4.38353 14.0138 4.22019ZM7.05165 8.05911C4.2274 8.05911 1.78131 5.37249 1.05721 4.49419C1.78037 3.61512 4.22134 0.929892 7.05165 0.929892C9.87576 0.929892 12.3217 3.61605 13.0461 4.49482C12.3229 5.37386 9.88196 8.05911 7.05165 8.05911Z"
+                                  fill="#C0C0C0"/>
+                            <path d="M7.04975 2.15332C5.63469 2.15332 4.4834 3.30461 4.4834 4.71967C4.4834 6.13473 5.63469 7.28602 7.04975 7.28602C8.4648 7.28602 9.61609 6.13473 9.61609 4.71967C9.61609 3.30461 8.4648 2.15332 7.04975 2.15332ZM7.04975 6.43055C6.10632 6.43055 5.33886 5.66307 5.33886 4.71967C5.33886 3.77627 6.10635 3.00879 7.04975 3.00879C7.99314 3.00879 8.76063 3.77627 8.76063 4.71967C8.76063 5.66307 7.99317 6.43055 7.04975 6.43055Z"
+                                  fill="#C0C0C0"/>
+                        </svg>
+                        @block7ArticleList.FirstOrDefault()?.ViewCount
+                    </span>
+                </p>
+            </a>
+            <ul class="right d-grid">
+                @foreach (var article in block7ArticleList.Skip(1))
+                {
+                    <li>
+                        <a href="/@CurrentLanguage/article/@(article.LatynUrl).html">
+                            <img src="@article.ThumbnailUrl.Replace("_big.", "_middle.")" alt="" class="thumbnail">
+                            <h4 class="title">@article.Title</h4>
+                            <p class="date-time">@UnixTimeHelper.UnixTimeToLocalString(article.AddTime, CurrentLanguage)</p>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
 </main>

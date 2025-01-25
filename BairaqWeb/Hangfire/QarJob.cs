@@ -94,17 +94,13 @@ public class QarJob
                 .Query<Article>(
                     "select id, isPinned, isFocusNews, autoPublishTime from article where QStatus = 2 and autoPublishTime <= @currentTime",
                     new { currentTime }).ToList();
-            if (articleList != null && articleList.Count > 0)
+            if (articleList is { Count: > 0 })
             {
                 var querySql = string.Empty;
                 foreach (var item in articleList)
                 {
                     if (!pinnedIsChanged && item.IsPinned == 1) pinnedIsChanged = true;
                     if (!focusIsChanged && item.IsFocusNews == 1) focusIsChanged = true;
-                    // item.QStatus = 0;
-                    // item.AddTime = item.AutoPublishTime;
-                    // item.UpdateTime = item.AutoPublishTime;
-                    // _connection.Update(item);
                     querySql +=
                         $"update article set addTime = {item.AutoPublishTime}, updateTime = {item.AutoPublishTime} , qStatus = 0 where id = {item.Id};";
                     if (querySql.Length > 900)

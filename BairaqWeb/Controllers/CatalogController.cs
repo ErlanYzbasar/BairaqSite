@@ -463,8 +463,8 @@ public class CatalogController : QarBaseController
                         return MessageHelper.RedirectAjax(T("ls_Idoiiw"), "error", "", "");
                     var oldArticle = article.Clone();
 
-                    var pinnedIsChanged = article.IsPinned == item.IsPinned;
-                    var focusIsChanged = article.IsFocusNews == item.IsFocusNews;
+                    var pinnedIsChanged = article.IsPinned != item.IsPinned;
+                    var focusIsChanged = article.IsFocusNews != item.IsFocusNews;
 
                     article.CategoryId = item.CategoryId;
                     article.Title = item.Title;

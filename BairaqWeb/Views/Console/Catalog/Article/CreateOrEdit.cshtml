@@ -52,11 +52,11 @@
 
                         @if (article != null)
                         {
-                            var articleUrl = $"{SiteUrl}/{category?.Language}/article/{article?.LatynUrl}";
+                            var articleUrl = $"{SiteUrl}/{category?.Language}/article/{article.LatynUrl}.html";
                             <div class="row">
                                 <div class="col-12">
                                     <div class="alert alert-primary" role="alert">
-                                        <a href="@articleUrl" class="alert-link">@articleUrl</a>
+                                        <a href="@articleUrl" target="_blank" class="alert-link">@articleUrl</a>
                                     </div>
                                 </div>
                             </div>

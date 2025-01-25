@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Inter';
-  src: url('../font/Inter.woff2') format('woff2'), url('../font/Inter.woff') format('woff');
+  font-family: "Inter";
+  src: url("../font/Inter.woff2") format("woff2"), url("../font/Inter.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
@@ -403,7 +403,7 @@ main.main .youtube-video .video-list .left .date-time {
 }
 main.main .youtube-video .video-list .left .title {
   font-size: 24px;
-  color: #FFF;
+  color: #fff;
 }
 main.main .youtube-video .video-list .right {
   width: 280px;
@@ -727,6 +727,10 @@ main.main .article-page .article-view .content blockquote {
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
+}
+main.main .article-page .article-view .content ul {
+  padding-left: 2rem;
+  list-style-type: disc;
 }
 main.main .article-page .article-view .tag-list {
   padding: 16px 0 35px 0;
@@ -1094,6 +1098,10 @@ footer.footer .copyright a svg:hover path {
   }
   main.main .article-page .article-view .content blockquote {
     padding: 20px;
+  }
+  main.main .article-page .article-view .content ul {
+    padding-left: 2rem;
+    list-style-type: disc;
   }
   main.main .article-page .article-view img {
     border-radius: 10px;

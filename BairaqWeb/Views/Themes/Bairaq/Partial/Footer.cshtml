@@ -60,7 +60,7 @@
             <div class="catalog">
                 <h5 class="title">@T("ls_Articlecategory")</h5>
                 <ul class="d-flex">
-                    @foreach (var category in categoryList.Take(4))
+                    @foreach (var category in categoryList)
                     {
                         <li>
                             <a href="/@CurrentLanguage/category/@(category.LatynUrl).html">@category.Title</a>
