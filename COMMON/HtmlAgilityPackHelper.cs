@@ -236,14 +236,14 @@ public static class HtmlAgilityPackHelper
             {
                 shortNode = shortNode?.NextSibling;
                 if (shortNode == null) break;
-                shortDescription = shortNode?.InnerText ?? string.Empty;
+                shortDescription = shortNode.InnerText ?? string.Empty;
                 shortDescription = WebUtility.HtmlDecode(shortDescription).Trim();
             }
 
             if (shortDescription.Length > length)
             {
-                shortDescription = shortDescription.Substring(0, length - 3);
-                var lastWhitespaceIndex = shortDescription.LastIndexOf(" ");
+                shortDescription = shortDescription[..(length - 3)];
+                var lastWhitespaceIndex = shortDescription.LastIndexOf(" ", StringComparison.Ordinal);
                 if (lastWhitespaceIndex > 0)
                 {
                     shortDescription = shortDescription[..lastWhitespaceIndex];
@@ -252,7 +252,7 @@ public static class HtmlAgilityPackHelper
                 string[] symbols = { ",", "?", "!", ":", ".", " ", "\"", "%", "'" };
                 if (symbols.Any(x => x.Equals(shortDescription[shortDescription.Length - 1])))
                 {
-                    shortDescription = shortDescription[..(shortDescription.Length - 2)];
+                    shortDescription = shortDescription[..^2];
                 }
 
                 shortDescription += "...";
@@ -386,12 +386,12 @@ public static class HtmlAgilityPackHelper
         string[] allowDomains =
         {
             "telegram.org", "www.telegram.org", "instagram.com", "www.instagram.com", "facebook.com",
-            "www.facebook.com", "youtube.com", "www.youtube.com", "tiktok.com", "www.tiktok.com"
+            "www.facebook.com", "youtube.com", "www.youtube.com", "tiktok.com", "www.tiktok.com","www.x.com","x.com","www.twitter.com","twitter.com","platform.twitter.com"
         };
         var document = new HtmlDocument();
         document.LoadHtml(embedCode);
         var scriptNodes = document.DocumentNode.SelectNodes("//script");
-        if (scriptNodes != null && scriptNodes.Count > 0)
+        if (scriptNodes is { Count: > 0 })
         {
             foreach (var scriptNode in scriptNodes)
             {
@@ -424,27 +424,9 @@ public static class HtmlAgilityPackHelper
 
     #endregion
 
-    #region Wordpress blockquote convertr +ConvertShortcodeToHtml(string content)
-
-    public static string ConvertShortcodeToHtml(string content)
-    {
-        var pattern = @"\[perfectpullquote(.*?)\](.*?)\[/perfectpullquote\]";
-        return Regex.Replace(content, pattern, m =>
-        {
-            var attributes = m.Groups[1].Value;
-            var quoteText = m.Groups[2].Value;
-
-            // You can parse attributes further to integrate into the HTML if needed.
-            // For now, just a simple replacement:
-            return $"<blockquote>{quoteText}</blockquote>";
-        });
-    }
-
-    #endregion
-
     #region Сайт html-ын алу +GetHtmlWebAsync(string url)
 
-    public static async Task<string> GetHtmlWebAsync(string url)
+    private static async Task<string> GetHtmlWebAsync(string url)
     {
         var client = new HttpClient();
         using var response = await client.GetAsync(url);
@@ -465,7 +447,7 @@ public static class HtmlAgilityPackHelper
             var document = new HtmlDocument();
             document.LoadHtml(html);
             var trNodes = document.DocumentNode.SelectNodes("//div[contains(@class, 'informer')]//tr");
-            if (trNodes != null && trNodes.Count > 0)
+            if (trNodes is { Count: > 0 })
             {
                 foreach (var trNode in trNodes)
                 {
@@ -474,10 +456,10 @@ public static class HtmlAgilityPackHelper
                     var tdSellNode = trNode.SelectSingleNode(".//td[contains(@class, 'sell')]");
                     if (tdCurrencyNode != null && tdSellNode != null)
                     {
-                        var title = tdCurrencyNode?.InnerText ?? string.Empty;
+                        var title = tdCurrencyNode.InnerText ?? string.Empty;
                         var currentCurrency = currencyList.FirstOrDefault(x =>
                             x.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
-                        if (currentCurrency != null && decimal.TryParse(tdSellNode?.InnerText, out var rate))
+                        if (currentCurrency != null && decimal.TryParse(tdSellNode.InnerText, out var rate))
                         {
                             currentCurrency.Rate = Convert.ToUInt32(rate * currentCurrency.IntRatio);
                         }
@@ -643,11 +625,10 @@ public static class HtmlAgilityPackHelper
                         if (Base64ImagePrefixs.Any(x => imageUrl.StartsWith(x, StringComparison.OrdinalIgnoreCase)))
                         {
                             var match = Regex.Match(imageUrl, @"^data:image\/(\w+);base64,");
-                            var fileFormat = string.Empty;
                             if (match.Success)
                             {
-                                fileFormat = "." + match.Groups[1].Value;
-                                var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{fileFormat}";
+                                var fileFormat = "." + match.Groups[1].Value;
+                                var fileName = $"{DateTime.Now:yyyyMMddHHmmssfff}{fileFormat}";
                                 var relativePath = $"/uploads/images/{fileName}";
                                 var absPath = PathHelper.Combine(directoryPath, relativePath);
                                 SaveImageFromBase64(imageUrl, absPath);
@@ -747,12 +728,9 @@ public static class HtmlAgilityPackHelper
         catch (Exception ex)
         {
             Log.Error(ex, "DownloadArticleMedia");
-            foreach (var filePath in savedFilePathList)
+            foreach (var filePath in savedFilePathList.Where(File.Exists))
             {
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
+                File.Delete(filePath);
             }
 
             return null;
@@ -761,12 +739,9 @@ public static class HtmlAgilityPackHelper
         {
             if (article.QStatus == 6)
             {
-                foreach (var filePath in savedFilePathList)
+                foreach (var filePath in savedFilePathList.Where(File.Exists))
                 {
-                    if (File.Exists(filePath))
-                    {
-                        File.Delete(filePath);
-                    }
+                    File.Delete(filePath);
                 }
             }
         }
@@ -776,7 +751,7 @@ public static class HtmlAgilityPackHelper
 
     #region Download Image +DownloadFileAsync(string imageUrl, string savePath)
 
-    public static async Task DownloadFileAsync(string imageUrl, string savePath)
+    private static async Task DownloadFileAsync(string imageUrl, string savePath)
     {
         if (savePath.Contains("http", StringComparison.OrdinalIgnoreCase))
             return;
@@ -784,7 +759,7 @@ public static class HtmlAgilityPackHelper
             return;
         if (!Directory.Exists(Path.GetDirectoryName(savePath)))
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath) ?? string.Empty);
         }
 
         using var httpClient = new HttpClient();
@@ -793,7 +768,7 @@ public static class HtmlAgilityPackHelper
 
         var imageBytes = await response.Content.ReadAsByteArrayAsync();
 
-        File.WriteAllBytes(savePath, imageBytes);
+        await File.WriteAllBytesAsync(savePath, imageBytes);
     }
 
     #endregion
@@ -817,7 +792,7 @@ public static class HtmlAgilityPackHelper
 
     #region Save Image From Base64 +SaveImageFromBase64(string base64String, string filePath)
 
-    public static void SaveImageFromBase64(string base64String, string filePath)
+    private static void SaveImageFromBase64(string base64String, string filePath)
     {
         // Remove the prefix "data:image/png;base64," if it exists
         foreach (var base64ImagePrefix in Base64ImagePrefixs)
@@ -840,38 +815,6 @@ public static class HtmlAgilityPackHelper
 
     #endregion
 
-    #region Check Url Exists +CheckUrlExistsAsync(string url)
-
-    public static async Task<bool> CheckUrlExistsAsync(string url)
-    {
-        try
-        {
-            var uri = new Uri(url);
-            if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
-            {
-                using var httpClient = new HttpClient();
-                try
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Head, uri);
-                    var response = await httpClient.SendAsync(request);
-                    return response.IsSuccessStatusCode;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-
-            return false;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    #endregion
-    
     #region Get Youtube Url +GetYoutubeUrl(string url)
 
     public static string GetYoutubeUrl(string html)
